@@ -1,0 +1,4421 @@
+{
+ "days": [
+  "2026-08-29",
+  "2026-08-30",
+  "2026-08-31",
+  "2026-09-01",
+  "2026-09-02"
+ ],
+ "films": {
+  "SPIDER MAN UN NUEVO DIA": {
+   "key": "SPIDER MAN UN NUEVO DIA",
+   "titulo": "SPIDER-MAN: UN NUEVO DÍA",
+   "duracion": "2h 30m",
+   "clasificacion": "SP",
+   "genero": "Aventuras, Acción",
+   "director": "Destin Daniel Cretton",
+   "elenco": "Jon Bernthal, Tom Holland, Zendaya",
+   "sinopsis": "Han pasado cuatro años desde los acontecimientos de Sin regreso a casa, y Peter ahora es un adulto que vive completamente solo, habiéndose borrado voluntariamente de la vida y los recuerdos de sus seres queridos. Combatiendo el crimen en una Nueva York que ya no lo conoce, se ha dedicado por completo a proteger su ciudad —un Spider-Man a tiempo completo—, pero a medida que las exigencias se intensifican, la presión desencadena una sorprendente evolución física que amenaza su existencia, al tiempo que un nuevo y extraño patrón de crímenes da lugar a una de las amenazas más poderosas a las que se ha enfrentado jamás.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Spider-Man: Brand New Day",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "16:20",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "3D",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:10",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "3D",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:10",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "3D",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:10",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "3D",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:10",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "3D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "3D",
+       "lang": ""
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "16:20",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "18:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "19:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "00:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "01:15",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "12:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "12:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "15:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "18:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "19:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "12:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "15:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "18:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "19:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "12:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "15:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "18:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "19:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "12:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "15:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "16:20",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "18:50",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "19:40",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "22:30",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "3D, DBOX + 2D, DBOX + 3D",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "12:30",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "21:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:30",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "21:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:30",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "21:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:30",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "21:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:30",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "21:40",
+       "fmt": "4D 3D",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ]
+    }
+   },
+   "score": 7.9,
+   "tmdb": "969681",
+   "match": "Spider-Man: Brand New Day",
+   "verif": "director",
+   "rt": 89,
+   "rt_pub": 98,
+   "rt_url": "https://www.rottentomatoes.com/m/spider_man_brand_new_day"
+  },
+  "YO NARCISO": {
+   "key": "YO NARCISO",
+   "titulo": "YO, NARCISO",
+   "duracion": "1h 35m",
+   "clasificacion": "G",
+   "genero": "Comedia, Romance",
+   "director": "Adrián Suar",
+   "elenco": "Adrián Suar, Julieta Zylberberg, Natalia Oreiro",
+   "sinopsis": "Rocío Flores (Natalia Oreiro), profesora universitaria de sociología, escribe un libro sobre el narcisismo moderno. Para entender mejor a su “sujeto”, decide estudiarlo desde adentro y elige como caso a Máximo Rey (Adrián Suar), un carismático cirujano plástico. Bajo una falsa identidad, Rocío se hará pasar por una paciente interesada en un retoque estético, y de esta manera busca observar y analizar a Máximo sin ser descubierta. Pero las consultas pronto se convierten en citas donde él despliega todo su encanto. Rocío, decidida a mantener el vínculo sin caer en su juego, inventa excusas cada vez más absurdas para mantenerlo a raya. Cuando Máximo descubre que se ha enamorado de ella, “el experimento” se descontrola. ¿Podrá Rocío completar su investigación sin convertirse en víctima de su propio plan? Yo, narciso es una comedia de enredos. La película satiriza la obsesión por la imagen, el ego masculino y los límites del deseo.",
+   "origen": "Argentina",
+   "anio": "2026",
+   "original": "Yo,narciso",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "14:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "14:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "14:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "14:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:45",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:45",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:45",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:45",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:45",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "14:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "14:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "14:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "14:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "14:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": 6.0,
+   "tmdb": "1698443",
+   "match": "Yo, narciso",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "LA NOCHE DEL DEMONIO 6": {
+   "key": "LA NOCHE DEL DEMONIO 6",
+   "titulo": "LA NOCHE DEL DEMONIO 6",
+   "duracion": "1h 46m",
+   "clasificacion": "R-17",
+   "genero": "Terror",
+   "director": "Jacob Chase",
+   "elenco": "Amelia Eve, Lin Shaye, Sam Spruell",
+   "sinopsis": "Una joven madre descubre que puede viajar a El Más Allá y traer al mundo real a las almas que allí habitan, convirtiendo nuestro plano en el terreno de juego de los demonios.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Insidious: Out of the Further",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "18:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "18:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "18:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "18:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "18:15",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "15:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "01:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "01:20",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "12:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "15:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "15:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "15:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "15:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "20:20",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "18:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": "S"
+      }
+     ]
+    }
+   },
+   "score": 6.5,
+   "tmdb": "1291595",
+   "match": "Insidious: Out of the Further",
+   "verif": "director",
+   "rt": 57,
+   "rt_pub": 70,
+   "rt_url": "https://www.rottentomatoes.com/m/insidious_out_of_the_further"
+  },
+  "LA GUERRA DE LOS ULTIMOS": {
+   "key": "LA GUERRA DE LOS ULTIMOS",
+   "titulo": "LA GUERRA DE LOS ÚLTIMOS",
+   "duracion": "1h 58m",
+   "clasificacion": "R-17",
+   "genero": "Ciencia Ficción, Thriller",
+   "director": "Ridley Scott",
+   "elenco": "Jacob Elordi, Josh Brolin, Margaret Qualley",
+   "sinopsis": "Cuenta la historia de Hig, un joven piloto que, junto a Bangley, un militar experto en supervivencia, ha construido un refugio eficiente pero aislado en un despiadado mundo postapocalíptico, hasta que una misteriosa transmisión de radio lo impulsa a aventurarse en lo desconocido en busca de la esperanza y la humanidad en las que aún cree.",
+   "origen": null,
+   "anio": "2026",
+   "original": "The Dog Stars",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "17:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "01:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "13:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ]
+    }
+   },
+   "score": 7.1,
+   "tmdb": "1384216",
+   "match": "The Dog Stars",
+   "verif": "director",
+   "rt": 40,
+   "rt_pub": 71,
+   "rt_url": "https://www.rottentomatoes.com/m/the_dog_stars"
+  },
+  "COYOTE VS ACME": {
+   "key": "COYOTE VS ACME",
+   "titulo": "COYOTE VS ACME",
+   "duracion": "1h 50m",
+   "clasificacion": "G",
+   "genero": "Comedia",
+   "director": "Dave Green",
+   "elenco": "John Cena, Lana Condor, Tone Bell, Will Forte",
+   "sinopsis": "Después de que todos los productos fabricados por ACME Corporation le salgan mal a Wile E. Coyote, en su persecución del Correcaminos, contrata a un abogado humano igualmente desafortunado para demandar a la empresa. Cuando el abogado de Wile E. descubre que el intimidante jefe de su antiguo bufete es el director general de ACME, se une a Wile E. para ganar el juicio contra él.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Coyote vs. Acme",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "15:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:20",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "15:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:35",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:05",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "18:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 8.0,
+   "tmdb": "1204680",
+   "match": "Coyote vs. Acme",
+   "verif": "director",
+   "rt": 95,
+   "rt_pub": 94,
+   "rt_url": "https://www.rottentomatoes.com/m/coyote_vs_acme"
+  },
+  "HARRY POTTER 25 ANIVERSARIO": {
+   "key": "HARRY POTTER 25 ANIVERSARIO",
+   "titulo": "HARRY POTTER 25° ANIVERSARIO",
+   "duracion": "2h 46m",
+   "clasificacion": "G",
+   "genero": "Aventuras",
+   "director": "Chris Columbus",
+   "elenco": "Daniel Radcliffe, Emma Watson, Robbie Coltrane, Rupert Grint",
+   "sinopsis": "Cuando Harry Potter cumple 11 años se entera que es huérfano, hijo de dos magos y que posee poderes mágicos. En la Escuela de Magia y Brujería de Hogwarts aprende a jugar el deporte de alturas, Quidditch y juega un emocionante juego de ajedrez, en vías a encarar al Mago Oscuro que está empeñado en destruirlo.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Harry Potter y la Piedra Filosofal – 25 Años de Magia",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "16:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "19:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "19:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "19:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "19:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "16:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "19:00",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "16:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "14:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:00",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "18:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "19:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 7.9,
+   "tmdb": "671",
+   "match": "Harry Potter and the Philosopher's Stone",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "PAW PATROL LA DINO PELICULA": {
+   "key": "PAW PATROL LA DINO PELICULA",
+   "titulo": "PAW PATROL: LA DINO PELÍCULA",
+   "duracion": "1h 30m",
+   "clasificacion": "G",
+   "genero": "Animación, Familia",
+   "director": "Cal Brunker",
+   "elenco": null,
+   "sinopsis": "La Patrulla Canina aterriza en una misteriosa isla de dinosaurios tras una tormenta, donde conocen a Rex, un cachorro varado. Cuando la imprudente actividad minera de Humdinger desencadena la erupción de un volcán, el equipo se enfrenta a su mayor misión de rescate hasta la fecha para salvar la isla.",
+   "origen": null,
+   "anio": "2026",
+   "original": "PAW Patrol: The Dino Movie",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "14:40",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "16:50",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:30",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "14:40",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "16:50",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:30",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "14:40",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "16:50",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:30",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "14:40",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "16:50",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:30",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "14:40",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      },
+      {
+       "h": "16:50",
+       "fmt": "DBOX + 2D",
+       "lang": "D"
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "14:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "14:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "14:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "14:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "14:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 7.1,
+   "tmdb": "1185806",
+   "match": "PAW Patrol: The Dino Movie",
+   "verif": "director",
+   "rt": 84,
+   "rt_pub": 95,
+   "rt_url": "https://www.rottentomatoes.com/m/paw_patrol_the_dino_movie"
+  },
+  "LA ODISEA": {
+   "key": "LA ODISEA",
+   "titulo": "LA ODISEA",
+   "duracion": "2h 55m",
+   "clasificacion": "SP",
+   "genero": "Aventuras",
+   "director": "Christopher Nolan",
+   "elenco": "Anne Hathaway, Charlize Theron, Lupita Nyong’o, Matt Damon",
+   "sinopsis": "Una epopeya mitológica que sigue la historia de Odiseo y su largo viaje a casa, de 10 años de duración, tras la guerra de Troya.",
+   "origen": null,
+   "anio": "2026",
+   "original": "The Odyssey",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:10",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "17:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "21:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "00:45",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "13:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "21:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "21:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "21:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:50",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "21:10",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      },
+      {
+       "h": "22:40",
+       "fmt": "DBOX + 2D",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": "S"
+      },
+      {
+       "h": "22:30",
+       "fmt": "",
+       "lang": "S"
+      }
+     ]
+    }
+   },
+   "score": 8.0,
+   "tmdb": "1368337",
+   "match": "The Odyssey",
+   "verif": "director",
+   "rt": 94,
+   "rt_pub": 97,
+   "rt_url": "https://www.rottentomatoes.com/m/the_odyssey_2026"
+  },
+  "TOY STORY 5": {
+   "key": "TOY STORY 5",
+   "titulo": "TOY STORY 5",
+   "duracion": "1h 42m",
+   "clasificacion": "G",
+   "genero": "Animación, Aventuras",
+   "director": "Andrew Stanton",
+   "elenco": "Joan Cusack, Tim Allen, Tom Hanks",
+   "sinopsis": "Los juguetes están de vuelta en «Toy Story 5», de Disney y Pixar, y esta vez se enfrentan los juguetes y la tecnología. El trabajo de Buzz, Woody, Jessie y el resto de la pandilla se complica exponencialmente cuando se enfrentan a esta nueva amenaza para el tiempo de juego",
+   "origen": null,
+   "anio": "2026",
+   "original": "Toy Story 5",
+   "cines": {
+    "cinemark": {
+     "2026-08-29": [
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:20",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "13:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "14:50",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 8.3,
+   "tmdb": "1084244",
+   "match": "Toy Story 5",
+   "verif": "director",
+   "rt": 93,
+   "rt_pub": 94,
+   "rt_url": "https://www.rottentomatoes.com/m/toy_story_5"
+  },
+  "SOLO POR UNA NOCHE": {
+   "key": "SOLO POR UNA NOCHE",
+   "titulo": "SÓLO POR UNA NOCHE",
+   "duracion": "1h 42m",
+   "clasificacion": "R-13",
+   "genero": "Romance, Comedia",
+   "director": "Will Gluck",
+   "elenco": "Callum Turner, Julia Fox, Maya Hawke, Monica Barbaro",
+   "sinopsis": "Owen, recién dejado por su pareja, y Allie, una romántica esperanzada, podrían ser los únicos solteros en la ciudad que buscan algo más que un encuentro casual. Ambos sienten una chispa cuando se conocen, pero una serie de tropiezos y aventuras complican su noche, manteniéndolos separados. Mientras corren el uno hacia el otro y a la vez se alejan por toda la ciudad, podrían descubrir que lo que más desean está más cerca de lo que imaginan.",
+   "origen": null,
+   "anio": "2026",
+   "original": "One night only",
+   "cines": {
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:40",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:50",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:20",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "12:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "12:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "12:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "12:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "12:10",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "16:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ]
+    }
+   },
+   "score": 6.9,
+   "tmdb": "1433367",
+   "match": "One Night Only",
+   "verif": "director",
+   "rt": 44,
+   "rt_pub": 75,
+   "rt_url": "https://www.rottentomatoes.com/m/one_night_only_2026"
+  },
+  "IMPACTO MORTAL": {
+   "key": "IMPACTO MORTAL",
+   "titulo": "IMPACTO MORTAL",
+   "duracion": "1h 50m",
+   "clasificacion": "R-13",
+   "genero": "Terror",
+   "director": "Renny Harlin",
+   "elenco": "Aaron Eckhart, Angus Sampson, Ben Kingsley, Lucy Barret",
+   "sinopsis": "Un vuelo de Los Ángeles a Shanghái sufre una falla catastrófica y termina en un aterrizaje forzoso en medio del océano. Los sobrevivientes quedan atrapados entre los restos del avión, mientras una manda de tiburones, atraída por el caos, comienza a rodearlos. Con el tiempo en contra y el fuselaje hundiéndose, deberán enfrentarse a sus peores miedos y tomar una decisión imposible: arriesgarlo todo en el mar o morir dentro del avión.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Deep Water",
+   "cines": {
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "01:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "18:00",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "22:50",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "18:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "18:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "18:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "18:40",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "23:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 7.1,
+   "tmdb": "1127384",
+   "match": "Deep Water",
+   "verif": "director",
+   "rt": 69,
+   "rt_pub": 71,
+   "rt_url": "https://www.rottentomatoes.com/m/deep_water_2026"
+  },
+  "EL FINAL DE LA CALLE OAK": {
+   "key": "EL FINAL DE LA CALLE OAK",
+   "titulo": "EL FINAL DE LA CALLE OAK",
+   "duracion": "1h 40m",
+   "clasificacion": "SP",
+   "genero": "Thriller",
+   "director": "David Robert Mitchell",
+   "elenco": "Anne Hathaway, Ewan McGregor",
+   "sinopsis": "Después de que un misterioso evento cósmico arranca a la calle Oak de los suburbios y transporta a todo el vecindario a un lugar desconocido, la familia Platt descubre pronto que su supervivencia depende de mantenerse unidos mientras navegan por un entorno ahora irreconocible.",
+   "origen": null,
+   "anio": "2026",
+   "original": "End of Oak Street",
+   "cines": {
+    "hoyts": {
+     "2026-08-29": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "20:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    },
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "17:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 6.4,
+   "tmdb": "1101383",
+   "match": "The End of Oak Street",
+   "verif": "director",
+   "rt": 86,
+   "rt_pub": 77,
+   "rt_url": "https://www.rottentomatoes.com/m/the_end_of_oak_street"
+  },
+  "CANELONES": {
+   "key": "CANELONES",
+   "titulo": "CANELONES",
+   "duracion": "92 min",
+   "clasificacion": "SP",
+   "genero": "Comedia",
+   "director": "Ana Gussoni, Chiri Basilis",
+   "elenco": "Agustín Aristarán, César Bordón, Darío Barassi, Verónica Llinás",
+   "sinopsis": "Canelones, inspirada en hechos reales, es un thriller nocturno que sigue el secuestro de Chichita, la madre del escritor Hernán Casciari, a manos de Daniel Olesnik en 2015. Olesnik busca saldar una deuda de sangre: vengar la broma adolescente de Hernán y su amigo Chiri en 1987, que empujó a su propia madre al suicidio. Una ineludible espiral de venganza, asfixiante y fatal, que transcurre en una única noche.",
+   "origen": "Argentina",
+   "anio": "2026",
+   "original": "Canelones",
+   "cines": {
+    "atlas": {
+     "2026-08-30": [
+      {
+       "h": "16:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "20:00",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    },
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "14:45",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "14:45",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "14:45",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "14:45",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "14:45",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "19:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": null,
+   "tmdb": "1743296",
+   "match": "Cannelloni",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "LA INVITACION": {
+   "key": "LA INVITACION",
+   "titulo": "LA INVITACION",
+   "duracion": "107 min",
+   "clasificacion": "R-17",
+   "genero": "Comedia Dramatica",
+   "director": "Olivia Wilde",
+   "elenco": "Edward Norton, Olivia Wilde, Penélope Cruz, Seth Rogen",
+   "sinopsis": "Sigue a Joe y Angela y cómo su matrimonio ha caído en la rutina. Angela invita a sus vecinos Kayla y Shane a unos cócteles, e inesperadamente descubren cómo sus vecinos podrían estar organizando orgías semanales.",
+   "origen": null,
+   "anio": "2026",
+   "original": "The Invite",
+   "cines": {
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": "S"
+      }
+     ]
+    }
+   },
+   "score": 7.3,
+   "tmdb": "950028",
+   "match": "The Invite",
+   "verif": "director",
+   "rt": 96,
+   "rt_pub": 89,
+   "rt_url": "https://www.rottentomatoes.com/m/the_invite"
+  },
+  "LU PAU": {
+   "key": "LU PAU",
+   "titulo": "LU & PAU",
+   "duracion": "71 min",
+   "clasificacion": "R-13",
+   "genero": "Comedia",
+   "director": "Nicanor Loreti",
+   "elenco": "Demian Salomon, Jazmin Stuart, Lorena Vega, Paula Manzone",
+   "sinopsis": "Jessi está a punto de ir presa por diez años. Pero Lu y Pau, su hermana y su mejor amiga, tienen un plan: asaltar tres financieras en un solo día para juntar dólares y coimear al fiscal. Un planazo. En resumen: Dos mujeres, un coche, cero planes.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Lu & Pau",
+   "cines": {
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "22:40",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": null,
+   "tmdb": "1222036",
+   "match": "Lu & Pau",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "MINIONS MONSTRUOS": {
+   "key": "MINIONS MONSTRUOS",
+   "titulo": "MINIONS & MONSTRUOS",
+   "duracion": "85 min",
+   "clasificacion": "G",
+   "genero": "Animacion",
+   "director": "Pierre Coffin",
+   "elenco": null,
+   "sinopsis": "La historia de cómo los Minions conquistaron Hollywood, se convirtieron en estrellas de cine, lo perdieron todo, desataron monstruos en el mundo y luego se unieron para intentar salvar al planeta del caos que acababan de crear.",
+   "origen": null,
+   "anio": "2026",
+   "original": "Minions & Monsters",
+   "cines": {
+    "atlas": {
+     "2026-08-29": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "13:20",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "15:30",
+       "fmt": "",
+       "lang": "D"
+      },
+      {
+       "h": "17:10",
+       "fmt": "",
+       "lang": "D"
+      }
+     ]
+    }
+   },
+   "score": 7.6,
+   "tmdb": "1315772",
+   "match": "Minions & Monsters",
+   "verif": "director",
+   "rt": 89,
+   "rt_pub": 75,
+   "rt_url": "https://www.rottentomatoes.com/m/minions_and_monsters"
+  },
+  "BACKROOMS": {
+   "key": "BACKROOMS",
+   "titulo": "BACKROOMS",
+   "duracion": "105 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Kane Parsons",
+   "elenco": "Renate Reinsve, Chiwetel Ejiofor, Mark Duplass, Finn Bennett, Lukita Maxwell, Avan Jogia, Chelah Horsdal, Milania Kerr y Toby Hargrave",
+   "sinopsis": "Una extraña puerta aparece en el sótano de una exposición de muebles. Cuando el paciente de una terapeuta desaparece en una dimensión más allá de la realidad, ella deberá adentrarse en lo desconocido para intentar salvarlo... Adaptación de un cortometraje del propio Kane Parsons.",
+   "origen": "EE.UU.",
+   "anio": "2026",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-09-01": [
+      {
+       "h": "22:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": 7.1,
+   "tmdb": "1083381",
+   "match": "Backrooms",
+   "verif": "director",
+   "rt": 87,
+   "rt_pub": 74,
+   "rt_url": "https://www.rottentomatoes.com/m/backrooms"
+  },
+  "UNA DIRECTORA EXTRAORDINARIA": {
+   "key": "UNA DIRECTORA EXTRAORDINARIA",
+   "titulo": "UNA DIRECTORA EXTRAORDINARIA",
+   "duracion": "84 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Fabiana Urricelqui",
+   "elenco": "Analía Malvido, Luciana Dulizky, Verónica Beluje, Diamela Junco y Sol Bordigoni",
+   "sinopsis": "En diciembre del 2018, Mónica, la directora del Colegio Nacional de Pehuajó entrega la llave de la escuela para refaccionar los baños. La obra se retrasa y comienzan las clases con baños químicos. Un día el arquitecto desaparece. Mónica deberá luchar contra la burocracia y mantener la calma en la escuela. Serán los alumnos quienes se sumen a su lucha. Inspirada en una historia real.",
+   "origen": "Argentina",
+   "anio": "2026",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "15:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": null,
+   "tmdb": "1693637",
+   "match": "Una directora Extraordinaria",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "LOS COLORES DEL TIEMPO": {
+   "key": "LOS COLORES DEL TIEMPO",
+   "titulo": "LOS COLORES DEL TIEMPO",
+   "duracion": "124 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Cedric Klapisch",
+   "elenco": "Suzanne Lindon, Abraham Wapler, Vincent Macaigne, Julia Piaton, Zinedine Soualem, Paul Kircher, Vassili Schneider, Sara Giraudeau y Cecile De France",
+   "sinopsis": "París, 2025. A una treintena de personas de una misma familia se les informa de que van a heredar una casa abandonada desde hace años. Cuatro de ellos reciben el encargo de hacer el inventario de la casa, donde descubren tesoros ocultos. Entre las antigüedades se encuentran con una misteriosa antepasada, Adèle, que abandonó su Normandía natal a los 20 años para viajar al París de finales del siglo XIX, en plena revolución industrial y cultural, cuando se inventaba la fotografía y nacía el Impresionismo.",
+   "origen": "Francia",
+   "anio": "2025",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "16:30",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": 7.4,
+   "tmdb": "1235304",
+   "match": "Colours of Time",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "AMARGA NAVIDAD": {
+   "key": "AMARGA NAVIDAD",
+   "titulo": "AMARGA NAVIDAD",
+   "duracion": "111 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Pedro Almodóvar",
+   "elenco": "Bárbara Lennie, Leonardo Sbaraglia, Aitana Sánchez-Gijón, Patrick Criado, Victoria Luengo, Milena Smit, Quim Gutiérrez, Carmen Machi, Rossy de Palma, Gloria Muñoz, María Morales, Amaia y Antonio Romero",
+   "sinopsis": "Elsa es una directora de publicidad cuya madre muere durante un largo puente del mes de diciembre. Encuentra refugio en el trabajo, aunque es más bien una huida hacia adelante. Trabaja sin parar y, sin darse cuenta, no se concede el tiempo necesario para guardar el duelo por la ausencia materna. Hasta que una crisis de pánico la obliga a detenerse e imponerse un descanso. Su pareja, Bonifacio, es su tabla de salvación en esos momentos de crisis. Elsa decide viajar a la isla de Lanzarote acompañada por su amiga Patricia, que también necesita alejarse de Madrid, mientras que Bonifacio se queda en la ciudad.",
+   "origen": "España",
+   "anio": "2026",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "17:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "17:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "17:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "17:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "17:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": 6.3,
+   "tmdb": "1088548",
+   "match": "Bitter Christmas",
+   "verif": "director",
+   "rt": 91,
+   "rt_pub": 91,
+   "rt_url": "https://www.rottentomatoes.com/m/bitter_christmas"
+  },
+  "P3ND3JO5": {
+   "key": "P3ND3JO5",
+   "titulo": "P3ND3JO5",
+   "duracion": "157 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Raúl Perrone",
+   "elenco": null,
+   "sinopsis": "Un musical hipnótico, con fantasmas, con jóvenes skaters, una cumbiópera en tres actos y un epílogo. Un ballet de caras, de miradas, de deseo, de amor, de drama, de tragedia y de disparos.",
+   "origen": "Argentina",
+   "anio": "2013",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "19:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": 4.6,
+   "tmdb": "242143",
+   "match": "P3nd3jo5",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "AHI DONDE NO ESTAS": {
+   "key": "AHI DONDE NO ESTAS",
+   "titulo": "AHÍ DONDE NO ESTÁS",
+   "duracion": "77 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Laura Chiabrando",
+   "elenco": null,
+   "sinopsis": "A raíz de la repentina muerte de su hijo, Julieta se ve obligada a mudarse temporalmente junto a su hija adolescente, Rocío, a la casa de sus padres ancianos. Julieta siente la profunda necesidad de regresar a su propio hogar y recuperar su rutina previa a la tragedia, pero todavía no encuentra el valor para hacerlo.",
+   "origen": "Argentina",
+   "anio": "2026",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "19:15",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "19:15",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "19:15",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "19:15",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "19:15",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": null,
+   "tmdb": "1631885",
+   "match": "Ahí donde no estás",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "GUERRA DE VERANO": {
+   "key": "GUERRA DE VERANO",
+   "titulo": "GUERRA DE VERANO",
+   "duracion": "104 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Alicia Scherson",
+   "elenco": null,
+   "sinopsis": "Hugo es un campeón estadounidense de juegos de guerra de tablero. Su especialidad es Tercer Reich. Sus tranquilas vacaciones cambiarán cuando otro turista desaparece misteriosamente en el mar, mezclando vida real y juego, transformando la playa soleada en un lugar peligroso, como su propia mente.",
+   "origen": "Chile",
+   "anio": "2026",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "21:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": null,
+   "tmdb": "1247058",
+   "match": "Summer War",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  },
+  "UN TRAGO DE INFIERNO": {
+   "key": "UN TRAGO DE INFIERNO",
+   "titulo": "UN TRAGO DE INFIERNO",
+   "duracion": "90 min",
+   "clasificacion": null,
+   "genero": null,
+   "director": "Pilar Boyle y Mariano Asseff",
+   "elenco": null,
+   "sinopsis": "Niko es una actriz cansada de los papeles repetitivos y superficiales que le ofrecen. Cuando acepta protagonizar una ópera prima, se retira a una casa aislada en el delta del Tigre para concentrarse en el guion. La llegada inesperada de Rafa altera ese encierro y la empuja hacia visiones cada vez más perturbadoras, donde los límites entre la realidad y la ficción se desdibujan. Entre esas apariciones insiste una mujer rubia de vestido blanco.",
+   "origen": "Argentina",
+   "anio": "2026",
+   "original": null,
+   "cines": {
+    "gaumont": {
+     "2026-08-29": [
+      {
+       "h": "21:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-30": [
+      {
+       "h": "21:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-08-31": [
+      {
+       "h": "21:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-01": [
+      {
+       "h": "21:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ],
+     "2026-09-02": [
+      {
+       "h": "21:30",
+       "fmt": "",
+       "lang": ""
+      },
+      {
+       "h": "23:00",
+       "fmt": "",
+       "lang": ""
+      }
+     ]
+    }
+   },
+   "score": 7.0,
+   "tmdb": "1386044",
+   "match": "A Sip of Hell",
+   "verif": "director",
+   "rt": null,
+   "rt_pub": null,
+   "rt_url": null
+  }
+ },
+ "relevado": "29/08/2026 17:14"
+}
