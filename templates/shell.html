@@ -1,0 +1,224 @@
+<title>Cuatro salas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
+
+<style>
+  :root {
+    color-scheme: light;
+    --bg:#EFF1F4; --surface:#FFFFFF; --surface-2:#F6F7F9;
+    --ink:#15181E; --ink-2:#59616F; --ink-3:#858D9C;
+    --rule:#DCDFE5; --rule-soft:#E8EAEF;
+    --accent:#A8660C;
+    --c-ck:#2F6FB5; --c-ho:#6E4BA8; --c-at:#A8660C; --c-ga:#A93A32;
+    --shadow:0 1px 2px rgba(21,24,30,.06), 0 8px 24px -12px rgba(21,24,30,.14);
+    --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+    --prose:'Literata',Georgia,'Times New Roman',serif;
+    --data:'IBM Plex Mono',ui-monospace,'SF Mono',Menlo,monospace;
+  }
+
+  *,*::before,*::after { box-sizing:border-box; }
+  body { background:var(--bg); color:var(--ink); font-family:var(--prose);
+    font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap { max-width:980px; margin:0 auto; padding:36px 24px 96px; }
+
+  .masthead { display:flex; flex-direction:column; gap:14px; }
+  .bulbs { display:flex; gap:7px; }
+  .bulbs span { width:7px; height:7px; border-radius:50%; background:var(--accent); opacity:.35; }
+  .bulbs span:nth-child(3n+1) { opacity:.85; }
+  h1 { font-family:var(--display); font-weight:800; font-size:clamp(2.2rem,6.5vw,3.3rem);
+    line-height:.98; letter-spacing:-.025em; margin:0; text-wrap:balance; }
+  .kicker { font-family:var(--display); font-size:.72rem; font-weight:600;
+    letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3); margin:0; }
+  .stamp { display:flex; flex-wrap:wrap; gap:8px 20px; align-items:baseline;
+    padding-top:16px; border-top:1px solid var(--rule);
+    font-family:var(--data); font-size:.76rem; color:var(--ink-3); }
+  .stamp b { color:var(--ink-2); font-weight:500; }
+
+  /* ---- pestañas principales ---- */
+  .maintabs { display:flex; gap:4px; margin:26px 0 0; border-bottom:2px solid var(--rule); }
+  .mtab { font-family:var(--display); font-size:.82rem; font-weight:600; letter-spacing:.02em;
+    background:none; border:0; border-bottom:2px solid transparent; margin-bottom:-2px;
+    color:var(--ink-3); padding:10px 14px; cursor:pointer; }
+  .mtab.on { color:var(--ink); border-bottom-color:var(--ink); }
+  .mtab:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+  .pane { display:none; } .pane.on { display:block; }
+
+  /* ---- selector de día ---- */
+  .tabs { display:flex; gap:6px; overflow-x:auto; margin:22px 0 4px; padding-bottom:4px; }
+  .tab { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; gap:1px;
+    font-family:var(--display); background:var(--surface); color:var(--ink-2);
+    border:1px solid var(--rule); border-radius:4px; padding:7px 13px; cursor:pointer;
+    font-size:.7rem; letter-spacing:.06em; text-transform:uppercase; }
+  .tab span { font-family:var(--data); font-size:.7rem; letter-spacing:0;
+    text-transform:none; color:var(--ink-3); }
+  .tab.on { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .tab.on span { color:var(--bg); opacity:.75; }
+  .tab:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+
+  /* ---- leyenda de cines ---- */
+  .leyenda { display:flex; flex-wrap:wrap; gap:6px 16px; margin:14px 0 0;
+    font-family:var(--data); font-size:.74rem; color:var(--ink-2); }
+  .leyenda i { font-style:normal; display:inline-flex; align-items:center; gap:6px; }
+  .dot { width:9px; height:9px; border-radius:2px; display:inline-block; }
+  .d-cinemark{background:var(--c-ck);} .d-hoyts{background:var(--c-ho);}
+  .d-atlas{background:var(--c-at);} .d-gaumont{background:var(--c-ga);}
+
+  /* ---- tab 1: películas ---- */
+  .cards { display:flex; flex-direction:column; gap:14px; margin-top:16px; }
+  .card { background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+    box-shadow:var(--shadow); padding:20px 22px; }
+  .card h3 { font-family:var(--display); font-weight:700; font-size:1.14rem;
+    margin:0 0 8px; letter-spacing:-.015em; text-wrap:balance; }
+  .chips { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
+  .chip { font-family:var(--display); font-size:.63rem; font-weight:600; letter-spacing:.07em;
+    text-transform:uppercase; padding:.22em .5em; border-radius:2px; color:#fff; }
+  .chip.cinemark{background:var(--c-ck);} .chip.hoyts{background:var(--c-ho);}
+  .chip.atlas{background:var(--c-at);} .chip.gaumont{background:var(--c-ga);}
+  .meta { display:flex; flex-wrap:wrap; gap:2px 8px; font-family:var(--data);
+    font-size:.74rem; color:var(--ink-3); margin-bottom:9px; align-items:center; }
+  .meta i { font-style:normal; opacity:.5; }
+  .cls { color:var(--ink-2); border:1px solid var(--rule); border-radius:2px; padding:0 .3em; }
+  .score { display:inline-flex; align-items:baseline; gap:4px; font-family:var(--data);
+    font-variant-numeric:tabular-nums; background:var(--surface-2); border:1px solid var(--rule);
+    border-radius:3px; padding:.15em .45em; }
+  .score b { font-size:.95rem; font-weight:600; color:var(--ink); letter-spacing:-.01em; }
+  .score s { text-decoration:none; font-size:.58rem; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--ink-3); }
+  .score.none b { color:var(--ink-3); font-weight:400; }
+  .scores { float:right; display:flex; gap:5px; margin-left:12px; }
+  .score.rt b { color:var(--c-ga); }
+  .sinopsis { margin:0 0 16px; font-size:.94rem; color:var(--ink-2); max-width:none;
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+  .porcine { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 26px; }
+  .fila { display:flex; flex-direction:column; align-items:flex-start; gap:8px;
+    padding-top:11px; border-top:1px solid var(--rule-soft); min-width:0; }
+  .fila-n { font-family:var(--display); font-size:.72rem; font-weight:600;
+    letter-spacing:.04em; display:inline-flex; align-items:center; gap:6px;
+    color:var(--ink-2); }
+  .horarios { display:flex; flex-wrap:wrap; gap:5px; }
+  .hora { font-family:var(--data); font-variant-numeric:tabular-nums; font-size:.8rem;
+    color:var(--ink); background:var(--surface-2); border:1px solid var(--rule);
+    border-radius:3px; padding:.24em .5em; white-space:nowrap; }
+  .hora u { text-decoration:none; font-size:.86em; color:var(--ink-3); margin-left:.25em; }
+  .fmt { font-family:var(--display); font-size:.58rem; font-weight:600; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--accent); border:1px solid currentColor;
+    border-radius:2px; padding:.1em .34em; }
+
+  /* ---- tab 2: por cine ---- */
+  .sala { background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+    overflow:hidden; box-shadow:var(--shadow); margin-bottom:16px; }
+  .sala-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px;
+    padding:16px 22px; border-bottom:1px solid var(--rule-soft); border-left:4px solid var(--ink-3); }
+  .sala-head.cinemark{border-left-color:var(--c-ck);} .sala-head.hoyts{border-left-color:var(--c-ho);}
+  .sala-head.atlas{border-left-color:var(--c-at);} .sala-head.gaumont{border-left-color:var(--c-ga);}
+  .sala-head h2 { font-family:var(--display); font-weight:700; font-size:1.2rem;
+    letter-spacing:-.018em; margin:0; flex:1 1 auto; }
+  .dir { font-family:var(--data); font-size:.74rem; color:var(--ink-3); }
+  .tablewrap { overflow-x:auto; }
+  table { width:100%; border-collapse:collapse; font-size:.84rem; }
+  th { font-family:var(--display); font-size:.64rem; font-weight:600; letter-spacing:.09em;
+    text-transform:uppercase; color:var(--ink-3); text-align:left;
+    padding:10px 12px; border-bottom:1px solid var(--rule); white-space:nowrap; }
+  td { padding:11px 12px; border-bottom:1px solid var(--rule-soft); vertical-align:top;
+    color:var(--ink-2); }
+  td.tit { font-family:var(--display); font-weight:600; color:var(--ink); min-width:170px; }
+  td.hs { font-family:var(--data); font-variant-numeric:tabular-nums; color:var(--ink);
+    min-width:190px; }
+  td.num { font-family:var(--data); white-space:nowrap; }
+  tr:last-child td { border-bottom:0; }
+
+  /* ---- tab 3: calendario ---- */
+  .picker { display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:22px 0 6px; }
+  .picker label { font-family:var(--display); font-size:.72rem; font-weight:600;
+    letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3); }
+  select { font-family:var(--display); font-size:.92rem; color:var(--ink);
+    background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+    padding:9px 12px; min-width:min(320px,100%); cursor:pointer; }
+  select:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .cal { overflow-x:auto; margin-top:14px; background:var(--surface);
+    border:1px solid var(--rule); border-radius:4px; box-shadow:var(--shadow); }
+  .cal table { min-width:640px; }
+  .cal th.hcol { width:64px; }
+  .cal td.hcol { font-family:var(--data); font-size:.76rem; color:var(--ink-3);
+    background:var(--surface-2); white-space:nowrap; width:64px; }
+  .cal td { border-right:1px solid var(--rule-soft); }
+  .cal td:last-child { border-right:0; }
+  .slot { display:inline-flex; align-items:center; gap:4px; font-family:var(--data);
+    font-variant-numeric:tabular-nums; font-size:.78rem; border-radius:3px;
+    padding:.2em .45em; margin:2px 3px 2px 0; color:#fff; white-space:nowrap; }
+  .slot.cinemark{background:var(--c-ck);} .slot.hoyts{background:var(--c-ho);}
+  .slot.atlas{background:var(--c-at);} .slot.gaumont{background:var(--c-ga);}
+  .slot u { text-decoration:none; font-weight:600; opacity:.75; font-size:.9em; }
+
+  .nota { font-family:var(--data); font-size:.74rem; color:var(--ink-3);
+    margin:14px 0 0; max-width:74ch; line-height:1.65; }
+  .vacio-in { margin:0; padding:18px 22px; font-family:var(--data);
+    font-size:.78rem; color:var(--ink-3); }
+
+  footer { margin-top:48px; padding-top:20px; border-top:1px solid var(--rule);
+    font-family:var(--data); font-size:.73rem; color:var(--ink-3);
+    display:flex; flex-direction:column; gap:5px; }
+
+  @media (max-width:600px) {
+    .wrap { padding:26px 15px 72px; }
+    .card { padding:17px 16px; }
+    .sala-head { padding:14px 16px; }
+    .porcine { grid-template-columns:1fr; gap:2px; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <div class="bulbs" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <p class="kicker">Caballito · Balvanera · Congreso</p>
+    <h1>Cuatro salas</h1>
+    <div class="stamp">
+      <span>Relevado — <b>29 ago 2026, 15:10</b></span>
+      <span>Funciones hasta — <b>2 sep</b></span>
+      <span><b id="nfilms">—</b> películas</span>
+    </div>
+  </header>
+
+  <div class="maintabs" role="tablist">
+    <button class="mtab on" data-pane="peliculas">Películas</button>
+    <button class="mtab" data-pane="cines">Por cine</button>
+    <button class="mtab" data-pane="calendario">Calendario</button>
+  </div>
+
+  <div class="leyenda">
+    <i><span class="dot d-cinemark"></span>Cinemark Caballito</i>
+    <i><span class="dot d-hoyts"></span>Hoyts Abasto</i>
+    <i><span class="dot d-atlas"></span>Atlas Caballito</i>
+    <i><span class="dot d-gaumont"></span>Cine Gaumont</i>
+  </div>
+
+  <section class="pane on" id="pane-peliculas">
+    <div class="tabs" id="days-1"></div>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <section class="pane" id="pane-cines">
+    <div class="tabs" id="days-2"></div>
+    <div id="salas"></div>
+  </section>
+
+  <section class="pane" id="pane-calendario">
+    <div class="picker">
+      <label for="sel">Película</label>
+      <select id="sel"></select>
+    </div>
+    <div class="cal" id="cal"></div>
+    <p class="nota" id="nota-cal"><b>D</b> doblada · <b>S</b> subtitulada. Atlas informa el idioma función por función.
+    Cinemark y Hoyts sólo publican los idiomas disponibles por película, así que la letra aparece
+    únicamente cuando la película se da en un solo idioma. El Gaumont no publica idioma.</p>
+  </section>
+
+  <footer>
+    <span>Horarios de Buenos Aires</span>
+    <span>Puntajes: tomatómetro y público de Rotten Tomatoes, y puntaje de usuarios de TMDb sobre 10. IMDb sirve un desafío de bots y Letterboxd rechaza el acceso, así que no se pueden incluir.</span>
+    <span>Clasificación por edad: <b>G</b> apta todo público · <b>SP</b> supervisión parental · <b>R-13</b> y <b>R-17</b> restringidas · <b>—</b> sin dato</span>
+    <span>Fuentes: cinemark.com.ar · atlascines.com · unica-cartelera.com.ar</span>
+  </footer>
+</div>
