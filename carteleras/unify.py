@@ -18,6 +18,8 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # Hoyts la estrena como "Colony: Zona Cero"; Atlas la lista "Zona Cero".
+    "COLONY ZONA CERO": "ZONA CERO",
 }
 
 

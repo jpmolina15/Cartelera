@@ -66,6 +66,7 @@ class TestClaves(unittest.TestCase):
                          clave("HARRY POTTER 25° ANIVERSARIO"))
         self.assertEqual(clave("LA NOCHE DEL DEMONIO:ESTAN ENT"),
                          clave("LA NOCHE DEL DEMONIO 6"))
+        self.assertEqual(clave("COLONY: ZONA CERO"), clave("ZONA CERO"))
 
     def test_no_junta_peliculas_distintas(self):
         self.assertNotEqual(clave("TOY STORY 5"), clave("TOY STORY 4"))
