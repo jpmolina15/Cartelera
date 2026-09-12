@@ -39,6 +39,16 @@
     return [DOW[(dt.getDay()+6)%7], (+p[2])+' '+MES[+p[1]-1]];}
   var list=Object.keys(F).map(function(k){return F[k];});
   document.getElementById('nfilms').textContent=list.length;
+  // El encabezado sale de los datos: si no, queda con la fecha del relevamiento anterior.
+  if(D.relevado){
+    var r=D.relevado.split(' '), f=r[0].split('/');
+    document.getElementById('stamp-rel').textContent=
+      (+f[0])+' '+MES[+f[1]-1]+' '+f[2]+', '+r[1];
+  }
+  if(DAYS.length){
+    var u=lbl(DAYS[DAYS.length-1]);
+    document.getElementById('stamp-hasta').textContent=u[1];
+  }
 
   function dayTabs(el,cb){
     el.innerHTML=DAYS.map(function(d,i){var L=lbl(d);
