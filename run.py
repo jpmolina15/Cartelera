@@ -13,7 +13,7 @@ import pathlib
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
-from carteleras import fechas, unify
+from carteleras import acumular, fechas, unify
 from carteleras.render import render
 from carteleras.scores import puntajes
 from carteleras.sources import atlas, cinemark, gaumont, rt
@@ -26,8 +26,12 @@ def main():
     ap.add_argument("--salida", default=str(RAIZ / "salida" / "cartelera.html"))
     ap.add_argument("--json", default=str(RAIZ / "salida" / "datos.json"))
     ap.add_argument("--sin-puntajes", action="store_true")
+    ap.add_argument("--sin-acumular", action="store_true",
+                    help="ignora lo relevado antes y publica sólo lo de hoy")
     args = ap.parse_args()
     pathlib.Path(args.salida).parent.mkdir(parents=True, exist_ok=True)
+    # Se lee antes de relevar porque la corrida pisa este mismo archivo.
+    previo = None if args.sin_acumular else acumular.leer(args.json)
 
     print("relevando Cinemark Caballito y Hoyts Abasto...", flush=True)
     ck = cinemark.funciones(cinemark.SALAS["cinemark"])
@@ -35,9 +39,9 @@ def main():
     if not ck and not ab:
         print("ERROR: ninguna de las dos salas de Cinemark devolvió funciones", file=sys.stderr)
 
-    # La ventana es la semana de cartelera, de jueves a miércoles, sin los días
-    # ya pasados. No la define Cinemark: su sitio publica sólo cuatro o cinco
-    # días, así que el final de la semana queda con las salas que sí lo cubren.
+    # Se releva la semana de cartelera, de jueves a miércoles, salteando los
+    # días ya pasados: esos los aporta `acumular` con lo que se relevó antes.
+    semana = fechas.semana()
     dias = fechas.ventana()
 
     slugs = {r.get("slug_pelicula")
@@ -54,6 +58,13 @@ def main():
     if not films:
         print("ERROR: ninguna sala devolvió funciones, se aborta", file=sys.stderr)
         return 1
+
+    hoy = datetime.date.today().isoformat()
+    heredados = acumular.fusionar(previo, films, semana, hoy)
+    # La página cubre la semana entera; los días sin ninguna función no se
+    # publican como pestaña vacía.
+    dias = [d for d in semana
+            if any(d in por for f in films.values() for por in f["cines"].values())]
 
     for f in films.values():
         f["score"] = f["tmdb"] = f["match"] = f["verif"] = None
@@ -88,14 +99,17 @@ def main():
     sin_ck = [d for d in dias
               if not any(f["cines"].get(c, {}).get(d)
                          for f in films.values() for c in ("cinemark", "hoyts"))]
-    semana = fechas.semana()
+    faltan = [d for d in semana if d not in dias]
     print("\n--- resumen ---")
     print(f"semana={semana[0]}..{semana[-1]} publicados={dias[0]}..{dias[-1]} "
           f"peliculas={len(films)} tmdb={con_puntaje} rt={con_rt}")
     for c, v in por_cine.items():
         print(f"{c}={v}")
+    print(f"dias_heredados={heredados}")
     if sin_ck:
         print("dias_sin_cinemark=" + ",".join(sin_ck))
+    if faltan:
+        print("dias_sin_funciones=" + ",".join(faltan))
     print(f"html={args.salida} bytes={n}")
     # Una sala en cero casi siempre significa que cambió el sitio o el dominio
     # quedó fuera de la lista blanca, no que no haya funciones.

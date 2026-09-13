@@ -19,6 +19,24 @@ python3 -m unittest discover -s tests -t .
 `run.py` imprime un resumen al final (películas por sala, cuántas con puntaje)
 y escribe `ATENCION sin_datos=<sala>` en stderr si alguna quedó en cero.
 
+## La semana: de jueves a miércoles
+
+La cartelera argentina estrena los jueves, así que la página cubre siempre de
+jueves a miércoles (`carteleras/fechas.py`). El problema es que Cinemark
+publica sólo cuatro o cinco días: la corrida del jueves llega hasta el lunes.
+
+Por eso la rutina corre **dos veces por semana, jueves y domingo**, y cada
+corrida hereda de `salida/datos.json` los días de la semana que ya pasaron
+(`carteleras/acumular.py`). El domingo releva de domingo a miércoles y le suma
+lo que el jueves ya había relevado del jueves al sábado, así la página queda
+con la semana completa.
+
+Nunca se pisa un día que la corrida actual pueda relevar, y sólo se heredan
+días de la semana en curso: un `datos.json` de la semana pasada no aporta nada.
+Como el entorno clona el repo de cero en cada corrida, **`salida/datos.json`
+tiene que quedar commiteado**: es la base de la corrida siguiente.
+`--sin-acumular` publica sólo lo relevado hoy.
+
 ## De dónde sale cada dato
 
 | Sala | Fuente | Cómo |
@@ -75,12 +93,19 @@ fallaron una vez; agregar el nuevo caso ahí antes de tocar el parser.
   que se puede corregir sin adivinar.
 - Cinemark y Hoyts **no informan idioma por función**, sólo los idiomas
   disponibles por película: la letra D/S sólo se muestra si hay uno solo.
-- La ventana de días la define lo que publica Cinemark, no es una elección.
+- Cinemark publica sólo cuatro o cinco días por vez, y no hay parámetro de
+  fecha: el bloque JSON-LD trae lo que trae. Por eso la semana se completa
+  entre dos corridas (ver abajo).
 
 ## Prompt de la rutina
 
+Corre dos veces por semana, jueves y domingo, con el mismo prompt.
+
 ```
-Actualizar la cartelera semanal de cuatro cines de Buenos Aires.
+Actualizar la cartelera de cuatro cines de Buenos Aires. La rutina corre
+jueves y domingo: cada corrida releva lo que se puede y hereda del
+salida/datos.json commiteado los días de la semana que ya pasaron, así la
+página cubre siempre de jueves a miércoles.
 
 1. Ejecutar en el repo clonado:
        python3 run.py
@@ -97,10 +122,17 @@ Actualizar la cartelera semanal de cuatro cines de Buenos Aires.
      https://claude.ai/code/artifact/48264826-0395-45e1-a12b-3c4d86dd2d8d
    - después republicar sobre esa MISMA url pasándola como `url`.
 
-4. Avisar con PushNotification dentro de <routine_summary>. Primera oración:
+4. Commitear y pushear salida/datos.json y salida/cartelera.html. Sin eso la
+   corrida siguiente arranca sin base y la semana queda cortada.
+
+5. Avisar con PushNotification dentro de <routine_summary>. Primera oración:
    cuántas películas hay y si hubo estrenos. Después: el link a la página,
-   los títulos mejor puntuados y cualquier sala que haya quedado sin datos.
+   los títulos mejor puntuados, cualquier sala que haya quedado sin datos y,
+   si el resumen trae "dias_sin_cinemark", qué días de la semana todavía no
+   tienen funciones de Cinemark y Hoyts.
 ```
 
 El paso 3 no es opcional: si se publica sin pasar `url`, se crea una página
 nueva con otra dirección y el link anclado queda congelado en la versión vieja.
+El paso 4 tampoco: `salida/datos.json` es la base de la acumulación y el
+entorno clona el repo de cero en cada corrida.

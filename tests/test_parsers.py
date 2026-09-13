@@ -10,7 +10,7 @@ Cubren los tres errores que ya aparecieron una vez en producción:
 import datetime
 import unittest
 
-from carteleras import fechas
+from carteleras import acumular, fechas
 from carteleras.sources.gaumont import expandir_semana
 from carteleras.unify import clave, limpiar
 
@@ -81,6 +81,59 @@ class TestSemana(unittest.TestCase):
     def test_ventana_completa_si_se_corre_el_jueves(self):
         self.assertEqual(fechas.ventana(datetime.date(2026, 9, 10)),
                          fechas.semana(datetime.date(2026, 9, 10)))
+
+
+class TestAcumular(unittest.TestCase):
+    """Semana del jue 10 al mié 16; se corre el domingo 13."""
+    SEMANA = fechas.semana(datetime.date(2026, 9, 10))
+    HOY = "2026-09-13"
+
+    def previo(self):
+        return {"films": {"TOY STORY 5": {
+            "key": "TOY STORY 5", "titulo": "TOY STORY 5",
+            "cines": {"cinemark": {"2026-09-11": [{"h": "13:10"}],
+                                   "2026-09-13": [{"h": "18:00"}]}}}}}
+
+    def nuevo(self):
+        return {"TOY STORY 5": {
+            "key": "TOY STORY 5", "titulo": "TOY STORY 5",
+            "cines": {"cinemark": {"2026-09-13": [{"h": "20:30"}]}}}}
+
+    def test_hereda_los_dias_pasados(self):
+        films = self.nuevo()
+        n = acumular.fusionar(self.previo(), films, self.SEMANA, self.HOY)
+        self.assertEqual(n, 1)
+        self.assertEqual(films["TOY STORY 5"]["cines"]["cinemark"]["2026-09-11"],
+                         [{"h": "13:10"}])
+
+    def test_no_pisa_lo_relevado_hoy(self):
+        # el viejo tenía 18:00 para el domingo; la corrida de hoy dice 20:30
+        films = self.nuevo()
+        acumular.fusionar(self.previo(), films, self.SEMANA, self.HOY)
+        self.assertEqual(films["TOY STORY 5"]["cines"]["cinemark"]["2026-09-13"],
+                         [{"h": "20:30"}])
+
+    def test_pelicula_que_ya_no_esta_entra_solo_con_lo_pasado(self):
+        films = {}
+        acumular.fusionar(self.previo(), films, self.SEMANA, self.HOY)
+        self.assertEqual(list(films["TOY STORY 5"]["cines"]["cinemark"]),
+                         ["2026-09-11"])
+
+    def test_ignora_la_semana_anterior(self):
+        previo = {"films": {"VIEJA": {"key": "VIEJA", "titulo": "VIEJA",
+                                      "cines": {"atlas": {"2026-09-04": [{"h": "20:00"}]}}}}}
+        films = self.nuevo()
+        self.assertEqual(acumular.fusionar(previo, films, self.SEMANA, self.HOY), 0)
+        self.assertNotIn("VIEJA", films)
+
+    def test_el_jueves_no_hereda_nada(self):
+        films = self.nuevo()
+        self.assertEqual(
+            acumular.fusionar(self.previo(), films, self.SEMANA, "2026-09-10"), 0)
+
+    def test_sin_relevamiento_previo(self):
+        films = self.nuevo()
+        self.assertEqual(acumular.fusionar(None, films, self.SEMANA, self.HOY), 0)
 
 
 class TestClaves(unittest.TestCase):
