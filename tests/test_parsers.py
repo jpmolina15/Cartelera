@@ -10,6 +10,7 @@ Cubren los tres errores que ya aparecieron una vez en producción:
 import datetime
 import unittest
 
+from carteleras import fechas
 from carteleras.sources.gaumont import expandir_semana
 from carteleras.unify import clave, limpiar
 
@@ -52,6 +53,34 @@ class TestGaumont(unittest.TestCase):
     def test_dia_fuera_de_la_ventana(self):
         # una función sólo de viernes no debe aparecer en sáb..mié
         self.assertEqual(expandir_semana("Viernes: 21.45 hs.", DIAS, DOW), {})
+
+
+class TestSemana(unittest.TestCase):
+    def test_arranca_el_jueves(self):
+        # jue 10 sep 2026: la semana es la que empieza ese mismo día
+        r = fechas.semana(datetime.date(2026, 9, 10))
+        self.assertEqual(r[0], "2026-09-10")
+        self.assertEqual(r[-1], "2026-09-16")
+        self.assertEqual(len(r), 7)
+
+    def test_el_miercoles_sigue_en_la_semana_anterior(self):
+        # mié 16 sep cierra la semana del jueves 10, no abre la del 17
+        self.assertEqual(fechas.semana(datetime.date(2026, 9, 16))[0], "2026-09-10")
+        self.assertEqual(fechas.semana(datetime.date(2026, 9, 17))[0], "2026-09-17")
+
+    def test_cruce_de_mes(self):
+        r = fechas.semana(datetime.date(2026, 10, 3))
+        self.assertEqual(r[0], "2026-10-01")
+        self.assertEqual(r[-1], "2026-10-07")
+
+    def test_ventana_descarta_los_dias_pasados(self):
+        # dom 13 sep: quedan domingo a miércoles de esa semana
+        self.assertEqual(fechas.ventana(datetime.date(2026, 9, 13)),
+                         ["2026-09-13", "2026-09-14", "2026-09-15", "2026-09-16"])
+
+    def test_ventana_completa_si_se_corre_el_jueves(self):
+        self.assertEqual(fechas.ventana(datetime.date(2026, 9, 10)),
+                         fechas.semana(datetime.date(2026, 9, 10)))
 
 
 class TestClaves(unittest.TestCase):

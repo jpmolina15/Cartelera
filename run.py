@@ -13,7 +13,7 @@ import pathlib
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
-from carteleras import unify
+from carteleras import fechas, unify
 from carteleras.render import render
 from carteleras.scores import puntajes
 from carteleras.sources import atlas, cinemark, gaumont, rt
@@ -35,11 +35,10 @@ def main():
     if not ck and not ab:
         print("ERROR: ninguna de las dos salas de Cinemark devolvió funciones", file=sys.stderr)
 
-    # La ventana de días la define lo que publica Cinemark (suele ser 5).
-    dias = sorted(set(ck) | set(ab))[:5]
-    if not dias:
-        print("ERROR: sin días para procesar, se aborta", file=sys.stderr)
-        return 1
+    # La ventana es la semana de cartelera, de jueves a miércoles, sin los días
+    # ya pasados. No la define Cinemark: su sitio publica sólo cuatro o cinco
+    # días, así que el final de la semana queda con las salas que sí lo cubren.
+    dias = fechas.ventana()
 
     slugs = {r.get("slug_pelicula")
              for fuente in (ck, ab) for pelis in fuente.values()
@@ -52,6 +51,9 @@ def main():
     gau = gaumont.cartelera()
 
     films = unify.construir(ck, ab, fichas, atl, gau, dias)
+    if not films:
+        print("ERROR: ninguna sala devolvió funciones, se aborta", file=sys.stderr)
+        return 1
 
     for f in films.values():
         f["score"] = f["tmdb"] = f["match"] = f["verif"] = None
@@ -81,11 +83,19 @@ def main():
                 for c in ("cinemark", "hoyts", "atlas", "gaumont")}
     con_puntaje = sum(1 for f in films.values() if f.get("score"))
     con_rt = sum(1 for f in films.values() if f.get("rt") is not None)
+    # Cinemark publica cuatro o cinco días: los últimos de la semana suelen
+    # quedar con Atlas y el Gaumont hasta que los cargue.
+    sin_ck = [d for d in dias
+              if not any(f["cines"].get(c, {}).get(d)
+                         for f in films.values() for c in ("cinemark", "hoyts"))]
+    semana = fechas.semana()
     print("\n--- resumen ---")
-    print(f"dias={dias[0]}..{dias[-1]} peliculas={len(films)} "
-          f"tmdb={con_puntaje} rt={con_rt}")
+    print(f"semana={semana[0]}..{semana[-1]} publicados={dias[0]}..{dias[-1]} "
+          f"peliculas={len(films)} tmdb={con_puntaje} rt={con_rt}")
     for c, v in por_cine.items():
         print(f"{c}={v}")
+    if sin_ck:
+        print("dias_sin_cinemark=" + ",".join(sin_ck))
     print(f"html={args.salida} bytes={n}")
     # Una sala en cero casi siempre significa que cambió el sitio o el dominio
     # quedó fuera de la lista blanca, no que no haya funciones.
