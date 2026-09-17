@@ -1,0 +1,7 @@
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+
+# Salida del relevamiento semanal: se regenera con `python3 run.py` y se
+# publica en el artifact, no se versiona.
+salida/
