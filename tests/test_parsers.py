@@ -66,6 +66,15 @@ class TestClaves(unittest.TestCase):
                          clave("HARRY POTTER 25° ANIVERSARIO"))
         self.assertEqual(clave("LA NOCHE DEL DEMONIO:ESTAN ENT"),
                          clave("LA NOCHE DEL DEMONIO 6"))
+        self.assertEqual(clave("ZONA CERO"), clave("COLONY: ZONA CERO"))
+
+    def test_alias_de_titulos_truncados_por_atlas(self):
+        self.assertEqual(clave("TADEO EL EXPLORADOR Y LA LAMPA"),
+                         clave("TADEO EL EXPLORADOR Y LA LAMPARA"))
+        self.assertEqual(clave("HECHIZO DE AMOR:LA MAGIA CONT"),
+                         clave("HECHIZO DE AMOR: LA MAGIA CONTINUA"))
+        self.assertEqual(clave("OASIS,DON’T LOOK BACK IN ANGER"),
+                         clave("OASIS: DON´T LOOK BACK IN ANGER"))
 
     def test_no_junta_peliculas_distintas(self):
         self.assertNotEqual(clave("TOY STORY 5"), clave("TOY STORY 4"))

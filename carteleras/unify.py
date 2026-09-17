@@ -18,6 +18,14 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # Atlas trunca a 30 caracteres.
+    "TADEO EL EXPLORADOR Y LA LAMPA": "TADEO EL EXPLORADOR Y LA LAMPARA",
+    "HECHIZO DE AMOR LA MAGIA CONT": "HECHIZO DE AMOR LA MAGIA CONTINUA",
+    # Atlas escribe "OASIS,DON'T..." y Cinemark "OASIS: DON´T...": el apóstrofo
+    # raro de Cinemark deja un "DON T" suelto que la normalización no junta.
+    "OASIS DONT LOOK BACK IN ANGER": "OASIS DON T LOOK BACK IN ANGER",
+    # Atlas la lista por el subtítulo solo (original: "Colony").
+    "ZONA CERO": "COLONY ZONA CERO",
 }
 
 
