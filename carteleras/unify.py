@@ -18,6 +18,10 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # Atlas trunca a 30 caracteres: "HECHIZO DE AMOR:LA MAGIA CONT".
+    "HECHIZO DE AMOR LA MAGIA CONT": "HECHIZO DE AMOR LA MAGIA CONTINUA",
+    # Atlas lo lista sin la aclaración que ponen Cinemark y Hoyts.
+    "AVENGERS ENDGAME": "AVENGERS ENDGAME RE ESTRENO",
 }
 
 
