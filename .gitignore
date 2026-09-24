@@ -1,0 +1,6 @@
+# Salida generada por run.py
+salida/
+
+# Python
+__pycache__/
+*.py[cod]
