@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+
+# Generado por run.py en cada corrida; la versión que importa es la que queda
+# publicada en el artifact, no una copia en el repo.
+salida/
