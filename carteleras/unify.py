@@ -18,6 +18,9 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # Atlas los lista con el título corto; Cinemark/Hoyts con el completo.
+    "AVENGERS ENDGAME": "AVENGERS ENDGAME RE ESTRENO",
+    "VERTIGO 2": "VERTIGO 2 PUNTO MUERTO",
 }
 
 

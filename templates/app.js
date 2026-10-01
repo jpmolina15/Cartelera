@@ -39,6 +39,10 @@
     return [DOW[(dt.getDay()+6)%7], (+p[2])+' '+MES[+p[1]-1]];}
   var list=Object.keys(F).map(function(k){return F[k];});
   document.getElementById('nfilms').textContent=list.length;
+  var R=String(D.relevado||'').match(/^(\d{2})\/(\d{2})\/(\d{4})\s+(\d{2}:\d{2})$/);
+  if(R) document.getElementById('relevado').textContent=
+    (+R[1])+' '+MES[+R[2]-1]+' '+R[3]+', '+R[4];
+  if(DAYS.length) document.getElementById('hasta').textContent=lbl(DAYS[DAYS.length-1])[1];
 
   function dayTabs(el,cb){
     el.innerHTML=DAYS.map(function(d,i){var L=lbl(d);
