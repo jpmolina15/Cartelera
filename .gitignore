@@ -1,0 +1,6 @@
+# Bytecode
+__pycache__/
+*.py[cod]
+
+# Salida generada por run.py: se publica en el artifact, no se versiona.
+salida/
