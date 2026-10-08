@@ -18,6 +18,12 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # Reposiciones: Atlas las lista con el título pelado y Cinemark/Hoyts le
+    # agregan el sufijo del aniversario, así que sin alias salen duplicadas.
+    "AVENGERS ENDGAME": "AVENGERS ENDGAME RE ESTRENO",
+    "CARS": "CARS 20 ANIVERSARIO",
+    # El recital de Queen: Atlas lo acorta, Hoyts usa el título completo.
+    "QUEEN LIVE IN BUDAPEST": "QUEEN BUDAPEST",
 }
 
 

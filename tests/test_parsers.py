@@ -67,8 +67,20 @@ class TestClaves(unittest.TestCase):
         self.assertEqual(clave("LA NOCHE DEL DEMONIO:ESTAN ENT"),
                          clave("LA NOCHE DEL DEMONIO 6"))
 
+    def test_alias_de_reposiciones(self):
+        # Atlas lista la reposición con el título pelado; Cinemark y Hoyts le
+        # agregan el sufijo del aniversario.
+        self.assertEqual(clave("AVENGERS: ENDGAME"),
+                         clave("AVENGERS: ENDGAME (RE ESTRENO)"))
+        self.assertEqual(clave("CARS"), clave("CARS 20° ANIVERSARIO"))
+        self.assertEqual(clave("QUEEN: LIVE IN BUDAPEST"),
+                         clave("QUEEN BUDAPEST"))
+
     def test_no_junta_peliculas_distintas(self):
         self.assertNotEqual(clave("TOY STORY 5"), clave("TOY STORY 4"))
+        # El alias de "CARS" no debe arrastrar a las secuelas.
+        self.assertNotEqual(clave("CARS"), clave("CARS 3"))
+        self.assertNotEqual(clave("AVENGERS: ENDGAME"), clave("AVENGERS: INFINITY WAR"))
 
 
 class TestLimpiar(unittest.TestCase):

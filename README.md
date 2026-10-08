@@ -40,6 +40,14 @@ y escribe `ATENCION sin_datos=<sala>` en stderr si alguna quedó en cero.
 *.frame.claudeusercontent.com <- para releer el artifact antes de republicarlo
 ```
 
+**TMDb dejó de servir el sitio HTML (8 oct 2026).** `www.themoviedb.org`
+responde 403 a todo, con User-Agent pelado y con headers de navegador
+completos. No es la lista blanca: `api.themoviedb.org` sí contesta, con un 401
+por falta de clave, así que el tráfico llega. Mientras siga así, `tmdb=0` en el
+resumen es lo esperado y los puntajes salen sólo de Rotten Tomatoes; las
+películas argentinas del Gaumont quedan sin ninguno. Para recuperarlos habría
+que usar la API con clave, que hoy el proyecto no tiene.
+
 **IMDb y Letterboxd no se pueden usar aunque el dominio esté permitido.** No es
 un problema de lista blanca sino de los sitios: `imdb.com` responde 202 con un
 cuerpo de ~2 KB (desafío de bots) y `letterboxd.com` responde 403. Habría que
