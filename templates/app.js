@@ -39,6 +39,13 @@
     return [DOW[(dt.getDay()+6)%7], (+p[2])+' '+MES[+p[1]-1]];}
   var list=Object.keys(F).map(function(k){return F[k];});
   document.getElementById('nfilms').textContent=list.length;
+  // El sello sale del dataset: 'relevado' viene como dd/mm/aaaa hh:mm.
+  (function(){
+    var r=document.getElementById('relevado'), h=document.getElementById('hasta');
+    if(r&&D.relevado){var m=/^(\d{2})\/(\d{2})\/(\d{4}) (\d{2}:\d{2})$/.exec(D.relevado);
+      r.textContent=m?(+m[1])+' '+MES[+m[2]-1]+' '+m[3]+', '+m[4]:D.relevado;}
+    if(h&&DAYS.length) h.textContent=lbl(DAYS[DAYS.length-1])[1];
+  })();
 
   function dayTabs(el,cb){
     el.innerHTML=DAYS.map(function(d,i){var L=lbl(d);
