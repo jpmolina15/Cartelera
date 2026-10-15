@@ -1,0 +1,7 @@
+# Salida del relevamiento: run.py la reescribe en cada corrida y lo que se
+# publica es el artifact, no el archivo del repo.
+salida/
+
+# Bytecode
+__pycache__/
+*.py[cod]
