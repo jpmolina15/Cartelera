@@ -66,9 +66,19 @@ class TestClaves(unittest.TestCase):
                          clave("HARRY POTTER 25° ANIVERSARIO"))
         self.assertEqual(clave("LA NOCHE DEL DEMONIO:ESTAN ENT"),
                          clave("LA NOCHE DEL DEMONIO 6"))
+        self.assertEqual(clave("CORDOBECES, LA PELICULA"),
+                         clave("CORDOBESES: LA PELÍCULA"))
+        self.assertEqual(clave("CARS"), clave("CARS 20° ANIVERSARIO"))
+        self.assertEqual(clave("LOS JUEGOS DEL HAMBRE"),
+                         clave("LOS JUEGOS DEL HAMBRE (2012)"))
+        self.assertEqual(clave("JUEGOS DEL HAMBRE:EN LLAMAS"),
+                         clave("LOS JUEGOS DEL HAMBRE: EN LLAMAS (2013)"))
 
     def test_no_junta_peliculas_distintas(self):
         self.assertNotEqual(clave("TOY STORY 5"), clave("TOY STORY 4"))
+        # Las partes de Sinsajo son películas distintas, no una reposición.
+        self.assertNotEqual(clave("JUEGOS DEL HAMBRE:SINSAJO PT 1"),
+                            clave("JUEGOS DEL HAMBRE:SINSAJO PT 2"))
 
 
 class TestLimpiar(unittest.TestCase):

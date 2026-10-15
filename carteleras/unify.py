@@ -18,6 +18,13 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # El Gaumont escribe mal el gentilicio ("cordobeces" por "cordobeses").
+    "CORDOBECES LA PELICULA": "CORDOBESES LA PELICULA",
+    # Reposiciones: Atlas las lista con el título pelado, Cinemark y Hoyts le
+    # agregan el año o el aniversario.
+    "CARS": "CARS 20 ANIVERSARIO",
+    "LOS JUEGOS DEL HAMBRE": "LOS JUEGOS DEL HAMBRE 2012",
+    "JUEGOS DEL HAMBRE EN LLAMAS": "LOS JUEGOS DEL HAMBRE EN LLAMAS 2013",
 }
 
 

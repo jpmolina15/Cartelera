@@ -45,7 +45,17 @@ un problema de lista blanca sino de los sitios: `imdb.com` responde 202 con un
 cuerpo de ~2 KB (desafío de bots) y `letterboxd.com` responde 403. Habría que
 usar una API con clave, y hoy el proyecto no usa ninguna. Las películas
 argentinas del Gaumont además casi no figuran en Rotten Tomatoes, así que para
-ésas TMDb sigue siendo la única fuente.
+ésas TMDb era la única fuente.
+
+**Desde el 15/10/2026 TMDb cayó en la misma bolsa.** `www.themoviedb.org`
+responde 403 con el interstitial "Just a moment..." (openresty detrás de
+CloudFront) a cualquier pedido de `urllib`, con headers de navegador completos
+o sin ellos; el dominio sigue permitido, es el sitio el que bloquea. El scrapeo
+de `carteleras/scores.py` queda en cero (`tmdb=0` en el resumen) y Rotten
+Tomatoes es hoy la única fuente de puntajes. `api.themoviedb.org` sí contesta
+(401 sin clave), así que la salida es pedir una clave de API y reescribir
+`scores.py` contra la API v3 en vez del HTML. Mientras eso no pase, las
+películas del Gaumont van a quedar sin puntaje.
 
 **WebFetch está bloqueado aunque el tráfico directo pase.** Por eso todo el
 código usa `urllib` y no WebFetch.
