@@ -73,6 +73,13 @@ class TestClaves(unittest.TestCase):
                          clave("LOS JUEGOS DEL HAMBRE (2012)"))
         self.assertEqual(clave("JUEGOS DEL HAMBRE:EN LLAMAS"),
                          clave("LOS JUEGOS DEL HAMBRE: EN LLAMAS (2013)"))
+        self.assertEqual(clave("JUEGOS DEL HAMBRE:SINSAJO PT 1"),
+                         clave("LOS JUEGOS DEL HAMBRE: SINSAJO 1 (2014)"))
+        self.assertEqual(clave("JUEGOS DEL HAMBRE:SINSAJO PT 2"),
+                         clave("LOS JUEGOS DEL HAMBRE: SINSAJO 2 (2015)"))
+        # El truncado de Atlas y el título entero caen en la misma clave.
+        self.assertEqual(clave("LA NOCHE DEL DEMONIO: ESTÁN ENTRE NOSOTROS"),
+                         clave("LA NOCHE DEL DEMONIO:ESTAN ENT"))
 
     def test_no_junta_peliculas_distintas(self):
         self.assertNotEqual(clave("TOY STORY 5"), clave("TOY STORY 4"))
