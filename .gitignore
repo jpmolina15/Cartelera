@@ -1,0 +1,7 @@
+# Bytecode de Python
+__pycache__/
+*.py[cod]
+
+# Lo que genera run.py en cada corrida; la cartelera de la semana vive en el
+# artifact publicado, no en el repo.
+salida/
