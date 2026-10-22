@@ -18,6 +18,8 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # Atlas lista la reposición de Cars sin el "20° aniversario" que usa Cinemark.
+    "CARS": "CARS 20 ANIVERSARIO",
 }
 
 
