@@ -297,3 +297,11 @@ class TestCorridaCompleta(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestDirectorConY(unittest.TestCase):
+    def test_apellido_con_letra_y(self):
+        from carteleras.scores import mismo_director
+        self.assertTrue(mismo_director("Hernán Guerschuny", ["Hernán Guerschuny"]))
+        self.assertTrue(mismo_director("Toby Schwarz y Aizea Rocca", ["Aizea Rocca"]))
+        self.assertFalse(mismo_director("Guy Ritchie", ["Ridley Scott"]))

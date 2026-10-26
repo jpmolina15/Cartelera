@@ -22,7 +22,7 @@ def mismo_director(nuestro, suyos):
     """True / False / None (None = no podemos verificar, falta el dato)."""
     if not nuestro or not suyos:
         return None
-    A = {norm(x) for x in re.split(r"[,y]| and ", nuestro) if len(norm(x)) > 2}
+    A = {norm(x) for x in re.split(r",| y | and | & ", nuestro) if len(norm(x)) > 2}
     B = {norm(x) for x in suyos}
     if A & B:
         return True
