@@ -12,7 +12,11 @@ traer el puntaje actualizado).
 
 Regla de oro: sin match es mejor que match equivocado. No hay match por
 subcadena: el título del cine (o el original) tiene que ser IGUAL, normalizado,
-al título es-AR u original de TMDb.
+al título es-AR u original del search, o a cualquier traducción es-* o título
+alternativo AR/MX/ES de la ficha (respaldo: fichas de los 3 primeros no exactos).
+Sin director verificado se exige año ±1 contra el del cine; sólo los reestrenos
+(consulta con el sufijo «N° ANIVERSARIO» sacado) aceptan el único exacto sin año,
+o el que cae en (año del cine - N).
 """
 import datetime
 import json
@@ -162,28 +166,30 @@ def buscar(cl, q):
 def ficha(cl, mid):
     """movie/{id} en inglés + credits + translations -> dict plano o None."""
     status, d = cl.pedir(f"/movie/{mid}", {"language": "en-US",
-                                           "append_to_response": "credits,translations"})
+                                           "append_to_response": "credits,translations,alternative_titles"})
     if status != 200 or not isinstance(d, dict) or not d.get("id"):
         return None
     crew = (d.get("credits") or {}).get("crew") or []
     dirs = list(dict.fromkeys(c["name"] for c in crew
                               if isinstance(c, dict) and c.get("job") == "Director" and c.get("name")))
-    local = None
-    trs = (d.get("translations") or {}).get("translations") or []
-    for pais in ("AR", "MX", "ES"):
-        for t in trs:
-            if t.get("iso_639_1") == "es" and t.get("iso_3166_1") == pais:
-                tit = _s((t.get("data") or {}).get("title"))
-                if tit:
-                    local = tit
-                    break
-        if local:
-            break
+    local, es = None, []  # es: títulos de todas las traducciones es-* (en orden de preferencia)
+    trs = [t for t in (d.get("translations") or {}).get("translations") or []
+           if isinstance(t, dict) and t.get("iso_639_1") == "es"]
+    pref = {"AR": 0, "MX": 1, "ES": 2}
+    for t in sorted(trs, key=lambda t: pref.get(t.get("iso_3166_1"), 3)):
+        tit = _s((t.get("data") or {}).get("title"))
+        if tit:
+            es.append(tit)
+    if es:
+        local = es[0]
+    alt = [_s(t.get("title")) for t in (d.get("alternative_titles") or {}).get("titles") or []
+           if isinstance(t, dict) and t.get("iso_3166_1") in ("AR", "MX", "ES")]
+    titulos = {norm(x) for x in [d.get("title"), d.get("original_title")] + es + alt} - {""}
     return {"tmdb_id": str(d["id"]), "titulo_en": _s(d.get("title")),
             "titulo_original": _s(d.get("original_title")), "titulo_local": local,
             "anio_tmdb": _anio(d.get("release_date")),
             "vote_average": d.get("vote_average"), "vote_count": d.get("vote_count") or 0,
-            "directores": dirs}
+            "directores": dirs, "titulos": titulos}
 
 
 def _score(info):
@@ -202,15 +208,37 @@ def _resultado(info, verif, entrada=None):
 
 # ---------------------------------------------------------------- matching
 
-def elegir(cl, f, cands, qnorm):
-    """Elige el candidato de `cands` (resultados de search) para la película `f`.
+ANIV = re.compile(r"(\d+)\s*[°º]?\s*(?:ANIVERSARIO|A[NÑ]OS DE MAGIA)", re.I)
 
-    Devuelve (info_ficha, verif) o None. Sólo se consideran candidatos cuyo
-    título es-AR u original sea IGUAL (normalizado) a alguna consulta.
-    """
-    exactos = [c for c in cands
-               if {norm(c.get("title")), norm(c.get("original_title"))} & qnorm - {""}]
-    if not exactos:
+
+def _tit_busq(c):
+    return {norm(c.get("title")), norm(c.get("original_title"))} - {""}
+
+
+def _anio_reestreno(f):
+    """Año de estreno original deducido de «N° ANIVERSARIO» (año del cine - N), o None."""
+    m = ANIV.search(f.get("titulo") or "")
+    try:
+        return int(f.get("anio")) - int(m.group(1)) if m else None
+    except (TypeError, ValueError):
+        return None
+
+
+class _Fichas:
+    """Fichas ya pedidas para una película (no se repite el pedido)."""
+
+    def __init__(self, cl):
+        self.cl, self.d = cl, {}
+
+    def __call__(self, mid):
+        if mid not in self.d:
+            self.d[mid] = ficha(self.cl, mid)
+        return self.d[mid]
+
+
+def _decidir(fichas, f, pool, qbase, traza):
+    """Aplica las reglas a `pool` (candidatos de título exacto). -> (info, verif) | None."""
+    if not pool:
         return None
     anio_cine = f.get("anio")
 
@@ -220,36 +248,89 @@ def elegir(cl, f, cands, qnorm):
             return abs(int(a) - int(anio_cine))
         except (TypeError, ValueError):
             return 99
-    ordenados = sorted(exactos, key=cerca)  # estable: empate = orden de TMDb
+
+    def razon(c, txt):
+        if traza is not None:
+            traza.setdefault(c["id"], txt)
+    ordenados = sorted(pool, key=cerca)  # estable: empate = orden de TMDb
 
     if es_evento(f):
         # Recitales, K-pop, óperas: sólo título exacto. Si hay varios, el año debe desempatar.
-        if len(exactos) > 1:
+        if len(pool) > 1:
             ok = [c for c in ordenados if cerca(c) <= 1]
             if len(ok) != 1:
+                for c in pool:
+                    razon(c, "evento con varios títulos exactos y el año no desempata")
                 return None
             ordenados = ok
-        info = ficha(cl, ordenados[0]["id"])
+        info = fichas(ordenados[0]["id"])
         return (info, "evento") if info else None
 
     if f.get("director"):
         # El director del cine tiene que coincidir con el de TMDb.
         for c in ordenados[:3]:
-            info = ficha(cl, c["id"])
+            info = fichas(c["id"])
             if info and mismo_director(f["director"], info["directores"]) is True:
                 return info, "director"
+            razon(c, f"director distinto (cine: {f['director']}; TMDb: "
+                     f"{', '.join(info['directores']) if info and info['directores'] else 'sin dato'})")
         return None
 
-    # Sin director: título exacto y (año ±1 o único candidato exacto).
+    # Sin director verificado: año ±1 contra el del cine.
     ok = [c for c in ordenados if cerca(c) <= 1]
-    elegido = ok[0] if ok else (ordenados[0] if len(exactos) == 1 else None)
-    if not elegido:
+    if ok:
+        info = fichas(ok[0]["id"])
+        return (info, "titulo") if info else None
+    # Excepción: reestreno (la consulta ganadora vino de una variante sin sufijo).
+    # Vale el único candidato exacto, o el único cuyo año es (año del cine - N).
+    via_var = [c for c in ordenados if not (_tit_busq(c) & qbase)]
+    esperado = _anio_reestreno(f)
+    elegido = None
+    if esperado is not None:
+        por_anio = [c for c in via_var if _anio_ok(_anio(c.get("release_date")), esperado)]
+        if len(por_anio) == 1:
+            elegido = por_anio[0]
+    if elegido is None and len(via_var) == 1 and len(pool) == 1:
+        elegido = via_var[0]
+    if elegido is None:
+        for c in pool:
+            if c in via_var:
+                razon(c, f"reestreno sin candidato único (año esperado {esperado}, TMDb {_anio(c.get('release_date')) or '?'})")
+            else:
+                razon(c, f"sin director verificado y año fuera de ±1 (cine {anio_cine}, TMDb {_anio(c.get('release_date')) or '?'})")
         return None
-    info = ficha(cl, elegido["id"])
+    info = fichas(elegido["id"])
     return (info, "titulo") if info else None
 
 
-def resolver_una(cl, f, entrada):
+def elegir(cl, f, cands, qnorm, qbase=None, traza=None, fichas=None):
+    """Elige el candidato de `cands` (resultados de search) para la película `f`.
+
+    Devuelve (info_ficha, verif) o None. Sólo se consideran candidatos cuyo
+    título (es-AR del search, original, o cualquier traducción es-* /
+    título alternativo AR/MX/ES de la ficha) sea IGUAL, normalizado, a una
+    consulta. `qbase` = consultas sin tocar; el resto son variantes de reestreno.
+    """
+    qbase = qnorm if qbase is None else qbase
+    fichas = fichas or _Fichas(cl)
+    exactos = [c for c in cands if _tit_busq(c) & qnorm]
+    r = _decidir(fichas, f, exactos, qbase, traza)
+    if r:
+        return r
+    # Respaldo: el título hispano suele estar sólo en es-MX/es-ES/alternativos.
+    # Se miran las fichas de los primeros 3 candidatos no exactos.
+    ids = {c["id"] for c in exactos}
+    pool = []
+    for c in [c for c in cands if c["id"] not in ids][:3]:
+        info = fichas(c["id"])
+        if info and info["titulos"] & qnorm:
+            pool.append(c)
+        elif traza is not None:
+            traza.setdefault(c["id"], "título distinto en todas sus traducciones es-*")
+    return _decidir(fichas, f, pool, qbase, traza)
+
+
+def resolver_una(cl, f, entrada, traza=None, salida_cands=None):
     """-> (resultado|None, entrada_nueva|None, desde_cache: bool)"""
     if entrada_vigente(entrada, f):
         info = ficha(cl, _s(entrada["tmdb_id"]))
@@ -265,6 +346,7 @@ def resolver_una(cl, f, entrada):
         return None, None, True
     qs = consultas(f)
     qnorm = {norm(q) for q in qs} - {""}
+    qbase = {norm(x) for x in (f.get("original"), f.get("titulo"))} - {""}
     cands, vistos = [], set()
     for q in qs[:3]:
         if cl.invalido:
@@ -275,7 +357,9 @@ def resolver_una(cl, f, entrada):
         if any({norm(c.get("title")), norm(c.get("original_title"))} & qnorm - {""}
                for c in nuevos):
             break
-    elegido = elegir(cl, f, cands, qnorm)
+    if salida_cands is not None:
+        salida_cands[:] = cands
+    elegido = elegir(cl, f, cands, qnorm, qbase, traza)
     if not elegido:
         return None, None, False
     info, verif = elegido
@@ -285,6 +369,33 @@ def resolver_una(cl, f, entrada):
              "anio_cine": _s(f.get("anio")), "verif": verif,
              "fecha": datetime.date.today().isoformat()}
     return _resultado(info, verif), nueva, False
+
+
+def diagnosticar(films, claves, token, pedir=None):
+    """Para cada película sin match: top-3 de candidatos y razón del descarte.
+
+    Hace pedidos extra (fichas de los candidatos). Devuelve líneas de texto;
+    nunca incluye el token. Sólo para el modo --diagnostico.
+    """
+    cl = Cliente(token, pedir)
+    out = []
+    for k in claves:
+        f = films[k]
+        traza, cands = {}, []
+        res, _, _ = resolver_una(cl, f, None, traza=traza, salida_cands=cands)
+        if res:
+            continue
+        out.append(f"{f['titulo']}  [cine: director={f.get('director') or '-'} "
+                   f"año={f.get('anio') or '-'} consultas={' | '.join(consultas(f)[:3])}]")
+        if not cands:
+            out.append("   sin candidatos en search/movie")
+        for c in cands[:3]:
+            info = ficha(cl, c["id"])
+            dirs = ", ".join(info["directores"]) if info and info["directores"] else "sin dato"
+            razon = traza.get(c["id"]) or "descartado"
+            out.append(f"   #{c['id']} «{c.get('title')}» / «{c.get('original_title')}» "
+                       f"({_anio(c.get('release_date')) or '?'}) dir: {dirs} -> {razon}")
+    return out
 
 
 def _desde_entrada(e):
@@ -326,6 +437,7 @@ def resolver(films, cache, token, pedir=None, workers=4):
              "con_score": sum(1 for r in res.values() if r["score"] is not None),
              "sin_score_votos": sum(1 for r in res.values() if r["score"] is None and r["votos"] < MIN_VOTOS and cl and not cl.invalido),
              "sin_match": [films[k]["titulo"] for k in claves if k not in res],
+             "sin_match_claves": [k for k in claves if k not in res],
              "pedidos": cl.pedidos if cl else 0,
              "invalido": bool(cl and cl.invalido)}
     return res, stats

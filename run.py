@@ -44,6 +44,8 @@ def main():
     ap.add_argument("--sin-puntajes", action="store_true")
     ap.add_argument("--cache-tmdb", default=str(tmdb.CACHE_RUTA),
                     help="caché de ids de TMDb (se commitea; sin datos sensibles)")
+    ap.add_argument("--diagnostico", action="store_true",
+                    help="para cada película sin match de TMDb, imprime los 3 primeros candidatos y por qué se descartaron")
     args = ap.parse_args()
     pathlib.Path(args.salida).parent.mkdir(parents=True, exist_ok=True)
 
@@ -102,6 +104,10 @@ def main():
                 titulo_en=v["titulo_en"], anio_tmdb=v["anio_tmdb"] or None)
         if token and not tstats["invalido"]:
             tmdb.guardar_cache(cache, args.cache_tmdb)
+        if args.diagnostico and token and not tstats["invalido"] and tstats["sin_match_claves"]:
+            print("--- diagnostico TMDb (sin match) ---")
+            for linea in tmdb.diagnosticar(films, tstats["sin_match_claves"], token):
+                print("DIAG " + linea)
         print("buscando puntajes en Rotten Tomatoes...", flush=True)
         with ThreadPoolExecutor(max_workers=4) as ex:
             claves = list(films)

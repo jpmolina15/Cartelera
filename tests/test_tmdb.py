@@ -24,7 +24,9 @@ BUSQUEDAS = {  # consulta (normalizada) -> fixture
     "OPPENHEIMER": "search_oppenheimer", "THE ODYSSEY": "search_odyssey",
     "EL ULTIMO TREN A MENDOZA": "search_argentina", "LA CASA": "search_la_casa",
     "CARS": "search_cars", "ESTRELLAS WORLD TOUR": "search_evento",
-    "CORTO LARGO": "search_pocos", "DUNE PART THREE": "search_dune"}
+    "CORTO LARGO": "search_pocos", "DUNE PART THREE": "search_dune",
+    "EL CORAZON DE LA BESTIA": "search_corazon", "MADRE SINIESTRA": "search_madre",
+    "LA CAIDA DE LA BALLENA": "search_ballena", "LOS OTROS": "search_otros"}
 
 
 def _json(nombre):
@@ -81,7 +83,8 @@ class TestMatching(unittest.TestCase):
     def test_ficha_pide_ingles_credits_y_translations(self):
         _, _, _, api = resolver({"O": pelicula("OPPENHEIMER", director="Nolan")})
         ruta, params = [x for x in api.llamadas if x[0].startswith("/movie/")][0]
-        self.assertEqual(params, {"language": "en-US", "append_to_response": "credits,translations"})
+        self.assertEqual(params, {"language": "en-US",
+                                  "append_to_response": "credits,translations,alternative_titles"})
         busq = [p for r, p in api.llamadas if r == "/search/movie"][0]
         self.assertEqual(busq["language"], "es-AR")
 
@@ -115,6 +118,55 @@ class TestMatching(unittest.TestCase):
         res, *_ = resolver(films)
         self.assertEqual(res["CARS"]["tmdb_id"], "920")
         self.assertEqual(res["CARS"]["anio_tmdb"], "2006")
+
+    def test_corazon_de_la_bestia_no_es_beastly(self):
+        # Beastly (2011) tiene el título es-AR idéntico; sin director y con año 2026 se rechaza.
+        films = {"B": pelicula("EL CORAZÓN DE LA BESTIA", anio="2026")}
+        res, st, cache, api = resolver(films)
+        self.assertEqual(res, {})
+        self.assertNotIn("B", cache)
+        self.assertEqual(api.n("/movie/38117"), 0)
+
+    def test_corazon_de_la_bestia_con_la_correcta_en_es_mx(self):
+        films = {"B": pelicula("EL CORAZÓN DE LA BESTIA", anio="2026")}
+        with mock.patch.dict(BUSQUEDAS, {"EL CORAZON DE LA BESTIA": "search_corazon_ok"}):
+            res, *_ = resolver(films)
+        self.assertEqual((res["B"]["tmdb_id"], res["B"]["anio_tmdb"]), ("960002", "2026"))
+
+    def test_beastly_si_el_anio_del_cine_es_2011(self):
+        res, *_ = resolver({"B": pelicula("EL CORAZÓN DE LA BESTIA", anio="2011")})
+        self.assertEqual(res["B"]["tmdb_id"], "38117")
+
+    def test_titulo_hispano_solo_en_es_mx(self):
+        res, *_ = resolver({"M": pelicula("MADRE SINIESTRA", anio="2026")})
+        self.assertEqual(res["M"]["tmdb_id"], "960003")
+        self.assertEqual(res["M"]["titulo_local"], "Madre siniestra")
+
+    def test_titulo_hispano_solo_en_alternative_titles(self):
+        res, st, _, api = resolver({"W": pelicula("LA CAÍDA DE LA BALLENA", anio="2026")})
+        self.assertEqual(res["W"]["tmdb_id"], "960004")
+        self.assertEqual(api.n("/movie/960004"), 1)  # alternative_titles viene en el mismo pedido
+
+    def test_reestreno_varios_exactos_desempata_anio_menos_n(self):
+        res, *_ = resolver({"O": pelicula("LOS OTROS 25° ANIVERSARIO", anio="2026")})
+        self.assertEqual((res["O"]["tmdb_id"], res["O"]["anio_tmdb"]), ("970001", "2001"))
+
+    def test_reestreno_varios_exactos_sin_n_no_matchea(self):
+        res, *_ = resolver({"O": pelicula("LOS OTROS (REESTRENO)", anio="2026")})
+        self.assertEqual(res, {})
+
+    def test_sin_variante_no_vale_unico_exacto_sin_anio(self):
+        # «CARS» tal cual, año del cine 2026: el único exacto es de 2006 -> no alcanza.
+        res, *_ = resolver({"C": pelicula("CARS", anio="2026")})
+        self.assertEqual(res, {})
+
+    def test_diagnostico_lista_candidatos_y_razon_sin_token(self):
+        films = {"B": pelicula("EL CORAZÓN DE LA BESTIA", anio="2026")}
+        out = tmdb.diagnosticar(films, ["B"], TOKEN_FALSO, pedir=FalsaAPI())
+        txt = "\n".join(out)
+        self.assertIn("#38117", txt)
+        self.assertIn("año fuera de ±1", txt)
+        self.assertNotIn(TOKEN_FALSO, txt)
 
     def test_evento_solo_titulo_exacto(self):
         films = {"E": pelicula("ESTRELLAS WORLD TOUR", genero="Recital", director="Otro Nombre")}

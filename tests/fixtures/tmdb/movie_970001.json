@@ -1,0 +1,43 @@
+{
+ "id": 970001,
+ "title": "The Others",
+ "original_title": "The Others",
+ "release_date": "2001-08-02",
+ "vote_average": 7.0,
+ "vote_count": 900,
+ "runtime": 100,
+ "credits": {
+  "id": 970001,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1,
+    "name": "Alejandro Amenábar",
+    "job": "Director",
+    "department": "Directing"
+   }
+  ]
+ },
+ "translations": {
+  "id": 970001,
+  "translations": [
+   {
+    "iso_3166_1": "AR",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "Los otros",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   }
+  ]
+ },
+ "alternative_titles": {
+  "id": 970001,
+  "titles": []
+ }
+}

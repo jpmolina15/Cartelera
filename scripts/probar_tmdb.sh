@@ -1,29 +1,43 @@
 #!/usr/bin/env bash
 # Prueba real de TMDb en TU terminal. El token no se escribe en ningún archivo del repo.
 #
-#   export TMDB_TOKEN='...'      # API Read Access Token (v4), una vez por terminal
-#   scripts/probar_tmdb.sh
+#   scripts/probar_tmdb.sh [--diagnostico]
 #
-# Si no está exportado, lo pide sin mostrarlo (no queda en el historial de la shell).
+# Token: de TMDB_TOKEN si está exportado; si no, del Llavero de macOS (servicio
+# cartelera-tmdb). Si no está en ningún lado, explica cómo guardarlo y sale.
+# --diagnostico: para cada película sin match, 3 primeros candidatos y razón del descarte.
 # Hace: corrida real -> % con tmdb_id, lista sin match, 5 enlaces de Letterboxd para
 # probar a mano, y el grep anti-fuga del token en HTML, JSON, caché y log.
 # No usa `env`, `printenv`, `set -x` ni imprime la variable.
 set -u
 cd "$(dirname "$0")/.."
 
+DIAG=""
+[ "${1:-}" = "--diagnostico" ] && DIAG="--diagnostico"
+
 if [ -z "${TMDB_TOKEN:-}" ]; then
-  printf 'TMDB_TOKEN (no se muestra): ' >&2
-  IFS= read -rs TMDB_TOKEN; echo >&2
+  TMDB_TOKEN=$(security find-generic-password -s cartelera-tmdb -w 2>/dev/null) || TMDB_TOKEN=""
 fi
-[ -n "$TMDB_TOKEN" ] || { echo "Sin token, nada que probar." >&2; exit 2; }
+if [ -z "${TMDB_TOKEN:-}" ]; then
+  cat >&2 <<'MSG'
+No hay token de TMDb. Guardalo una sola vez en el Llavero de macOS (te lo pide
+de forma interactiva, no queda en el historial ni en la pantalla):
+
+  security add-generic-password -a "$USER" -s cartelera-tmdb -w
+
+(Si ya existe: agregá -U.) Después volvé a correr scripts/probar_tmdb.sh.
+También sirve exportar TMDB_TOKEN en la terminal.
+MSG
+  exit 2
+fi
 export TMDB_TOKEN
 
 HTML=salida/cartelera-caba.html; JSON=salida/datos-caba.json; LOG=salida/prueba-tmdb.log
 CACHE=data/tmdb-cache.json
 mkdir -p salida
-python3 run.py --salida "$HTML" --json "$JSON" >"$LOG" 2>&1
+python3 run.py $DIAG --salida "$HTML" --json "$JSON" >"$LOG" 2>&1
 RC=$?
-grep -E 'ATENCION|tmdb_id=|^dias=|sin_tmdb_id=' "$LOG"
+grep -E 'ATENCION|tmdb_id=|^dias=|sin_tmdb_id=|^DIAG' "$LOG"
 [ $RC -eq 0 ] || { echo "run.py terminó con error ($RC); mirá $LOG"; }
 
 python3 - "$JSON" <<'PY'

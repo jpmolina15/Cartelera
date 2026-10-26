@@ -1,0 +1,35 @@
+{
+ "id": 960004,
+ "title": "Whalefall",
+ "original_title": "Whalefall",
+ "release_date": "2026-10-01",
+ "vote_average": 7.0,
+ "vote_count": 900,
+ "runtime": 100,
+ "credits": {
+  "id": 960004,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1,
+    "name": "Someone",
+    "job": "Director",
+    "department": "Directing"
+   }
+  ]
+ },
+ "translations": {
+  "id": 960004,
+  "translations": []
+ },
+ "alternative_titles": {
+  "id": 960004,
+  "titles": [
+   {
+    "iso_3166_1": "MX",
+    "title": "La caída de la ballena",
+    "type": ""
+   }
+  ]
+ }
+}
