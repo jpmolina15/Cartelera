@@ -91,6 +91,11 @@
   .score.none b { color:var(--ink-3); font-weight:400; }
   .scores { float:right; display:flex; gap:5px; margin-left:12px; }
   .score.rt b { color:var(--c-ga); }
+  .enlaces { display:flex; flex-wrap:wrap; gap:4px 14px; font-family:var(--data);
+    font-size:.74rem; margin:0 0 10px; }
+  .enlaces a { color:var(--ink-2); text-decoration:underline; text-underline-offset:2px; }
+  .enlaces a:hover { color:var(--ink); }
+  #atribucion-tmdb a { color:inherit; }
   .sinopsis { margin:0 0 16px; font-size:.94rem; color:var(--ink-2); max-width:none;
     display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
   .porcine { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 26px; }
@@ -316,6 +321,7 @@
     <span>Horarios de Buenos Aires</span>
     <span id="nota-puntajes">Puntajes: tomatómetro y público de Rotten Tomatoes. IMDb sirve un desafío de bots y Letterboxd rechaza el acceso, así que no se pueden incluir.</span>
     <span>Clasificación por edad: <b>G</b> apta todo público · <b>SP</b> supervisión parental · <b>R-13</b> y <b>R-17</b> restringidas · <b>—</b> sin dato</span>
+    <span id="atribucion-tmdb" hidden>Datos de películas: <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB.</span>
     <span id="fuentes">Fuentes</span>
   </footer>
 </div>

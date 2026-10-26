@@ -184,3 +184,17 @@ test('parseUsig: primer resultado de CABA', () => {
 test('rank', () => {
   assert.deepStrictEqual(['G', 'ATP', 'SP', 'R-13', 'R-17', null].map(CF.rank), [0, 0, 1, 2, 4, 99]);
 });
+
+test('enlacesHTML: solo con tmdb_id entero, nunca por título', () => {
+  const h = CF.enlacesHTML({tmdb_id: '872585', titulo: 'X'});
+  assert.ok(h.includes('href="https://letterboxd.com/tmdb/872585/"'));
+  assert.ok(h.includes('href="https://www.themoviedb.org/movie/872585"'));
+  assert.ok(h.includes('Ver en Letterboxd'));
+  assert.strictEqual((h.match(/rel="noopener noreferrer"/g) || []).length, 2);
+  assert.strictEqual((h.match(/target="_blank"/g) || []).length, 2);
+  for (const malo of [null, undefined, '', 'abc', '12"><script>', '1/2', -5, '12 ', 1.5]) {
+    assert.strictEqual(CF.enlacesHTML({tmdb_id: malo, titulo: 'Oppenheimer'}), '', String(malo));
+  }
+  assert.strictEqual(CF.enlacesHTML({titulo: 'Sin id'}), '');
+  assert.ok(CF.enlacesHTML({tmdb_id: 42}).includes('/tmdb/42/'));
+});

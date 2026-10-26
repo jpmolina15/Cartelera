@@ -11,7 +11,7 @@ para ese módulo). `activa: false` saca una sala de la corrida sin borrarla.
 `carteleras/salas.py` valida el padrón y `run.py` aborta si es inválido.
 Para agregar una sala de una fuente existente alcanza con una entrada nueva en el JSON.
 
-Sólo biblioteca estándar de Python 3. Sin dependencias, sin claves de API.
+Sólo biblioteca estándar de Python 3. Sin dependencias. Una credencial opcional: `TMDB_TOKEN` (ver «TMDb por API»).
 
 ```bash
 python3 run.py                      # releva todo y genera salida/cartelera.html + salida/datos.json
@@ -21,7 +21,7 @@ python3 -m unittest discover -s tests -t .
 node --test tests/js/*.test.js     # funciones puras de filtros (bloque al principio de templates/app.js)
 ```
 
-Tests (ninguno sale a la red): `test_parsers.py` (parsers frágiles),
+Tests (ninguno sale a la red): `test_tmdb.py` (matching, caché, 401/429, corrida completa y anti-fuga del token, con respuestas guardadas en `tests/fixtures/tmdb/`), `test_parsers.py` (parsers frágiles),
 `test_salas.py` (padrón), `test_unify_salas.py` (cruce por sala y no regresión
 contra `tests/legacy_unify.py`, el `construir` de `main` con 4 salas fijas),
 `test_cinemark_fixture.py` (JSON-LD real recortado en `tests/fixtures/`).
@@ -38,8 +38,35 @@ puntajes no devolvió ninguno.
 | Cinemark y Hoyts (6 salas) | `cinemark.com.ar` | JSON-LD renderizado del lado del servidor en `/cartelera/<slug>` (una página por sala, en serie); la ficha en el payload de Next.js de `/pelicula/<slug>` (máx. 4 en paralelo) |
 | Atlas | `atlascines.com` | API interna sin auth (`GetFechasDisponibles`, `GetCacheFuncionesComplejoPeliculaFecha`), complejo 191 (`cfg.complejo` en el padrón) |
 | Gaumont | `www.unica-cartelera.com.ar` | Programación semanal en prosa, parseada por `expandir_semana` |
-| Puntajes | `themoviedb.org` | Búsqueda + ficha, **verificando el director** |
+| TMDb (id, títulos, puntaje) | `api.themoviedb.org` | API oficial v3 con `TMDB_TOKEN`: 1 búsqueda + 1 ficha por película nueva, **verificando el director**. Caché en `data/tmdb-cache.json` |
 | Puntajes | `rottentomatoes.com` | Tomatómetro y público; requiere headers de navegador completos |
+
+## TMDb por API (`carteleras/tmdb.py`)
+
+Da por película: `tmdb_id`, `titulo_original`, `titulo_local` (es-AR, si falta es-MX, es-ES),
+`titulo_en`, `anio_tmdb` y el puntaje (`score`, sólo con `vote_count >= 20`). Con `tmdb_id` la
+tarjeta muestra «Ver en Letterboxd» (`letterboxd.com/tmdb/<id>/`) y «TMDb»; sin id no hay enlaces.
+
+- **Credencial:** API Read Access Token (v4) en la variable `TMDB_TOKEN`; viaja en el header
+  `Authorization: Bearer`, nunca en URLs. No se imprime ni se guarda en el HTML, el JSON, la caché ni el log.
+- **Sin token** la corrida sigue como antes (sin TMDb; Rotten Tomatoes igual) y avisa por stderr
+  `ATENCION sin_clave=tmdb`. Con token inválido (401): `ATENCION clave_invalida=tmdb`. 429: espera `Retry-After`, máx. 2 reintentos.
+- **Matching:** el título del cine (u original) tiene que ser igual, normalizado, al título es-AR u original de TMDb
+  (no hay match por subcadena). Con director en el cine, tiene que coincidir. Sin director: título exacto y
+  año ±1, o único candidato exacto (reestrenos). Eventos (Recital/Musical, WORLD TOUR, LIVE, CONCERT): sólo título exacto.
+  Sin match es mejor que match equivocado.
+- **Caché** `data/tmdb-cache.json` (se commitea; sin puntajes ni credenciales). Se invalida si cambian el director o el año
+  del cine. Para corregir un match equivocado, editar la entrada a mano: poner el `tmdb_id` correcto y `"verif": "manual"`;
+  la corrida la respeta siempre.
+- **Resumen:** `tmdb=<con puntaje> tmdb_id=<n>/<total> verificadas=<n> cache=<hits> sin_score_votos=<n> pedidos_tmdb=<n>`
+  y la lista `sin_tmdb_id=...` para revisar a mano.
+- **Prueba real en tu terminal:** `export TMDB_TOKEN='...'` y `scripts/probar_tmdb.sh` (o sin exportar: lo pide sin mostrarlo).
+  Corre `run.py`, informa el porcentaje con id, las que quedaron sin match y 5 enlaces de Letterboxd para abrir, y hace el
+  grep anti-fuga del token en el HTML, el JSON, la caché y el log. Nunca pegar el token en el chat.
+- **Rutina:** `TMDB_TOKEN` va como variable del entorno remoto. El prompt debe prohibir `env`, `printenv`, `set -x`
+  y cualquier `echo` de variables `TMDB_*`.
+- **Atribución:** el pie dice «Datos de películas: TMDB. This product uses the TMDB API but is not endorsed or certified by TMDB.»
+  cuando hay datos de TMDb. Falta incorporar el logo oficial (hoy es un enlace de texto).
 
 ## Dominios que el entorno tiene que permitir
 
@@ -47,7 +74,8 @@ puntajes no devolvió ninguno.
 *.cinemark.com.ar
 *.atlascines.com
 *.unica-cartelera.com.ar     <- con www; el dominio pelado devuelve 403
-*.themoviedb.org
+*.themoviedb.org              <- hoy alcanza con api.themoviedb.org (themoviedb.org web da 403)
+api.themoviedb.org
 *.rottentomatoes.com
 *.frame.claudeusercontent.com <- para releer el artifact antes de republicarlo
 ```
@@ -59,14 +87,13 @@ usar una API con clave, y hoy el proyecto no usa ninguna. Las películas
 argentinas del Gaumont además casi no figuran en Rotten Tomatoes, así que para
 ésas TMDb era la única fuente.
 
-**Desde la corrida del 06/10/2026 TMDb cayó en la misma bolsa.**
+**Desde la corrida del 06/10/2026 el scraping de themoviedb.org cayó en la misma bolsa (reemplazado por la API, ver arriba).**
 `themoviedb.org` empezó a responder 403 con el interstitial de Cloudflare
 ("Just a moment..."), tanto en la búsqueda como en la ficha, y no alcanza con
 mandar headers completos de navegador como en Rotten Tomatoes: se probó y
 sigue dando 403. `api.themoviedb.org` responde 401 porque pide clave. Mientras
 dure, la web sale sólo con los puntajes de Rotten Tomatoes y las películas
-argentinas del Gaumont quedan sin ninguno. Salir de esto implica una API con
-clave, que es una decisión de diseño que hoy el proyecto no tomó.
+argentinas del Gaumont quedan sin ninguno. Se salió con la API oficial.
 
 **WebFetch está bloqueado aunque el tráfico directo pase.** Por eso todo el
 código usa `urllib` y no WebFetch.

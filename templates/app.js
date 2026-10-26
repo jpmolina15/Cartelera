@@ -171,7 +171,14 @@ var CF=(function(){
     }
     return null;
   }
-  return {COMUN:COMUN,sinAcentos:sinAcentos,rank:rank,distanciaKm:distanciaKm,normFmt:normFmt,horaComparable:horaComparable,
+  // Enlaces de la tarjeta: sólo si tmdb_id es un entero (nunca un link armado por título).
+  function enlacesHTML(f){
+    var id=f&&f.tmdb_id; if(id==null||!/^\d+$/.test(String(id))) return '';
+    id=String(id);
+    return '<div class="enlaces"><a href="https://letterboxd.com/tmdb/'+id+'/" target="_blank" rel="noopener noreferrer">Ver en Letterboxd</a>'+
+      '<a href="https://www.themoviedb.org/movie/'+id+'" target="_blank" rel="noopener noreferrer">TMDb</a></div>';
+  }
+  return {enlacesHTML:enlacesHTML,COMUN:COMUN,sinAcentos:sinAcentos,rank:rank,distanciaKm:distanciaKm,normFmt:normFmt,horaComparable:horaComparable,
     crearFiltros:crearFiltros,sanearFiltros:sanearFiltros,contarFiltros:contarFiltros,centroBarrio:centroBarrio,
     filtrarSalas:filtrarSalas,filtrarFunciones:filtrarFunciones,ahoraBA:ahoraBA,diaInicial:diaInicial,parseUsig:parseUsig};
 })();
@@ -234,6 +241,7 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
       ? ' IMDb sirve un desafío de bots y Letterboxd rechaza el acceso, así que no se pueden incluir.'
       : ' TMDb, IMDb y Letterboxd no se pudieron consultar: sirven un desafío de bots o rechazan el acceso.';
     setTxt('nota-puntajes',txt);
+    var at=$('atribucion-tmdb'); if(at&&list.some(function(f){return f.tmdb_id!=null;})) at.hidden=false;
   })();
 
   // ---------- estado ----------
@@ -434,7 +442,7 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
         return '<div class="fila"><span class="fila-n"><span class="dot '+cc(c)+'"></span>'+
           esc(SALAS[c].nombre)+dd+'</span><span class="horarios">'+times(cines[c][S.dia])+'</span></div>';}).join('');
       return '<article class="card"><h3>'+scoreHTML(f)+esc(f.titulo)+'</h3><div class="chips">'+chips+'</div>'+
-        '<div class="meta">'+meta.join(' <i>·</i> ')+'</div>'+
+        '<div class="meta">'+meta.join(' <i>·</i> ')+'</div>'+CF.enlacesHTML(f)+
         (f.sinopsis?'<p class="sinopsis">'+esc(f.sinopsis)+'</p>':'')+
         '<div class="porcine">'+fil+'</div></article>';}).join('')
       ||'<p class="vacio-in">'+(CF.contarFiltros(S.f)||S.f.zona.modo!=='todos'
