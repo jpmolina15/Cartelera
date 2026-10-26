@@ -14,10 +14,9 @@ import sys
 import time
 from concurrent.futures import ThreadPoolExecutor
 
-from carteleras import http, unify
+from carteleras import http, tmdb, unify
 from carteleras import salas as salas_mod
 from carteleras.render import render
-from carteleras.scores import puntajes
 from carteleras.sources import atlas, cinemark, gaumont, rt
 
 RAIZ = pathlib.Path(__file__).resolve().parent
@@ -43,6 +42,8 @@ def main():
     ap.add_argument("--salida", default=str(RAIZ / "salida" / "cartelera.html"))
     ap.add_argument("--json", default=str(RAIZ / "salida" / "datos.json"))
     ap.add_argument("--sin-puntajes", action="store_true")
+    ap.add_argument("--cache-tmdb", default=str(tmdb.CACHE_RUTA),
+                    help="caché de ids de TMDb (se commitea; sin datos sensibles)")
     args = ap.parse_args()
     pathlib.Path(args.salida).parent.mkdir(parents=True, exist_ok=True)
 
@@ -79,14 +80,28 @@ def main():
 
     for f in films.values():
         f["score"] = f["tmdb"] = f["match"] = f["verif"] = None
+        f["tmdb_id"] = f["titulo_original"] = f["titulo_local"] = None
+        f["titulo_en"] = f["anio_tmdb"] = None
         f["rt"] = f["rt_pub"] = f["rt_url"] = None
 
+    tstats, token = None, ""
     if not args.sin_puntajes:
-        print("buscando puntajes en TMDb...", flush=True)
-        for k, v in puntajes(films).items():
-            if v:
-                films[k].update(score=v["score"], tmdb=v["tmdb"],
-                                match=v["match"], verif=v["verif"])
+        token = tmdb.token_del_entorno()
+        if not token:
+            print("ATENCION sin_clave=tmdb", file=sys.stderr)
+        print("buscando datos y puntajes en TMDb (API)...", flush=True)
+        cache = tmdb.cargar_cache(args.cache_tmdb)
+        res, tstats = tmdb.resolver(films, cache, token)
+        if tstats["invalido"]:
+            print("ATENCION clave_invalida=tmdb", file=sys.stderr)
+        for k, v in res.items():
+            films[k].update(
+                score=v["score"], tmdb=v["tmdb_id"], tmdb_id=v["tmdb_id"],
+                match=v["titulo_local"] or v["titulo_en"], verif=v["verif"],
+                titulo_original=v["titulo_original"], titulo_local=v["titulo_local"],
+                titulo_en=v["titulo_en"], anio_tmdb=v["anio_tmdb"] or None)
+        if token and not tstats["invalido"]:
+            tmdb.guardar_cache(cache, args.cache_tmdb)
         print("buscando puntajes en Rotten Tomatoes...", flush=True)
         with ThreadPoolExecutor(max_workers=4) as ex:
             claves = list(films)
@@ -115,6 +130,12 @@ def main():
     print("\n--- resumen ---")
     print(f"dias={dias[0]}..{dias[-1]} peliculas={len(films)} "
           f"tmdb={con_puntaje} rt={con_rt}")
+    if tstats:
+        print(f"tmdb_id={tstats['con_id']}/{tstats['total']} verificadas={tstats['verificadas']} "
+              f"cache={tstats['cache']} sin_score_votos={tstats['sin_score_votos']} "
+              f"pedidos_tmdb={tstats['pedidos']}")
+        if token and tstats["sin_match"]:
+            print("sin_tmdb_id=" + " | ".join(tstats["sin_match"]))
     for c, v in por_sala.items():
         print(f"{c}={v}")
     print(f"html={args.salida} bytes={n}")
@@ -127,6 +148,9 @@ def main():
     # cambió o empezó a responder un desafío de bots, no que nadie las votó.
     if not args.sin_puntajes and films:
         for prov, n_ok in (("tmdb", con_puntaje), ("rt", con_rt)):
+            # Sin token (o token inválido) ya se avisó sin_clave / clave_invalida.
+            if prov == "tmdb" and (not token or tstats["invalido"]):
+                continue
             if n_ok == 0:
                 print(f"ATENCION sin_puntajes={prov}", file=sys.stderr)
     return 0

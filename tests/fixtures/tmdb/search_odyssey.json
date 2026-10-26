@@ -1,0 +1,61 @@
+{
+ "page": 1,
+ "results": [
+  {
+   "adult": false,
+   "id": 900002,
+   "title": "La Odisea",
+   "original_title": "The Odyssey",
+   "original_language": "en",
+   "release_date": "2026-07-17",
+   "vote_average": 5.0,
+   "vote_count": 40,
+   "popularity": 50.0,
+   "overview": "…",
+   "genre_ids": [
+    18
+   ],
+   "poster_path": null,
+   "backdrop_path": null,
+   "video": false
+  },
+  {
+   "adult": false,
+   "id": 900001,
+   "title": "La Odisea",
+   "original_title": "The Odyssey",
+   "original_language": "en",
+   "release_date": "2026-07-17",
+   "vote_average": 7.9,
+   "vote_count": 3000,
+   "popularity": 50.0,
+   "overview": "…",
+   "genre_ids": [
+    18
+   ],
+   "poster_path": null,
+   "backdrop_path": null,
+   "video": false
+  },
+  {
+   "adult": false,
+   "id": 900003,
+   "title": "La Odisea de los Giles",
+   "original_title": "Odyssey Giles",
+   "original_language": "en",
+   "release_date": "2026-03-01",
+   "vote_average": 6.1,
+   "vote_count": 80,
+   "popularity": 50.0,
+   "overview": "…",
+   "genre_ids": [
+    18
+   ],
+   "poster_path": null,
+   "backdrop_path": null,
+   "video": false
+  }
+ ],
+ "total_pages": 1,
+ "total_results": 3
+}

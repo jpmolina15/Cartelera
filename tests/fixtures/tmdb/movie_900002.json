@@ -1,0 +1,45 @@
+{
+ "id": 900002,
+ "title": "The Odyssey",
+ "original_title": "The Odyssey",
+ "release_date": "2026-07-17",
+ "vote_average": 5.04,
+ "vote_count": 40,
+ "runtime": 120,
+ "credits": {
+  "id": 900002,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1000,
+    "name": "Otro Director",
+    "job": "Director",
+    "department": "Directing"
+   },
+   {
+    "id": 5,
+    "name": "Alguien Productor",
+    "job": "Producer",
+    "department": "Production"
+   }
+  ]
+ },
+ "translations": {
+  "id": 900002,
+  "translations": [
+   {
+    "iso_3166_1": "AR",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "La Odisea",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   }
+  ]
+ }
+}

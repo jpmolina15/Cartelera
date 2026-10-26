@@ -1,0 +1,43 @@
+{
+ "page": 1,
+ "results": [
+  {
+   "adult": false,
+   "id": 872585,
+   "title": "Oppenheimer",
+   "original_title": "Oppenheimer",
+   "original_language": "en",
+   "release_date": "2023-07-19",
+   "vote_average": 8.1,
+   "vote_count": 9000,
+   "popularity": 50.0,
+   "overview": "…",
+   "genre_ids": [
+    18
+   ],
+   "poster_path": null,
+   "backdrop_path": null,
+   "video": false
+  },
+  {
+   "adult": false,
+   "id": 1,
+   "title": "Oppenheimer: la historia",
+   "original_title": "Oppenheimer Story",
+   "original_language": "en",
+   "release_date": "2023-10-01",
+   "vote_average": 6.0,
+   "vote_count": 12,
+   "popularity": 50.0,
+   "overview": "…",
+   "genre_ids": [
+    18
+   ],
+   "poster_path": null,
+   "backdrop_path": null,
+   "video": false
+  }
+ ],
+ "total_pages": 1,
+ "total_results": 2
+}

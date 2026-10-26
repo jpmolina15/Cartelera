@@ -1,0 +1,58 @@
+{
+ "id": 920,
+ "title": "Cars",
+ "original_title": "Cars",
+ "release_date": "2006-06-08",
+ "vote_average": 6.98,
+ "vote_count": 12000,
+ "runtime": 120,
+ "credits": {
+  "id": 920,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1000,
+    "name": "John Lasseter",
+    "job": "Director",
+    "department": "Directing"
+   },
+   {
+    "id": 5,
+    "name": "Alguien Productor",
+    "job": "Producer",
+    "department": "Production"
+   }
+  ]
+ },
+ "translations": {
+  "id": 920,
+  "translations": [
+   {
+    "iso_3166_1": "MX",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "Cars",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   },
+   {
+    "iso_3166_1": "AR",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "Cars: Ruedas",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   }
+  ]
+ }
+}

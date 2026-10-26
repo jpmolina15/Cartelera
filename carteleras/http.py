@@ -17,22 +17,56 @@ _lock = threading.Lock()
 PEDIDOS = 0  # intentos HTTP hechos en esta corrida (el resumen de run.py lo informa)
 
 
-def get(url, timeout=30, retries=2, lang="es-AR,es;q=0.9"):
-    """Devuelve el cuerpo como texto, o '' si falla. Nunca levanta."""
-    headers = {"User-Agent": UA, "Accept-Language": lang}
+def _espera_429(e, intento):
+    """Segundos a esperar tras un 429: Retry-After si viene, tope 10 s."""
+    try:
+        return max(0.0, min(float(e.headers.get("Retry-After", "")), 10.0))
+    except Exception:
+        return 1.5 * (intento + 1)
+
+
+def get(url, timeout=30, retries=2, lang="es-AR,es;q=0.9", headers=None, con_status=False):
+    """Devuelve el cuerpo como texto, o '' si falla. Nunca levanta.
+
+    `headers` se suma a los de siempre (para Authorization). Con
+    `con_status=True` devuelve (status, cuerpo): status 0 si no hubo respuesta,
+    el codigo HTTP si hubo (4xx/5xx incluidos, con su cuerpo). En ese modo un
+    429 espera `Retry-After` y reintenta (maximo 2 veces); el resto de los
+    codigos de error se devuelve tal cual. Nunca se registra la URL ni los
+    headers: pueden llevar credenciales.
+    """
+    hdrs = {"User-Agent": UA, "Accept-Language": lang}
+    hdrs.update(headers or {})
+    status, cuerpo = 0, ""
     for intento in range(retries + 1):
         global PEDIDOS
         with _lock:
             PEDIDOS += 1
         try:
-            req = urllib.request.Request(url, headers=headers)
+            req = urllib.request.Request(url, headers=hdrs)
             with urllib.request.urlopen(req, timeout=timeout) as r:
-                return r.read().decode("utf-8", "replace")
+                cuerpo = r.read().decode("utf-8", "replace")
+                return (r.status, cuerpo) if con_status else cuerpo
+        except urllib.error.HTTPError as e:
+            if not con_status:
+                if intento == retries:
+                    return ""
+                time.sleep(1.5 * (intento + 1))
+                continue
+            try:
+                cuerpo = e.read().decode("utf-8", "replace")
+            except Exception:
+                cuerpo = ""
+            status = e.code
+            if status == 429 and intento < retries:
+                time.sleep(_espera_429(e, intento))
+                continue
+            return status, cuerpo
         except Exception:
             if intento == retries:
-                return ""
+                return (0, "") if con_status else ""
             time.sleep(1.5 * (intento + 1))
-    return ""
+    return (status, cuerpo) if con_status else ""
 
 
 def quote(s):

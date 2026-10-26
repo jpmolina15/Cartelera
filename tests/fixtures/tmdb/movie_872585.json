@@ -1,0 +1,71 @@
+{
+ "id": 872585,
+ "title": "Oppenheimer",
+ "original_title": "Oppenheimer",
+ "release_date": "2023-07-19",
+ "vote_average": 8.14,
+ "vote_count": 9000,
+ "runtime": 120,
+ "credits": {
+  "id": 872585,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1000,
+    "name": "Christopher Nolan",
+    "job": "Director",
+    "department": "Directing"
+   },
+   {
+    "id": 5,
+    "name": "Alguien Productor",
+    "job": "Producer",
+    "department": "Production"
+   }
+  ]
+ },
+ "translations": {
+  "id": 872585,
+  "translations": [
+   {
+    "iso_3166_1": "MX",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "Oppenheimer",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   },
+   {
+    "iso_3166_1": "AR",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "Oppenheimer",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   },
+   {
+    "iso_3166_1": "ES",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "Oppenheimer",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   }
+  ]
+ }
+}

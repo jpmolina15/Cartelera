@@ -1,0 +1,58 @@
+{
+ "id": 900001,
+ "title": "The Odyssey",
+ "original_title": "The Odyssey",
+ "release_date": "2026-07-17",
+ "vote_average": 7.86,
+ "vote_count": 3000,
+ "runtime": 120,
+ "credits": {
+  "id": 900001,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1000,
+    "name": "Christopher Nolan",
+    "job": "Director",
+    "department": "Directing"
+   },
+   {
+    "id": 5,
+    "name": "Alguien Productor",
+    "job": "Producer",
+    "department": "Production"
+   }
+  ]
+ },
+ "translations": {
+  "id": 900001,
+  "translations": [
+   {
+    "iso_3166_1": "MX",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "La Odisea",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   },
+   {
+    "iso_3166_1": "ES",
+    "iso_639_1": "es",
+    "name": "Español",
+    "english_name": "Spanish",
+    "data": {
+     "title": "La Odisea (ES)",
+     "overview": "",
+     "homepage": "",
+     "runtime": 0,
+     "tagline": ""
+    }
+   }
+  ]
+ }
+}

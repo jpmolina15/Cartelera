@@ -1,0 +1,31 @@
+{
+ "id": 930001,
+ "title": "Estrellas World Tour",
+ "original_title": "Estrellas World Tour",
+ "release_date": "2026-08-01",
+ "vote_average": 8.8,
+ "vote_count": 120,
+ "runtime": 120,
+ "credits": {
+  "id": 930001,
+  "cast": [],
+  "crew": [
+   {
+    "id": 1000,
+    "name": "Otra Persona",
+    "job": "Director",
+    "department": "Directing"
+   },
+   {
+    "id": 5,
+    "name": "Alguien Productor",
+    "job": "Producer",
+    "department": "Production"
+   }
+  ]
+ },
+ "translations": {
+  "id": 930001,
+  "translations": []
+ }
+}

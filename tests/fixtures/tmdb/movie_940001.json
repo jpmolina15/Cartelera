@@ -1,0 +1,25 @@
+{
+ "id": 940001,
+ "title": "Long Short",
+ "original_title": "Corto largo",
+ "release_date": "2026-10-01",
+ "vote_average": 9.0,
+ "vote_count": 3,
+ "runtime": 120,
+ "credits": {
+  "id": 940001,
+  "cast": [],
+  "crew": [
+   {
+    "id": 5,
+    "name": "Alguien Productor",
+    "job": "Producer",
+    "department": "Production"
+   }
+  ]
+ },
+ "translations": {
+  "id": 940001,
+  "translations": []
+ }
+}
