@@ -18,6 +18,7 @@ python3 run.py                      # releva todo y genera salida/cartelera.html
 python3 run.py --salida salida/cartelera-caba.html --json salida/datos-caba.json   # para probar sin pisar lo de la rutina
 python3 run.py --sin-puntajes       # más rápido, sin consultar TMDb
 python3 -m unittest discover -s tests -t .
+node --test tests/js/*.test.js     # funciones puras de filtros (bloque al principio de templates/app.js)
 ```
 
 Tests (ninguno sale a la red): `test_parsers.py` (parsers frágiles),

@@ -1,3 +1,4 @@
+<meta charset="utf-8">
 <title>Cartelera CABA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -157,6 +158,43 @@
     letter-spacing:.04em; text-transform:uppercase; opacity:.85; }
   .slot u { text-decoration:none; font-weight:600; opacity:.75; font-size:.9em; }
 
+  /* ---- barra de filtros ---- */
+  .fbar { margin:16px 0 0; background:var(--surface); border:1px solid var(--rule); border-radius:4px;
+    box-shadow:var(--shadow); font-family:var(--display); font-size:.84rem; }
+  .fbar details { border-bottom:1px solid var(--rule-soft); }
+  .fbar summary { cursor:pointer; padding:11px 14px; font-weight:600; color:var(--ink); list-style-position:inside; }
+  .fbar summary b { font-weight:600; color:var(--accent); }
+  .fbar summary:focus-visible { outline:2px solid var(--accent); outline-offset:-2px; }
+  .fbody { padding:2px 14px 14px; display:flex; flex-direction:column; gap:12px; }
+  .frow { display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; min-width:0; }
+  .frow > label.fl, .frow > .fl { font-size:.68rem; font-weight:600; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--ink-3); flex:0 0 100%; }
+  .fbar input[type=search], .fbar input[type=text], .fbar input[type=time], .fbar select {
+    font-family:var(--display); font-size:.88rem; color:var(--ink); background:var(--surface);
+    border:1px solid var(--rule); border-radius:4px; padding:8px 10px; min-width:0; max-width:100%; }
+  .fbar input[type=search], .fbar input[type=text] { flex:1 1 200px; }
+  .fbar select { min-width:0; }
+  .fbar input:focus-visible, .fbar select:focus-visible, .fbar button:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  .fbtn { font-family:var(--display); font-size:.78rem; font-weight:600; background:var(--surface-2); color:var(--ink);
+    border:1px solid var(--rule); border-radius:4px; padding:8px 12px; cursor:pointer; }
+  .fbtn[disabled] { opacity:.5; cursor:default; }
+  .fchips { display:flex; flex-wrap:wrap; gap:6px; }
+  .fchip { font-family:var(--display); font-size:.74rem; font-weight:600; background:var(--surface-2); color:var(--ink-2);
+    border:1px solid var(--rule); border-radius:999px; padding:6px 11px; cursor:pointer; }
+  .fchip.on { background:var(--ink); color:var(--bg); border-color:var(--ink); }
+  .fcheck { display:inline-flex; align-items:center; gap:6px; font-size:.82rem; color:var(--ink-2); }
+  .fbar .nota { margin:0; font-size:.7rem; }
+  .fz-info, .fcount, .faviso { padding:9px 14px; font-family:var(--data); font-size:.76rem; color:var(--ink-2); margin:0; }
+  .fz-info { border-bottom:1px solid var(--rule-soft); }
+  .fcount { color:var(--ink); font-weight:500; }
+  .faviso { color:var(--c-ga); border-bottom:1px solid var(--rule-soft); }
+  .fz-aviso { margin:0; font-family:var(--data); font-size:.74rem; color:var(--c-ga); }
+  .flink { font-family:inherit; font-size:inherit; background:none; border:0; padding:0; color:var(--accent);
+    text-decoration:underline; cursor:pointer; }
+  .fdist { font-family:var(--data); font-weight:400; color:var(--ink-3); }
+  .hcol small { display:block; font-size:.62rem; color:var(--ink-3); }
+  [hidden] { display:none !important; }
+
   .nota { font-family:var(--data); font-size:.74rem; color:var(--ink-3);
     margin:14px 0 0; max-width:74ch; line-height:1.65; }
   .vacio-in { margin:0; padding:18px 22px; font-family:var(--data);
@@ -194,6 +232,66 @@
   </div>
 
   <div class="leyenda" id="leyenda"></div>
+
+
+  <section class="fbar" id="fbar" aria-label="Filtros">
+    <details id="fz">
+      <summary>Zona: <b id="fz-res">Toda la ciudad</b></summary>
+      <div class="fbody">
+        <div class="frow" role="radiogroup" aria-label="Modo de zona">
+          <label class="fcheck"><input type="radio" name="fz-modo" value="todos"> Toda la ciudad</label>
+          <label class="fcheck"><input type="radio" name="fz-modo" value="barrios"> Barrios</label>
+          <label class="fcheck"><input type="radio" name="fz-modo" value="cerca"> Cerca de…</label>
+        </div>
+        <div class="frow" id="fz-barrios" hidden>
+          <label class="fcheck"><input type="checkbox" id="fz-todos"> Todos</label>
+          <span id="fz-barrios-l" class="frow"></span>
+        </div>
+        <div id="fz-cerca" hidden class="fbody" style="padding:0">
+          <div class="frow">
+            <label class="fl" for="fz-centro">Punto</label>
+            <select id="fz-centro"></select>
+            <label class="fl" for="fz-radio" style="flex:0 0 auto">Radio</label>
+            <select id="fz-radio"><option value="1">1 km</option><option value="2">2 km</option><option value="3">3 km</option><option value="5">5 km</option><option value="10">10 km</option></select>
+          </div>
+          <div class="frow">
+            <label class="fl" for="fz-dir">O escribí una dirección</label>
+            <input type="text" id="fz-dir" placeholder="Ej.: Av. Corrientes 3247" autocomplete="off">
+            <button type="button" class="fbtn" id="fz-buscar">Buscar</button>
+            <button type="button" class="fbtn" id="fz-geo">Mi ubicación</button>
+          </div>
+          <p class="nota">Las distancias son en línea recta. Solo se envía a la Ciudad (USIG) el texto de la dirección que escribas.</p>
+        </div>
+        <p class="fz-aviso" id="fz-aviso" hidden></p>
+      </div>
+    </details>
+    <p class="fz-info" id="fz-info"></p>
+    <details id="ff">
+      <summary>Filtros (<span id="ff-n">0</span> activos)</summary>
+      <div class="fbody">
+        <div class="frow"><label class="fl" for="f-q">Buscar</label>
+          <input type="search" id="f-q" placeholder="Título, título original o director" autocomplete="off"></div>
+        <div class="frow"><span class="fl">Horario</span>
+          <label class="fcheck" for="f-desde">Desde <input type="time" id="f-desde"></label>
+          <label class="fcheck" for="f-hasta">hasta <input type="time" id="f-hasta"></label>
+          <button type="button" class="fbtn" id="f-tarde">Tarde</button>
+          <button type="button" class="fbtn" id="f-noche">Noche</button>
+          <label class="fcheck" id="f-ahora-wrap"><input type="checkbox" id="f-ahora"> Desde ahora (solo hoy)</label></div>
+        <div class="frow"><label class="fl" for="f-idioma">Idioma</label>
+          <select id="f-idioma"><option value="todas">Todas</option><option value="S">Subtitulada</option><option value="D">Doblada</option></select>
+          <p class="nota" id="f-idioma-nota"></p></div>
+        <div class="frow"><span class="fl">Formato</span><div class="fchips" id="f-fmt"></div></div>
+        <div class="frow"><span class="fl">Género</span><div class="fchips" id="f-gen"></div></div>
+        <div class="frow"><label class="fl" for="f-clas">Apta para</label>
+          <select id="f-clas"><option value="todas">Todas</option><option value="0">Todo público (G/ATP)</option><option value="1">Hasta SP</option><option value="2">Hasta R-13</option></select></div>
+        <div class="frow" id="f-rt-wrap"><label class="fcheck"><input type="checkbox" id="f-rt"> Solo con 70 % o más en Rotten Tomatoes</label></div>
+        <div class="frow"><span class="fl">Cadena</span><div class="fchips" id="f-cad"></div></div>
+        <div class="frow"><button type="button" class="fbtn" id="f-limpiar">Limpiar filtros</button></div>
+      </div>
+    </details>
+    <p class="faviso" id="faviso" hidden></p>
+    <p class="fcount" id="fcount" aria-live="polite"></p>
+  </section>
 
   <section class="pane on" id="pane-peliculas">
     <div class="tabs" id="days-1"></div>
