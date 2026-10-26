@@ -38,7 +38,27 @@
   function lbl(d){var p=d.split('-'),dt=new Date(+p[0],+p[1]-1,+p[2]);
     return [DOW[(dt.getDay()+6)%7], (+p[2])+' '+MES[+p[1]-1]];}
   var list=Object.keys(F).map(function(k){return F[k];});
-  document.getElementById('nfilms').textContent=list.length;
+  // Tolera que falte un nodo: antes, un id que la plantilla no traía cortaba
+  // el script entero y la página salía en blanco.
+  function setTxt(id,t){var e=document.getElementById(id); if(e) e.textContent=t;}
+  setTxt('nfilms',list.length);
+  setTxt('relevado',D.relevado||'—');
+  if(DAYS.length){var U=lbl(DAYS[DAYS.length-1]); setTxt('hasta',U[0]+' '+U[1]);}
+  // El pie no promete una fuente que esta semana no haya dado ningún puntaje:
+  // TMDb viene bloqueando el scrapeo y entonces no se la menciona.
+  (function(){
+    var hayTMDb=list.some(function(f){return f.score!=null;});
+    var hayRT=list.some(function(f){return f.rt!=null||f.rt_pub!=null;});
+    var partes=[];
+    if(hayRT) partes.push('tomatómetro y público de Rotten Tomatoes');
+    if(hayTMDb) partes.push('puntaje de usuarios de TMDb sobre 10');
+    var txt=partes.length?('Puntajes: '+partes.join(', y ')+'.')
+                         :'Puntajes: ninguna fuente respondió en este relevamiento.';
+    txt+=hayTMDb
+      ? ' IMDb sirve un desafío de bots y Letterboxd rechaza el acceso, así que no se pueden incluir.'
+      : ' TMDb, IMDb y Letterboxd no se pudieron consultar: sirven un desafío de bots o rechazan el acceso.';
+    setTxt('nota-puntajes',txt);
+  })();
 
   function dayTabs(el,cb){
     el.innerHTML=DAYS.map(function(d,i){var L=lbl(d);
