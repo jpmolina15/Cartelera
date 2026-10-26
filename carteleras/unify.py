@@ -18,6 +18,29 @@ from collections import defaultdict
 ALIAS = {
     "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
     "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
+    # El título entero, del que sale el truncado de Atlas de arriba.
+    "LA NOCHE DEL DEMONIO ESTAN ENTRE NOSOTROS": "LA NOCHE DEL DEMONIO 6",
+    # Hoyts la estrena como "Colony: Zona Cero"; Atlas la lista "Zona Cero".
+    "COLONY ZONA CERO": "ZONA CERO",
+    # Reposiciones: Atlas las lista con el título pelado; Cinemark y Hoyts le
+    # agregan el sufijo del aniversario, el año o la aclaración.
+    "AVENGERS ENDGAME": "AVENGERS ENDGAME RE ESTRENO",
+    "CARS": "CARS 20 ANIVERSARIO",
+    "VERTIGO 2": "VERTIGO 2 PUNTO MUERTO",
+    "LOS JUEGOS DEL HAMBRE": "LOS JUEGOS DEL HAMBRE 2012",
+    "JUEGOS DEL HAMBRE EN LLAMAS": "LOS JUEGOS DEL HAMBRE EN LLAMAS 2013",
+    "JUEGOS DEL HAMBRE SINSAJO PT 1": "LOS JUEGOS DEL HAMBRE SINSAJO 1 2014",
+    "JUEGOS DEL HAMBRE SINSAJO PT 2": "LOS JUEGOS DEL HAMBRE SINSAJO 2 2015",
+    # El recital de Queen: Atlas lo acorta, Hoyts usa el título completo.
+    "QUEEN LIVE IN BUDAPEST": "QUEEN BUDAPEST",
+    # Atlas trunca a 30 caracteres.
+    "TADEO EL EXPLORADOR Y LA LAMPA": "TADEO EL EXPLORADOR Y LA LAMPARA",
+    "HECHIZO DE AMOR LA MAGIA CONT": "HECHIZO DE AMOR LA MAGIA CONTINUA",
+    # Atlas escribe "OASIS,DON'T..." y Cinemark "OASIS: DON´T...": el apóstrofo
+    # raro de Cinemark deja un "DON T" suelto que la normalización no junta.
+    "OASIS DONT LOOK BACK IN ANGER": "OASIS DON T LOOK BACK IN ANGER",
+    # El Gaumont escribe mal el gentilicio ("cordobeces" por "cordobeses").
+    "CORDOBECES LA PELICULA": "CORDOBESES LA PELICULA",
 }
 
 

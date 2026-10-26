@@ -67,8 +67,51 @@ class TestClaves(unittest.TestCase):
         self.assertEqual(clave("LA NOCHE DEL DEMONIO:ESTAN ENT"),
                          clave("LA NOCHE DEL DEMONIO 6"))
 
+        self.assertEqual(clave("COLONY: ZONA CERO"), clave("ZONA CERO"))
+        self.assertEqual(clave("CORDOBECES, LA PELICULA"),
+                         clave("CORDOBESES: LA PELÍCULA"))
+        self.assertEqual(clave("LA NOCHE DEL DEMONIO: ESTÁN ENTRE NOSOTROS"),
+                         clave("LA NOCHE DEL DEMONIO:ESTAN ENT"))
+
+    def test_alias_de_reposiciones(self):
+        # Atlas lista la reposición con el título pelado; Cinemark y Hoyts le
+        # agregan el sufijo del aniversario, el año o la aclaración.
+        self.assertEqual(clave("AVENGERS: ENDGAME"),
+                         clave("AVENGERS: ENDGAME (RE ESTRENO)"))
+        self.assertEqual(clave("CARS"), clave("CARS 20° ANIVERSARIO"))
+        self.assertEqual(clave("VERTIGO 2"), clave("VÉRTIGO 2: PUNTO MUERTO"))
+        self.assertEqual(clave("QUEEN: LIVE IN BUDAPEST"),
+                         clave("QUEEN BUDAPEST"))
+        self.assertEqual(clave("LOS JUEGOS DEL HAMBRE"),
+                         clave("LOS JUEGOS DEL HAMBRE (2012)"))
+        self.assertEqual(clave("JUEGOS DEL HAMBRE:EN LLAMAS"),
+                         clave("LOS JUEGOS DEL HAMBRE: EN LLAMAS (2013)"))
+        self.assertEqual(clave("JUEGOS DEL HAMBRE:SINSAJO PT 1"),
+                         clave("LOS JUEGOS DEL HAMBRE: SINSAJO 1 (2014)"))
+        self.assertEqual(clave("JUEGOS DEL HAMBRE:SINSAJO PT 2"),
+                         clave("LOS JUEGOS DEL HAMBRE: SINSAJO 2 (2015)"))
+
+    def test_alias_de_titulos_truncados_por_atlas(self):
+        self.assertEqual(clave("TADEO EL EXPLORADOR Y LA LAMPA"),
+                         clave("TADEO EL EXPLORADOR Y LA LAMPARA"))
+        self.assertEqual(clave("HECHIZO DE AMOR:LA MAGIA CONT"),
+                         clave("HECHIZO DE AMOR: LA MAGIA CONTINUA"))
+        self.assertEqual(clave("OASIS,DON’T LOOK BACK IN ANGER"),
+                         clave("OASIS: DON´T LOOK BACK IN ANGER"))
+
+    def test_alias_sin_cadenas_ni_ciclos(self):
+        from carteleras.unify import ALIAS
+        self.assertEqual(set(ALIAS) & set(ALIAS.values()), set())
+
     def test_no_junta_peliculas_distintas(self):
         self.assertNotEqual(clave("TOY STORY 5"), clave("TOY STORY 4"))
+        # El alias de "CARS" no debe arrastrar a las secuelas.
+        self.assertNotEqual(clave("CARS"), clave("CARS 3"))
+        self.assertNotEqual(clave("AVENGERS: ENDGAME"),
+                            clave("AVENGERS: INFINITY WAR"))
+        # Las partes de Sinsajo son películas distintas, no una reposición.
+        self.assertNotEqual(clave("JUEGOS DEL HAMBRE:SINSAJO PT 1"),
+                            clave("JUEGOS DEL HAMBRE:SINSAJO PT 2"))
 
 
 class TestLimpiar(unittest.TestCase):
