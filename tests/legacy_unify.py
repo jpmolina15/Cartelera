@@ -1,48 +1,9 @@
-"""Cruce de las cuatro salas en un único índice de películas.
-
-Cada fuente escribe los títulos distinto ("SPIDER-MAN: UN NUEVO DÍA" vs
-"...DIA", "YO, NARCISO" vs "YO,NARCISO") y Atlas además los trunca a 30
-caracteres. `clave()` normaliza acentos y puntuación; lo que la normalización
-no puede resolver son los casos en que dos cines usan nombres realmente
-distintos para la misma película, y para eso está ALIAS.
-
-SI UNA PELÍCULA APARECE DUPLICADA EN LA WEB, casi siempre se arregla agregando
-una entrada a ALIAS.
-"""
+"""Copia del construir de main (4 salas fijas). Solo para el test de no regresion."""
 import datetime
 import re
-import unicodedata
 from collections import defaultdict
 
-# Título normalizado de una fuente -> título normalizado canónico.
-ALIAS = {
-    "HARRY POTTER Y LA PIEDRA FILOS": "HARRY POTTER 25 ANIVERSARIO",
-    "LA NOCHE DEL DEMONIO ESTAN ENT": "LA NOCHE DEL DEMONIO 6",
-}
-
-
-def normalizar(s):
-    s = unicodedata.normalize("NFKD", s or "").encode("ascii", "ignore").decode()
-    return re.sub(r"\s+", " ", re.sub(r"[^A-Za-z0-9 ]", " ", s.upper())).strip()
-
-
-def clave(t):
-    n = normalizar(t)
-    return ALIAS.get(n, n)
-
-
-def limpiar(t):
-    """Arregla sólo espaciado seguro.
-
-    Cinemark pega palabras ("un librosobre") y Atlas se come el espacio tras
-    las comas ("Oreiro,profesora"). Lo segundo se puede corregir con una regla;
-    lo primero requeriría adivinar dónde va el corte, así que se deja como está.
-    """
-    if not t:
-        return t
-    t = re.sub(r",(?=\S)", ", ", t)
-    t = re.sub(r"\.(?=[A-ZÁÉÍÓÚÑ])", ". ", t)
-    return re.sub(r"\s+", " ", t).strip()
+from carteleras.unify import clave, limpiar
 
 
 def _vacia(k, titulo):
@@ -108,7 +69,7 @@ def construir(ck, ab, fichas_ck, atlas, gaumont, dias):
                 for r in filas]
 
     # --- Gaumont (programación semanal expandida a días) ---
-    from .sources.gaumont import expandir_semana
+    from carteleras.sources.gaumont import expandir_semana
     dow = {d: datetime.date(*map(int, d.split("-"))).weekday() for d in dias}
     for g in gaumont:
         f = slot(clave(g["titulo"]), g["titulo"])

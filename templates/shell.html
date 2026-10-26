@@ -1,4 +1,4 @@
-<title>Cuatro salas</title>
+<title>Cartelera CABA</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&family=Literata:opsz,wght@7..72,400;7..72,500&display=swap">
@@ -10,7 +10,7 @@
     --ink:#15181E; --ink-2:#59616F; --ink-3:#858D9C;
     --rule:#DCDFE5; --rule-soft:#E8EAEF;
     --accent:#A8660C;
-    --c-ck:#2F6FB5; --c-ho:#6E4BA8; --c-at:#A8660C; --c-ga:#A93A32;
+    --c-ck:#2F6FB5; --c-ho:#6E4BA8; --c-at:#A8660C; --c-ga:#A93A32; --c-ot:#6B7280;
     --shadow:0 1px 2px rgba(21,24,30,.06), 0 8px 24px -12px rgba(21,24,30,.14);
     --display:'Archivo','Helvetica Neue',Arial,sans-serif;
     --prose:'Literata',Georgia,'Times New Roman',serif;
@@ -61,8 +61,9 @@
     font-family:var(--data); font-size:.74rem; color:var(--ink-2); }
   .leyenda i { font-style:normal; display:inline-flex; align-items:center; gap:6px; }
   .dot { width:9px; height:9px; border-radius:2px; display:inline-block; }
-  .d-cinemark{background:var(--c-ck);} .d-hoyts{background:var(--c-ho);}
-  .d-atlas{background:var(--c-at);} .d-gaumont{background:var(--c-ga);}
+  .dot.c-cinemark{background:var(--c-ck);} .dot.c-hoyts{background:var(--c-ho);}
+  .dot.c-atlas{background:var(--c-at);} .dot.c-incaa{background:var(--c-ga);}
+  .dot.c-otro{background:var(--c-ot);}
 
   /* ---- tab 1: películas ---- */
   .cards { display:flex; flex-direction:column; gap:14px; margin-top:16px; }
@@ -73,8 +74,9 @@
   .chips { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:10px; }
   .chip { font-family:var(--display); font-size:.63rem; font-weight:600; letter-spacing:.07em;
     text-transform:uppercase; padding:.22em .5em; border-radius:2px; color:#fff; }
-  .chip.cinemark{background:var(--c-ck);} .chip.hoyts{background:var(--c-ho);}
-  .chip.atlas{background:var(--c-at);} .chip.gaumont{background:var(--c-ga);}
+  .chip.c-cinemark{background:var(--c-ck);} .chip.c-hoyts{background:var(--c-ho);}
+  .chip.c-atlas{background:var(--c-at);} .chip.c-incaa{background:var(--c-ga);}
+  .chip.c-otro{background:var(--c-ot);}
   .meta { display:flex; flex-wrap:wrap; gap:2px 8px; font-family:var(--data);
     font-size:.74rem; color:var(--ink-3); margin-bottom:9px; align-items:center; }
   .meta i { font-style:normal; opacity:.5; }
@@ -110,8 +112,9 @@
     overflow:hidden; box-shadow:var(--shadow); margin-bottom:16px; }
   .sala-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 12px;
     padding:16px 22px; border-bottom:1px solid var(--rule-soft); border-left:4px solid var(--ink-3); }
-  .sala-head.cinemark{border-left-color:var(--c-ck);} .sala-head.hoyts{border-left-color:var(--c-ho);}
-  .sala-head.atlas{border-left-color:var(--c-at);} .sala-head.gaumont{border-left-color:var(--c-ga);}
+  .sala-head.c-cinemark{border-left-color:var(--c-ck);} .sala-head.c-hoyts{border-left-color:var(--c-ho);}
+  .sala-head.c-atlas{border-left-color:var(--c-at);} .sala-head.c-incaa{border-left-color:var(--c-ga);}
+  .sala-head.c-otro{border-left-color:var(--c-ot);}
   .sala-head h2 { font-family:var(--display); font-weight:700; font-size:1.2rem;
     letter-spacing:-.018em; margin:0; flex:1 1 auto; }
   .dir { font-family:var(--data); font-size:.74rem; color:var(--ink-3); }
@@ -147,8 +150,11 @@
   .slot { display:inline-flex; align-items:center; gap:4px; font-family:var(--data);
     font-variant-numeric:tabular-nums; font-size:.78rem; border-radius:3px;
     padding:.2em .45em; margin:2px 3px 2px 0; color:#fff; white-space:nowrap; }
-  .slot.cinemark{background:var(--c-ck);} .slot.hoyts{background:var(--c-ho);}
-  .slot.atlas{background:var(--c-at);} .slot.gaumont{background:var(--c-ga);}
+  .slot.c-cinemark{background:var(--c-ck);} .slot.c-hoyts{background:var(--c-ho);}
+  .slot.c-atlas{background:var(--c-at);} .slot.c-incaa{background:var(--c-ga);}
+  .slot.c-otro{background:var(--c-ot);}
+  .slot em { font-style:normal; font-family:var(--display); font-size:.62rem; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase; opacity:.85; }
   .slot u { text-decoration:none; font-weight:600; opacity:.75; font-size:.9em; }
 
   .nota { font-family:var(--data); font-size:.74rem; color:var(--ink-3);
@@ -172,8 +178,8 @@
 <div class="wrap">
   <header class="masthead">
     <div class="bulbs" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-    <p class="kicker">Caballito · Balvanera · Congreso</p>
-    <h1>Cuatro salas</h1>
+    <p class="kicker" id="kicker">CABA</p>
+    <h1>Cartelera CABA</h1>
     <div class="stamp">
       <span>Relevado — <b id="relevado">—</b></span>
       <span>Funciones hasta — <b id="hasta">—</b></span>
@@ -187,12 +193,7 @@
     <button class="mtab" data-pane="calendario">Calendario</button>
   </div>
 
-  <div class="leyenda">
-    <i><span class="dot d-cinemark"></span>Cinemark Caballito</i>
-    <i><span class="dot d-hoyts"></span>Hoyts Abasto</i>
-    <i><span class="dot d-atlas"></span>Atlas Caballito</i>
-    <i><span class="dot d-gaumont"></span>Cine Gaumont</i>
-  </div>
+  <div class="leyenda" id="leyenda"></div>
 
   <section class="pane on" id="pane-peliculas">
     <div class="tabs" id="days-1"></div>
@@ -210,15 +211,13 @@
       <select id="sel"></select>
     </div>
     <div class="cal" id="cal"></div>
-    <p class="nota" id="nota-cal"><b>D</b> doblada · <b>S</b> subtitulada. Atlas informa el idioma función por función.
-    Cinemark y Hoyts sólo publican los idiomas disponibles por película, así que la letra aparece
-    únicamente cuando la película se da en un solo idioma. El Gaumont no publica idioma.</p>
+    <p class="nota" id="nota-cal"></p>
   </section>
 
   <footer>
     <span>Horarios de Buenos Aires</span>
     <span id="nota-puntajes">Puntajes: tomatómetro y público de Rotten Tomatoes. IMDb sirve un desafío de bots y Letterboxd rechaza el acceso, así que no se pueden incluir.</span>
     <span>Clasificación por edad: <b>G</b> apta todo público · <b>SP</b> supervisión parental · <b>R-13</b> y <b>R-17</b> restringidas · <b>—</b> sin dato</span>
-    <span>Fuentes: cinemark.com.ar · atlascines.com · unica-cartelera.com.ar</span>
+    <span id="fuentes">Fuentes</span>
   </footer>
 </div>

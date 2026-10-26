@@ -1,11 +1,16 @@
 (function(){
   var D=window.__DATA__, DAYS=D.days, F=D.films;
-  var CINES={cinemark:{n:'Cinemark Caballito',d:'Av. La Plata 96'},
-             hoyts:{n:'Hoyts Abasto',d:'Shopping Abasto'},
-             atlas:{n:'Atlas Caballito',d:'Av. Rivadavia 5071'},
-             gaumont:{n:'Cine Gaumont',d:'Av. Rivadavia 1635'}};
-  var ORD=['cinemark','hoyts','atlas','gaumont'];
-  var CORTO={cinemark:'Cinemark',hoyts:'Hoyts',atlas:'Atlas',gaumont:'Gaumont'};
+  var SALAS=D.salas||{};
+  var CADENAS={cinemark:'Cinemark',hoyts:'Hoyts',atlas:'Atlas',incaa:'INCAA'};
+  var CLS={cinemark:'c-cinemark',hoyts:'c-hoyts',atlas:'c-atlas',incaa:'c-incaa'};
+  var DOMINIOS={cinemark:'cinemark.com.ar',atlas:'atlascines.com',gaumont:'unica-cartelera.com.ar'};
+  function cc(c){return CLS[SALAS[c].cadena]||'c-otro';}
+  // Orden: por cadena y nombre.
+  var ORD=Object.keys(SALAS).sort(function(a,b){
+    var x=SALAS[a],y=SALAS[b];
+    return (x.cadena||'').localeCompare(y.cadena||'','es')||x.nombre.localeCompare(y.nombre,'es');});
+  function abrev(c){var t=SALAS[c].corto;if(t.length<=14)return t;
+    var w=t.split(' ');w[0]=w[0].slice(0,3)+'.';return w.join(' ');}
   var DOW=['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
   var MES=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
   function rank(c){
@@ -81,7 +86,7 @@
     rows.sort(orden);
     document.getElementById('cards').innerHTML=rows.map(function(f){
       var chips=ORD.filter(function(c){return f.cines[c];}).map(function(c){
-        return '<span class="chip '+c+'">'+esc(CORTO[c])+'</span>';}).join('');
+        return '<span class="chip '+cc(c)+'">'+esc(SALAS[c].corto)+'</span>';}).join('');
       var meta=[];
       if(f.duracion)meta.push(esc(f.duracion));
       if(f.genero)meta.push(esc(f.genero));
@@ -89,8 +94,8 @@
       if(f.director)meta.push('Dir. '+esc(f.director));
       if(f.elenco)meta.push(esc(f.elenco));
       var fil=ORD.filter(function(c){return f.cines[c]&&f.cines[c][day];}).map(function(c){
-        return '<div class="fila"><span class="fila-n"><span class="dot d-'+c+'"></span>'+
-          esc(CINES[c].n)+'</span><span class="horarios">'+times(f.cines[c][day])+'</span></div>';}).join('');
+        return '<div class="fila"><span class="fila-n"><span class="dot '+cc(c)+'"></span>'+
+          esc(SALAS[c].nombre)+'</span><span class="horarios">'+times(f.cines[c][day])+'</span></div>';}).join('');
       return '<article class="card"><h3>'+scoreHTML(f)+esc(f.titulo)+'</h3><div class="chips">'+chips+'</div>'+
         '<div class="meta">'+meta.join(' <i>·</i> ')+'</div>'+
         (f.sinopsis?'<p class="sinopsis">'+esc(f.sinopsis)+'</p>':'')+
@@ -113,8 +118,8 @@
             '</td><td>'+esc(f.director||'—')+'</td><td class="num">'+esc(f.clasificacion||'—')+'</td></tr>';
         }).join('')+'</tbody></table></div>')
         :'<p class="vacio-in">Sin funciones publicadas para este día.</p>';
-      return '<article class="sala"><div class="sala-head '+c+'"><h2>'+esc(CINES[c].n)+
-        '</h2><span class="dir">'+esc(CINES[c].d)+'</span></div>'+body+'</article>';}).join('');
+      return '<article class="sala"><div class="sala-head '+cc(c)+'"><h2>'+esc(SALAS[c].nombre)+
+        '</h2><span class="dir">'+esc(SALAS[c].direccion)+' · '+esc(SALAS[c].barrio)+'</span></div>'+body+'</article>';}).join('');
   }
   // ---------- tab 3 ----------
   var sel=document.getElementById('sel');
@@ -138,12 +143,26 @@
         ORD.forEach(function(c){ if(!f.cines[c])return;
           (f.cines[c][d]||[]).forEach(function(r){
             if(parseInt(r.h.split(':')[0],10)!==h)return;
-            cells+='<span class="slot '+c+'" title="'+esc(CINES[c].n)+'">'+r.h+
+            cells+='<span class="slot '+cc(c)+'" title="'+esc(SALAS[c].nombre)+'"><em>'+esc(abrev(c))+'</em>'+r.h+
               (r.lang?'<u>'+r.lang+'</u>':'')+'</span>';});});
         return '<td>'+cells+'</td>';}).join('')+'</tr>';}).join('');
     document.getElementById('cal').innerHTML='<table><thead>'+head+'</thead><tbody>'+body+'</tbody></table>';
   }
   sel.addEventListener('change',renderCal);
+
+  // Encabezado, leyenda y fuentes salen del padron (D.salas).
+  document.getElementById('kicker').textContent=ORD.length+' salas · CABA';
+  document.getElementById('leyenda').innerHTML=ORD.map(function(c){
+    return '<i><span class="dot '+cc(c)+'"></span>'+esc(SALAS[c].nombre)+'</i>';}).join('');
+  var doms=[];ORD.forEach(function(c){var d=DOMINIOS[SALAS[c].fuente];if(d&&doms.indexOf(d)<0)doms.push(d);});
+  document.getElementById('fuentes').textContent='Fuentes: '+doms.join(' · ');
+  var fu=ORD.map(function(c){return SALAS[c].fuente;});
+  var nota=[];
+  if(fu.indexOf('atlas')>=0)nota.push('Atlas informa el idioma función por función');
+  if(fu.indexOf('cinemark')>=0)nota.push('Cinemark y Hoyts sólo publican los idiomas disponibles por película, así que la letra aparece únicamente cuando la película se da en un solo idioma');
+  if(fu.indexOf('gaumont')>=0)nota.push('El Gaumont no publica idioma');
+  document.getElementById('nota-cal').innerHTML='<b>D</b> doblada · <b>S</b> subtitulada. '+
+    nota.join('. ')+'.';
 
   dayTabs(document.getElementById('days-1'),renderCards);
   dayTabs(document.getElementById('days-2'),renderSalas);

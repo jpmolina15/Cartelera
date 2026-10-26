@@ -92,9 +92,9 @@ def _texto_plano(pagina):
     return re.sub(r"\n\s*\n+", "\n", t).strip()
 
 
-def cartelera():
+def cartelera(url=URL):
     """[{titulo, origen, anio, duracion, director, reparto, sinopsis, horarios[]}]"""
-    t = _texto_plano(get(URL))
+    t = _texto_plano(get(url))
     # El cuerpo arranca en el primer "(Pais-Anio/NN min)"; antes hay sólo menú.
     inicio = re.search(
         r"\n([A-ZÁÉÍÓÚÜÑ0-9][^\n]{1,60})\n\(([^)\n]*\d{4}[^)\n]*/\s*\d+ *min[^)\n]*)\)", t)

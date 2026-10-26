@@ -1,4 +1,4 @@
-"""Cruce de las cuatro salas en un único índice de películas.
+"""Cruce de todas las salas del padron en un único índice de películas.
 
 Cada fuente escribe los títulos distinto ("SPIDER-MAN: UN NUEVO DÍA" vs
 "...DIA", "YO, NARCISO" vs "YO,NARCISO") y Atlas además los trunca a 30
@@ -74,43 +74,40 @@ def _vacia(k, titulo):
             "origen": None, "anio": None, "original": None, "cines": {}}
 
 
-def construir(ck, ab, fichas_ck, atlas, gaumont, dias):
-    """Devuelve (dias, {clave: pelicula})."""
-    films = {}
+ORDEN_FUENTES = ("cinemark", "atlas", "gaumont")
 
-    def slot(k, titulo):
-        if k not in films:
-            films[k] = _vacia(k, titulo)
-        return films[k]
 
-    # --- Cinemark y Hoyts ---
-    for fuente, cine in ((ck, "cinemark"), (ab, "hoyts")):
-        for dia, pelis in fuente.items():
-            if dia not in dias:
-                continue
-            for titulo, r in pelis.items():
-                f = slot(clave(titulo), titulo)
-                ficha = fichas_ck.get(r.get("slug_pelicula")) or {}
-                if ficha:
-                    f["duracion"] = f["duracion"] or ficha.get("duracion")
-                    f["clasificacion"] = f["clasificacion"] or ficha.get("clasificacion")
-                    f["genero"] = f["genero"] or (", ".join(ficha.get("generos") or []) or None)
-                    f["sinopsis"] = f["sinopsis"] or ficha.get("sinopsis")
-                    f["anio"] = f["anio"] or (ficha.get("estreno") or "")[:4] or None
-                    dirs = [c["nombre"] for c in ficha.get("equipo", []) if c["rol"] == "Director"]
-                    act = [c["nombre"] for c in ficha.get("equipo", []) if c["rol"] == "Actor"]
-                    f["director"] = f["director"] or (", ".join(dict.fromkeys(dirs)) or None)
-                    f["elenco"] = f["elenco"] or (", ".join(act[:4]) or None)
-                idiomas = ficha.get("idiomas") or []
-                # Cinemark no informa idioma por función, sólo los disponibles
-                # por película: la letra sólo es fiable si hay uno solo.
-                lang = "D" if idiomas == ["CAST"] else ("S" if idiomas == ["SUB"] else "")
-                fmts = sorted(x for x in r["formatos"] if x and x != "2D")
-                f["cines"].setdefault(cine, {})[dia] = [
-                    {"h": h, "fmt": ", ".join(fmts), "lang": lang} for h in sorted(r["horas"])]
+def _cinemark(slot, sala, datos, fichas_ck, dias):
+    cine = sala["id"]
+    for dia, pelis in datos.items():
+        if dia not in dias:
+            continue
+        for titulo, r in pelis.items():
+            f = slot(clave(titulo), titulo)
+            ficha = fichas_ck.get(r.get("slug_pelicula")) or {}
+            if ficha:
+                f["duracion"] = f["duracion"] or ficha.get("duracion")
+                f["clasificacion"] = f["clasificacion"] or ficha.get("clasificacion")
+                f["genero"] = f["genero"] or (", ".join(ficha.get("generos") or []) or None)
+                f["sinopsis"] = f["sinopsis"] or ficha.get("sinopsis")
+                f["anio"] = f["anio"] or (ficha.get("estreno") or "")[:4] or None
+                dirs = [c["nombre"] for c in ficha.get("equipo", []) if c["rol"] == "Director"]
+                act = [c["nombre"] for c in ficha.get("equipo", []) if c["rol"] == "Actor"]
+                f["director"] = f["director"] or (", ".join(dict.fromkeys(dirs)) or None)
+                f["elenco"] = f["elenco"] or (", ".join(act[:4]) or None)
+            idiomas = ficha.get("idiomas") or []
+            # Cinemark no informa idioma por función, sólo los disponibles
+            # por película: la letra sólo es fiable si hay uno solo.
+            lang = "D" if idiomas == ["CAST"] else ("S" if idiomas == ["SUB"] else "")
+            fmts = sorted(x for x in r["formatos"] if x and x != "2D")
+            f["cines"].setdefault(cine, {})[dia] = [
+                {"h": h, "fmt": ", ".join(fmts), "lang": lang} for h in sorted(r["horas"])]
 
-    # --- Atlas (gana en textos: no pega palabras y trae elenco propio) ---
-    for a in atlas:
+
+def _atlas(slot, sala, datos, dias):
+    # Atlas gana en textos: no pega palabras y trae elenco propio.
+    cine = sala["id"]
+    for a in datos:
         f = slot(clave(a["titulo"]), a["titulo"])
         f["duracion"] = f["duracion"] or (f"{a['duracion']} min" if a.get("duracion") else None)
         if a.get("clasificacion"):
@@ -124,16 +121,19 @@ def construir(ck, ab, fichas_ck, atlas, gaumont, dias):
         for dia, filas in a["funciones"].items():
             if dia not in dias:
                 continue
-            f["cines"].setdefault("atlas", {})[dia] = [
+            f["cines"].setdefault(cine, {})[dia] = [
                 {"h": r["hora"],
                  "fmt": "" if r["tec"] == "2D" else (r["tec"] or ""),
                  "lang": "D" if r["doblada"] else ("S" if r["subtitulada"] else "")}
                 for r in filas]
 
-    # --- Gaumont (programación semanal expandida a días) ---
+
+def _gaumont(slot, sala, datos, dias):
+    # Programación semanal expandida a días.
     from .sources.gaumont import expandir_semana
+    cine = sala["id"]
     dow = {d: datetime.date(*map(int, d.split("-"))).weekday() for d in dias}
-    for g in gaumont:
+    for g in datos:
         f = slot(clave(g["titulo"]), g["titulo"])
         f["duracion"] = f["duracion"] or (f"{g['duracion']} min" if g.get("duracion") else None)
         f["director"] = f["director"] or g.get("director")
@@ -146,8 +146,34 @@ def construir(ck, ab, fichas_ck, atlas, gaumont, dias):
             for d, hs in expandir_semana(linea, dias, dow).items():
                 por_dia[d] += hs
         for d, hs in por_dia.items():
-            f["cines"].setdefault("gaumont", {})[d] = [
+            f["cines"].setdefault(cine, {})[d] = [
                 {"h": h, "fmt": "", "lang": ""} for h in sorted(set(hs))]
+
+
+def construir(crudos, fichas_ck, dias):
+    """crudos: [(sala_del_padron, datos_crudos)]. Devuelve {clave: pelicula}.
+
+    Se procesa por fuente (cinemark, atlas, gaumont) y dentro de cada una en
+    el orden de `crudos` (el del padron): "el primero que trae un dato gana",
+    igual que cuando las cuatro salas eran fijas.
+    """
+    films = {}
+
+    def slot(k, titulo):
+        if k not in films:
+            films[k] = _vacia(k, titulo)
+        return films[k]
+
+    for fuente in ORDEN_FUENTES:
+        for sala, datos in crudos:
+            if sala["fuente"] != fuente:
+                continue
+            if fuente == "cinemark":
+                _cinemark(slot, sala, datos, fichas_ck, dias)
+            elif fuente == "atlas":
+                _atlas(slot, sala, datos, dias)
+            else:
+                _gaumont(slot, sala, datos, dias)
 
     for f in films.values():
         for campo in ("sinopsis", "director", "elenco", "genero"):

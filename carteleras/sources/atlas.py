@@ -49,8 +49,8 @@ def _bloque(texto, etiqueta, siguiente):
     return [x.strip() for x in m.group(1).split("\n") if x.strip()][:6]
 
 
-def _elenco(cod):
-    pagina = get(f"{BASE}/Peliculas?codPelicula={cod}&codComplejo={CABALLITO}")
+def _elenco(cod, complejo=CABALLITO):
+    pagina = get(f"{BASE}/Peliculas?codPelicula={cod}&codComplejo={complejo}")
     limpio = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", " ", pagina)
     t = html.unescape(re.sub(r"(?s)<[^>]+>", "\n", limpio))
     t = re.sub(r"[ \t]+", "  ", t)
@@ -63,15 +63,15 @@ def _elenco(cod):
     }
 
 
-def _pelicula(cod):
+def _pelicula(cod, complejo=CABALLITO):
     comp = _api(f"/Peliculas/GetComplejosParaPelicula?codPelicula={cod}")
-    if not comp or not any(c.get("codComplejo") == CABALLITO for c in comp):
+    if not comp or not any(c.get("codComplejo") == complejo for c in comp):
         return None
 
     funciones = {}
-    for f in _api(f"/Peliculas/GetFechasDisponibles?codComplejo={CABALLITO}&codPelicula={cod}") or []:
+    for f in _api(f"/Peliculas/GetFechasDisponibles?codComplejo={complejo}&codPelicula={cod}") or []:
         r = _api(f"/Peliculas/GetCacheFuncionesComplejoPeliculaFecha"
-                 f"?complejoId={CABALLITO}&codPelicula={cod}&fecha={quote(f)}")
+                 f"?complejoId={complejo}&codPelicula={cod}&fecha={quote(f)}")
         vistas = {}
         for g in _grupos(r):
             for fn in g.get("funciones", []):
@@ -88,7 +88,7 @@ def _pelicula(cod):
         return None
 
     det = _api(f"/Peliculas/GetDetallePelicula?codPelicula={cod}") or {}
-    extra = _elenco(cod)
+    extra = _elenco(cod, complejo)
     return {
         "cod": cod,
         # Ojo: 'titulo' viene truncado a ~30 caracteres en el listado.
@@ -105,12 +105,12 @@ def _pelicula(cod):
     }
 
 
-def cartelera(workers=8):
+def cartelera(complejo=CABALLITO, workers=8):
     pagina = get(f"{BASE}/Cartelera")
     # Los data-cod menores a 400 son complejos (191-198), no películas.
     codigos = sorted({int(c) for c in re.findall(r'data-cod[a-z]*="(\d+)"', pagina, re.I)
                       if int(c) > 400})
     with ThreadPoolExecutor(max_workers=workers) as ex:
-        res = [r for r in ex.map(_pelicula, codigos) if r]
+        res = [r for r in ex.map(lambda c: _pelicula(c, complejo), codigos) if r]
     res.sort(key=lambda x: x["titulo"] or "")
     return res

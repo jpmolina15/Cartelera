@@ -1,32 +1,41 @@
 # Carteleras
 
-Releva la cartelera semanal de cuatro salas de Buenos Aires y publica una web
-con tres vistas: **Películas**, **Por cine** y **Calendario**.
+Releva la cartelera semanal de las salas de CABA del padrón `data/salas.json` y
+publica una web con tres vistas: **Películas**, **Por cine** y **Calendario**.
 
-- Cinemark Caballito — Av. La Plata 96
-- Hoyts Abasto — Shopping Abasto
-- Atlas Caballito — Av. Rivadavia 5071
-- Cine Gaumont (Espacio INCAA Km 0) — Av. Rivadavia 1635
+Salas hoy (8): Cinemark Caballito, Hoyts Abasto, Hoyts DOT, Cinemark Palermo,
+Cinemark Puerto Madero, Cinemark Parque Brown, Atlas Caballito y Cine Gaumont
+(Espacio INCAA Km 0). Cada sala tiene id, barrio, comuna, coordenadas, cadena
+(define el color), `fuente` (módulo de `carteleras/sources/`) y `cfg` (parámetros
+para ese módulo). `activa: false` saca una sala de la corrida sin borrarla.
+`carteleras/salas.py` valida el padrón y `run.py` aborta si es inválido.
+Para agregar una sala de una fuente existente alcanza con una entrada nueva en el JSON.
 
 Sólo biblioteca estándar de Python 3. Sin dependencias, sin claves de API.
 
 ```bash
-python3 run.py                      # releva todo y genera salida/cartelera.html
+python3 run.py                      # releva todo y genera salida/cartelera.html + salida/datos.json
+python3 run.py --salida salida/cartelera-caba.html --json salida/datos-caba.json   # para probar sin pisar lo de la rutina
 python3 run.py --sin-puntajes       # más rápido, sin consultar TMDb
 python3 -m unittest discover -s tests -t .
 ```
 
-`run.py` imprime un resumen al final (películas por sala, cuántas con puntaje)
-y escribe en stderr `ATENCION sin_datos=<sala>` si alguna sala quedó en cero, o
-`ATENCION sin_puntajes=<tmdb|rt>` si un proveedor de puntajes no devolvió
-ninguno.
+Tests (ninguno sale a la red): `test_parsers.py` (parsers frágiles),
+`test_salas.py` (padrón), `test_unify_salas.py` (cruce por sala y no regresión
+contra `tests/legacy_unify.py`, el `construir` de `main` con 4 salas fijas),
+`test_cinemark_fixture.py` (JSON-LD real recortado en `tests/fixtures/`).
+
+`run.py` imprime un resumen al final (películas por sala, cuántas con puntaje,
+pedidos HTTP y duración) y escribe en stderr `ATENCION sin_datos=<ids de sala>`
+si alguna quedó en cero, o `ATENCION sin_puntajes=<tmdb|rt>` si un proveedor de
+puntajes no devolvió ninguno.
 
 ## De dónde sale cada dato
 
 | Sala | Fuente | Cómo |
 |---|---|---|
-| Cinemark, Hoyts | `cinemark.com.ar` | JSON-LD renderizado del lado del servidor en `/cartelera/<slug>`; la ficha en el payload de Next.js de `/pelicula/<slug>` |
-| Atlas | `atlascines.com` | API interna sin auth (`GetFechasDisponibles`, `GetCacheFuncionesComplejoPeliculaFecha`), complejo 191 |
+| Cinemark y Hoyts (6 salas) | `cinemark.com.ar` | JSON-LD renderizado del lado del servidor en `/cartelera/<slug>` (una página por sala, en serie); la ficha en el payload de Next.js de `/pelicula/<slug>` (máx. 4 en paralelo) |
+| Atlas | `atlascines.com` | API interna sin auth (`GetFechasDisponibles`, `GetCacheFuncionesComplejoPeliculaFecha`), complejo 191 (`cfg.complejo` en el padrón) |
 | Gaumont | `www.unica-cartelera.com.ar` | Programación semanal en prosa, parseada por `expandir_semana` |
 | Puntajes | `themoviedb.org` | Búsqueda + ficha, **verificando el director** |
 | Puntajes | `rottentomatoes.com` | Tomatómetro y público; requiere headers de navegador completos |

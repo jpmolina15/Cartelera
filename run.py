@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Releva las cuatro salas y genera la web.
+"""Releva las salas del padron (data/salas.json) y genera la web.
 
     python3 run.py [--salida salida/cartelera.html] [--sin-puntajes] [--json salida/datos.json]
 
@@ -11,14 +11,31 @@ import datetime
 import json
 import pathlib
 import sys
+import time
 from concurrent.futures import ThreadPoolExecutor
 
-from carteleras import unify
+from carteleras import http, unify
+from carteleras import salas as salas_mod
 from carteleras.render import render
 from carteleras.scores import puntajes
 from carteleras.sources import atlas, cinemark, gaumont, rt
 
 RAIZ = pathlib.Path(__file__).resolve().parent
+
+# Despacho por fuente: cada sala del padron dice cual usa y con que parametros.
+RELEVAR = {"cinemark": lambda cfg: cinemark.funciones(cfg["slug"]),
+           "atlas": lambda cfg: atlas.cartelera(complejo=cfg["complejo"]),
+           "gaumont": lambda cfg: gaumont.cartelera(url=cfg["url"])}
+
+
+def ahora_ba():
+    """Hora de Buenos Aires; respaldo UTC-3 fijo si no hay zoneinfo."""
+    try:
+        from zoneinfo import ZoneInfo
+        tz = ZoneInfo("America/Argentina/Buenos_Aires")
+    except Exception:
+        tz = datetime.timezone(datetime.timedelta(hours=-3))
+    return datetime.datetime.now(tz).strftime("%d/%m/%Y %H:%M")
 
 
 def main():
@@ -29,29 +46,36 @@ def main():
     args = ap.parse_args()
     pathlib.Path(args.salida).parent.mkdir(parents=True, exist_ok=True)
 
-    print("relevando Cinemark Caballito y Hoyts Abasto...", flush=True)
-    ck = cinemark.funciones(cinemark.SALAS["cinemark"])
-    ab = cinemark.funciones(cinemark.SALAS["hoyts"])
-    if not ck and not ab:
-        print("ERROR: ninguna de las dos salas de Cinemark devolvió funciones", file=sys.stderr)
+    try:
+        salas = salas_mod.cargar()
+    except salas_mod.PadronInvalido as e:
+        print(f"ERROR: padron de salas invalido: {e}", file=sys.stderr)
+        return 1
 
-    # La ventana de días la define lo que publica Cinemark (suele ser 5).
-    dias = sorted(set(ck) | set(ab))[:5]
+    t0 = time.time()
+    crudos = []
+    for sala in salas:
+        print(f"relevando {sala['nombre']}...", flush=True)
+        try:
+            datos = RELEVAR[sala["fuente"]](sala["cfg"])
+        except Exception as e:  # una sala que falla no frena a las demas
+            print(f"ERROR: {sala['id']}: {type(e).__name__}: {e}", file=sys.stderr)
+            datos = {} if sala["fuente"] == "cinemark" else []
+        crudos.append((sala, datos))
+
+    # La ventana de dias la define lo que publica Cinemark (suele ser 5).
+    dias = sorted({d for sala, datos in crudos if sala["fuente"] == "cinemark"
+                   for d in datos})[:5]
     if not dias:
-        print("ERROR: sin días para procesar, se aborta", file=sys.stderr)
+        print("ERROR: sin dias para procesar, se aborta", file=sys.stderr)
         return 1
 
     slugs = {r.get("slug_pelicula")
-             for fuente in (ck, ab) for pelis in fuente.values()
-             for r in pelis.values()}
+             for sala, datos in crudos if sala["fuente"] == "cinemark"
+             for pelis in datos.values() for r in pelis.values()}
     fichas = cinemark.fichas(slugs)
 
-    print("relevando Atlas Caballito...", flush=True)
-    atl = atlas.cartelera()
-    print("relevando Cine Gaumont...", flush=True)
-    gau = gaumont.cartelera()
-
-    films = unify.construir(ck, ab, fichas, atl, gau, dias)
+    films = unify.construir(crudos, fichas, dias)
 
     for f in films.values():
         f["score"] = f["tmdb"] = f["match"] = f["verif"] = None
@@ -70,26 +94,33 @@ def main():
                 if v:
                     films[k].update(rt=v["critica"], rt_pub=v["publico"], rt_url=v["url"])
 
-    ahora = datetime.datetime.now()
-    dataset = {"days": dias, "films": films,
-               "relevado": ahora.strftime("%d/%m/%Y %H:%M")}
+    por_sala = {sala["id"]: sum(1 for f in films.values() if sala["id"] in f["cines"])
+                for sala in salas}
+    vacias = [c for c, v in por_sala.items() if v == 0]
+    dataset = {"days": dias, "films": films, "relevado": ahora_ba(),
+               "salas": {s["id"]: {"nombre": s["nombre"], "corto": s["corto"],
+                                   "cadena": s["cadena"], "direccion": s["direccion"],
+                                   "barrio": s["barrio"], "comuna": s["comuna"],
+                                   "lat": s["lat"], "lon": s["lon"], "url": s["url"],
+                                   "fuente": s["fuente"],
+                                   "con_datos": por_sala[s["id"]] > 0}
+                         for s in salas},
+               "sin_datos": vacias}
     pathlib.Path(args.json).write_text(
         json.dumps(dataset, ensure_ascii=False, indent=1), encoding="utf-8")
     n = render(dataset, args.salida)
 
-    por_cine = {c: sum(1 for f in films.values() if c in f["cines"])
-                for c in ("cinemark", "hoyts", "atlas", "gaumont")}
     con_puntaje = sum(1 for f in films.values() if f.get("score"))
     con_rt = sum(1 for f in films.values() if f.get("rt") is not None)
     print("\n--- resumen ---")
     print(f"dias={dias[0]}..{dias[-1]} peliculas={len(films)} "
           f"tmdb={con_puntaje} rt={con_rt}")
-    for c, v in por_cine.items():
+    for c, v in por_sala.items():
         print(f"{c}={v}")
     print(f"html={args.salida} bytes={n}")
-    # Una sala en cero casi siempre significa que cambió el sitio o el dominio
-    # quedó fuera de la lista blanca, no que no haya funciones.
-    vacias = [c for c, v in por_cine.items() if v == 0]
+    print(f"pedidos_http={http.PEDIDOS} duracion={time.time() - t0:.0f}s")
+    # Una sala en cero casi siempre significa que cambio el sitio o el dominio
+    # quedo fuera de la lista blanca, no que no haya funciones.
     if vacias:
         print("ATENCION sin_datos=" + ",".join(vacias), file=sys.stderr)
     # Cero puntajes con películas en cartel es el mismo síntoma: el proveedor

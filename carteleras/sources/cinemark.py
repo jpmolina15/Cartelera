@@ -16,7 +16,6 @@ from concurrent.futures import ThreadPoolExecutor
 from ..http import get
 
 BASE = "https://www.cinemark.com.ar"
-SALAS = {"cinemark": "caballito", "hoyts": "abasto"}
 
 
 def _jsonld(pagina):
@@ -112,7 +111,7 @@ def _ficha(slug_pelicula):
     }
 
 
-def fichas(slugs, workers=6):
+def fichas(slugs, workers=4):
     slugs = sorted({s for s in slugs if s})
     with ThreadPoolExecutor(max_workers=workers) as ex:
         pares = zip(slugs, ex.map(_ficha, slugs))

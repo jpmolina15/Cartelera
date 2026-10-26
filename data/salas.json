@@ -1,0 +1,138 @@
+[
+ {
+  "id": "cinemark-caballito",
+  "nombre": "Cinemark Caballito",
+  "corto": "Cinemark Caballito",
+  "cadena": "cinemark",
+  "direccion": "Av. La Plata 96",
+  "barrio": "Almagro",
+  "comuna": 5,
+  "lat": -34.61636,
+  "lon": -58.42887,
+  "fuente": "cinemark",
+  "cfg": {
+   "slug": "caballito"
+  },
+  "url": "https://www.cinemark.com.ar/cartelera/caballito",
+  "activa": true
+ },
+ {
+  "id": "hoyts-abasto",
+  "nombre": "Hoyts Abasto",
+  "corto": "Hoyts Abasto",
+  "cadena": "hoyts",
+  "direccion": "Av. Corrientes 3247 (Shopping Abasto)",
+  "barrio": "Balvanera",
+  "comuna": 3,
+  "lat": -34.60395,
+  "lon": -58.41067,
+  "fuente": "cinemark",
+  "cfg": {
+   "slug": "abasto"
+  },
+  "url": "https://www.cinemark.com.ar/cartelera/abasto",
+  "activa": true
+ },
+ {
+  "id": "hoyts-dot",
+  "nombre": "Hoyts DOT",
+  "corto": "Hoyts DOT",
+  "cadena": "hoyts",
+  "direccion": "Vedia 3626 (Shopping DOT)",
+  "barrio": "Saavedra",
+  "comuna": 12,
+  "lat": -34.54505,
+  "lon": -58.48765,
+  "fuente": "cinemark",
+  "cfg": {
+   "slug": "dot"
+  },
+  "url": "https://www.cinemark.com.ar/cartelera/dot",
+  "activa": true
+ },
+ {
+  "id": "cinemark-palermo",
+  "nombre": "Cinemark Palermo",
+  "corto": "Cinemark Palermo",
+  "cadena": "cinemark",
+  "direccion": "Beruti 3399",
+  "barrio": "Palermo",
+  "comuna": 14,
+  "lat": -34.58669,
+  "lon": -58.41027,
+  "fuente": "cinemark",
+  "cfg": {
+   "slug": "palermo"
+  },
+  "url": "https://www.cinemark.com.ar/cartelera/palermo",
+  "activa": true
+ },
+ {
+  "id": "cinemark-puerto-madero",
+  "nombre": "Cinemark Puerto Madero",
+  "corto": "Cinemark P. Madero",
+  "cadena": "cinemark",
+  "direccion": "Av. Alicia Moreau de Justo 1920",
+  "barrio": "Puerto Madero",
+  "comuna": 1,
+  "lat": -34.62156,
+  "lon": -58.36531,
+  "fuente": "cinemark",
+  "cfg": {
+   "slug": "puertomadero"
+  },
+  "url": "https://www.cinemark.com.ar/cartelera/puertomadero",
+  "activa": true
+ },
+ {
+  "id": "cinemark-parque-brown",
+  "nombre": "Cinemark Parque Brown",
+  "corto": "Cinemark P. Brown",
+  "cadena": "cinemark",
+  "direccion": "Av. Fernández de la Cruz 4602",
+  "barrio": "Villa Lugano",
+  "comuna": 8,
+  "lat": -34.67387,
+  "lon": -58.45927,
+  "fuente": "cinemark",
+  "cfg": {
+   "slug": "parquebrown"
+  },
+  "url": "https://www.cinemark.com.ar/cartelera/parquebrown",
+  "activa": true
+ },
+ {
+  "id": "atlas-caballito",
+  "nombre": "Atlas Caballito",
+  "corto": "Atlas Caballito",
+  "cadena": "atlas",
+  "direccion": "Av. Rivadavia 5071",
+  "barrio": "Caballito",
+  "comuna": 6,
+  "lat": -34.61858,
+  "lon": -58.43731,
+  "fuente": "atlas",
+  "cfg": {
+   "complejo": 191
+  },
+  "url": "https://www.atlascines.com",
+  "activa": true
+ },
+ {
+  "id": "gaumont",
+  "nombre": "Cine Gaumont",
+  "corto": "Gaumont",
+  "cadena": "incaa",
+  "direccion": "Av. Rivadavia 1635",
+  "barrio": "San Nicolás",
+  "comuna": 1,
+  "lat": -34.60904,
+  "lon": -58.38959,
+  "fuente": "gaumont",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/microcentro/562-complejo-cine-gaumont"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/microcentro/562-complejo-cine-gaumont",
+  "activa": true
+ }
+]
