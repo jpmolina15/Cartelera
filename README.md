@@ -17,7 +17,9 @@ python3 -m unittest discover -s tests -t .
 ```
 
 `run.py` imprime un resumen al final (películas por sala, cuántas con puntaje)
-y escribe `ATENCION sin_datos=<sala>` en stderr si alguna quedó en cero.
+y escribe en stderr `ATENCION sin_datos=<sala>` si alguna sala quedó en cero, o
+`ATENCION sin_puntajes=<tmdb|rt>` si un proveedor de puntajes no devolvió
+ninguno.
 
 ## De dónde sale cada dato
 
@@ -45,7 +47,16 @@ un problema de lista blanca sino de los sitios: `imdb.com` responde 202 con un
 cuerpo de ~2 KB (desafío de bots) y `letterboxd.com` responde 403. Habría que
 usar una API con clave, y hoy el proyecto no usa ninguna. Las películas
 argentinas del Gaumont además casi no figuran en Rotten Tomatoes, así que para
-ésas TMDb sigue siendo la única fuente.
+ésas TMDb era la única fuente.
+
+**Desde la corrida del 06/10/2026 TMDb cayó en la misma bolsa.**
+`themoviedb.org` empezó a responder 403 con el interstitial de Cloudflare
+("Just a moment..."), tanto en la búsqueda como en la ficha, y no alcanza con
+mandar headers completos de navegador como en Rotten Tomatoes: se probó y
+sigue dando 403. `api.themoviedb.org` responde 401 porque pide clave. Mientras
+dure, la web sale sólo con los puntajes de Rotten Tomatoes y las películas
+argentinas del Gaumont quedan sin ninguno. Salir de esto implica una API con
+clave, que es una decisión de diseño que hoy el proyecto no tomó.
 
 **WebFetch está bloqueado aunque el tráfico directo pase.** Por eso todo el
 código usa `urllib` y no WebFetch.
@@ -60,6 +71,12 @@ Potter 25° Aniversario* y *La noche del demonio 6*.
 **Una sala aparece en cero.** Casi nunca es que no haya funciones: o cambió la
 estructura del sitio, o el dominio se cayó de la lista blanca. `run.py` lo
 avisa por stderr.
+
+**Un proveedor de puntajes queda en cero.** Mismo síntoma y misma causa: el
+sitio cambió o empezó a servir un desafío de bots. `run.py` avisa con
+`ATENCION sin_puntajes=<proveedor>`. Conviene verificarlo a mano antes de tocar
+los parsers: si `urllib` ya recibe un 403 o un cuerpo de "Just a moment...",
+el problema no está en las expresiones regulares.
 
 **Los horarios del Gaumont salen mal.** Es la fuente más frágil porque viene en
 prosa. Los tests de `tests/test_parsers.py` cubren los tres casos que ya

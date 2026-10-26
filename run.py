@@ -92,6 +92,12 @@ def main():
     vacias = [c for c, v in por_cine.items() if v == 0]
     if vacias:
         print("ATENCION sin_datos=" + ",".join(vacias), file=sys.stderr)
+    # Cero puntajes con películas en cartel es el mismo síntoma: el proveedor
+    # cambió o empezó a responder un desafío de bots, no que nadie las votó.
+    if not args.sin_puntajes and films:
+        for prov, n_ok in (("tmdb", con_puntaje), ("rt", con_rt)):
+            if n_ok == 0:
+                print(f"ATENCION sin_puntajes={prov}", file=sys.stderr)
     return 0
 
 
