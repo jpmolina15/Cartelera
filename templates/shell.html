@@ -209,6 +209,13 @@
     text-decoration:underline; cursor:pointer; }
   .fdist { font-family:var(--data); font-weight:400; color:var(--ink-3); }
   .hcol small { display:block; font-size:.62rem; color:var(--ink-3); }
+  .wlbar { padding:10px 14px; border-bottom:1px solid var(--rule-soft); display:flex; flex-direction:column; gap:8px; }
+  .wl-res { margin:0; font-family:var(--data); font-size:.76rem; color:var(--ink-2); }
+  .wl-ver-wrap { font-family:var(--data); font-size:.76rem; }
+  .wl-lista { max-width:none; word-break:break-word; }
+  .wl-panel { display:flex; flex-direction:column; gap:8px; }
+  .wl-marca { font-family:var(--display); font-size:.63rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase;
+    color:#fff; background:var(--accent); border-radius:2px; padding:.22em .5em; }
   [hidden] { display:none !important; }
 
   .nota { font-family:var(--data); font-size:.74rem; color:var(--ink-3);
@@ -305,6 +312,23 @@
         <div class="frow"><button type="button" class="fbtn" id="f-limpiar">Limpiar filtros</button></div>
       </div>
     </details>
+    <div class="wlbar" id="wlbar">
+      <div class="frow">
+        <button type="button" class="fbtn" id="wl-abrir" aria-expanded="false" aria-controls="wl-panel">Conectar Letterboxd</button>
+        <button type="button" class="fchip" id="wl-chip" aria-pressed="false" hidden>Solo mis guardadas</button>
+        <button type="button" class="fbtn" id="wl-borrar" hidden>Borrar mi lista</button>
+      </div>
+      <p class="wl-res" id="wl-res" aria-live="polite"></p>
+      <div class="wl-ver-wrap"><button type="button" class="flink" id="wl-ver" hidden>ver</button></div>
+      <p class="nota wl-lista" id="wl-ver-lista" hidden></p>
+      <div class="wl-panel" id="wl-panel" hidden>
+        <p class="nota">Traé tus guardadas: en Letterboxd entrá a Settings, Data, Export. Elegí el .zip del export, o el archivo <code>watchlist.csv</code> de la carpeta (Safari/iPhone suelen descomprimirlo solos).</p>
+        <div class="frow"><input type="file" id="wl-file" accept=".zip,.csv" aria-label="Archivo del export de Letterboxd"></div>
+        <label class="fcheck"><input type="checkbox" id="wl-recordar"> Recordar en este dispositivo</label>
+        <p class="nota">Tu archivo no sale de este dispositivo. Por defecto no se guarda nada; con «Recordar» se guardan solo los números de las películas que coinciden.</p>
+        <p class="fz-aviso" id="wl-msg" aria-live="polite"></p>
+      </div>
+    </div>
     <p class="faviso" id="faviso" hidden></p>
     <p class="fcount" id="fcount" aria-live="polite"></p>
   </section>
