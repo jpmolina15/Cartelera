@@ -21,6 +21,17 @@
   "tmdb_id": "1564973",
   "verif": "director"
  },
+ "BACKROOMS SIN SALIDA VERSION EXTENDIDA": {
+  "anio_cine": "",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Backrooms",
+  "titulo_local": "Backrooms: Sin salida",
+  "titulo_original": "Backrooms",
+  "tmdb_id": "1083381",
+  "verif": "titulo"
+ },
  "BUENAS VIBRACIONES": {
   "anio_cine": "2026",
   "anio_tmdb": "2026",
@@ -142,6 +153,39 @@
   "tmdb_id": "1785968",
   "verif": "evento"
  },
+ "ESCUELA DE MONSTRUOS": {
+  "anio_cine": "",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Monster Mia",
+  "titulo_local": "Escuela de Monstruos",
+  "titulo_original": "Monster Mia",
+  "tmdb_id": "1572116",
+  "verif": "titulo"
+ },
+ "ESTACION ZOMBIE": {
+  "anio_cine": "",
+  "anio_tmdb": "2016",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Train to Busan",
+  "titulo_local": "Estación Zombie: tren a Busan",
+  "titulo_original": "부산행",
+  "tmdb_id": "396535",
+  "verif": "titulo"
+ },
+ "HANGAR ROJO": {
+  "anio_cine": "2026",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "The Red Hangar",
+  "titulo_local": null,
+  "titulo_original": "Hangar Rojo",
+  "tmdb_id": "1563588",
+  "verif": "titulo"
+ },
  "HEIDI EL RESCATE DEL LINCE": {
   "anio_cine": "2026",
   "anio_tmdb": "2025",
@@ -175,6 +219,17 @@
   "tmdb_id": "1255833",
   "verif": "titulo"
  },
+ "LA CAJA DEL DEMONIO": {
+  "anio_cine": "",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Lockbox",
+  "titulo_local": "La Caja Del Demonio",
+  "titulo_original": "Lockbox",
+  "tmdb_id": "1500890",
+  "verif": "titulo"
+ },
  "LA CASA": {
   "anio_cine": "2026",
   "anio_tmdb": "2026",
@@ -184,6 +239,17 @@
   "titulo_local": null,
   "titulo_original": "La casa",
   "tmdb_id": "1568759",
+  "verif": "director"
+ },
+ "LA INVITACION": {
+  "anio_cine": "2026",
+  "anio_tmdb": "2026",
+  "director_cine": "Olivia Wilde",
+  "fecha": "2026-10-27",
+  "titulo_en": "The Invite",
+  "titulo_local": "La invitación",
+  "titulo_original": "The Invite",
+  "tmdb_id": "950028",
   "verif": "director"
  },
  "LA ISLA OLVIDADA": {
@@ -196,6 +262,17 @@
   "titulo_original": "Forgotten Island",
   "tmdb_id": "1465063",
   "verif": "titulo"
+ },
+ "LA NEGOCIACION": {
+  "anio_cine": "2025",
+  "anio_tmdb": "2026",
+  "director_cine": "Gus Van Sant",
+  "fecha": "2026-10-27",
+  "titulo_en": "Dead Man's Wire",
+  "titulo_local": "La negociación",
+  "titulo_original": "Dead Man's Wire",
+  "tmdb_id": "1263012",
+  "verif": "director"
  },
  "LA ODISEA": {
   "anio_cine": "2026",
@@ -219,6 +296,17 @@
   "tmdb_id": "1487317",
   "verif": "director"
  },
+ "LOS DOMINGOS": {
+  "anio_cine": "2025",
+  "anio_tmdb": "2025",
+  "director_cine": "Alauda Ruiz de Azúa",
+  "fecha": "2026-10-27",
+  "titulo_en": "Sundays",
+  "titulo_local": null,
+  "titulo_original": "Los domingos",
+  "tmdb_id": "1443576",
+  "verif": "director"
+ },
  "LOS OTROS 25 ANIVERSARIO": {
   "anio_cine": "2026",
   "anio_tmdb": "2001",
@@ -239,6 +327,17 @@
   "titulo_local": "Madre siniestra",
   "titulo_original": "Other Mommy",
   "tmdb_id": "1400837",
+  "verif": "titulo"
+ },
+ "PINOCHO SIN CUERDAS": {
+  "anio_cine": "",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Pinocchio: Unstrung",
+  "titulo_local": "Pinocho: Sin cuerdas",
+  "titulo_original": "Pinocchio: Unstrung",
+  "tmdb_id": "1232569",
   "verif": "titulo"
  },
  "QUE DIOS PERDONA A TODOS": {
@@ -274,6 +373,17 @@
   "tmdb_id": "1423191",
   "verif": "titulo"
  },
+ "SENSATEZ Y SENTIMIENTO": {
+  "anio_cine": "",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Sense and Sensibility",
+  "titulo_local": "Sensatez y Sentimiento",
+  "titulo_original": "Sense and Sensibility",
+  "tmdb_id": "1503762",
+  "verif": "titulo"
+ },
  "SPIDER MAN UN NUEVO DIA": {
   "anio_cine": "2026",
   "anio_tmdb": "2026",
@@ -283,6 +393,17 @@
   "titulo_local": "Spider-Man: Un nuevo día",
   "titulo_original": "Spider-Man: Brand New Day",
   "tmdb_id": "969681",
+  "verif": "director"
+ },
+ "STOP MAKING SENSE": {
+  "anio_cine": "1984",
+  "anio_tmdb": "1984",
+  "director_cine": "Jonathan Demme",
+  "fecha": "2026-10-27",
+  "titulo_en": "Stop Making Sense",
+  "titulo_local": null,
+  "titulo_original": "Stop Making Sense",
+  "tmdb_id": "24128",
   "verif": "director"
  },
  "STREET FIGHTER": {
@@ -317,6 +438,28 @@
   "titulo_original": "Beware Boiúna",
   "tmdb_id": "1244523",
   "verif": "titulo"
+ },
+ "TIERRA DE MI PADRE": {
+  "anio_cine": "",
+  "anio_tmdb": "2026",
+  "director_cine": "",
+  "fecha": "2026-10-27",
+  "titulo_en": "Fatherland",
+  "titulo_local": "Tierra de Mi Padre",
+  "titulo_original": "Ojczyzna",
+  "tmdb_id": "1437696",
+  "verif": "titulo"
+ },
+ "TRES ADIOSES": {
+  "anio_cine": "2025",
+  "anio_tmdb": "2025",
+  "director_cine": "Isabel Coixet",
+  "fecha": "2026-10-27",
+  "titulo_en": "Three Goodbyes",
+  "titulo_local": "Tres adioses",
+  "titulo_original": "Tre ciotole",
+  "tmdb_id": "1433339",
+  "verif": "director"
  },
  "VERITY LA SOMBRA DE UN ENGANO": {
   "anio_cine": "2026",
