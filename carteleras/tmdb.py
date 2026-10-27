@@ -107,8 +107,12 @@ def entrada_vigente(e, f):
         return False
     if e.get("verif") == "manual":
         return True
-    return (_s(e.get("director_cine")) == _s(f.get("director"))
-            and _s(e.get("anio_cine")) == _s(f.get("anio")))
+    # Solo invalida un dato que existía y cambió: que una fuente nueva sume el
+    # director donde antes no había es más información, no otra película.
+    def cambia(a, b):
+        return bool(_s(a)) and bool(_s(b)) and _s(a) != _s(b)
+    return not (cambia(e.get("director_cine"), f.get("director"))
+                or cambia(e.get("anio_cine"), f.get("anio")))
 
 
 # ---------------------------------------------------------------- helpers de título

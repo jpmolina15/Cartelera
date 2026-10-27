@@ -363,3 +363,15 @@ class TestDirectorConY(unittest.TestCase):
         self.assertTrue(mismo_director("Hernán Guerschuny", ["Hernán Guerschuny"]))
         self.assertTrue(mismo_director("Toby Schwarz y Aizea Rocca", ["Aizea Rocca"]))
         self.assertFalse(mismo_director("Guy Ritchie", ["Ridley Scott"]))
+
+
+class TestCacheDirectorNuevo(unittest.TestCase):
+    def test_director_que_aparece_no_invalida(self):
+        from carteleras.tmdb import entrada_vigente
+        e = {"tmdb_id": "1", "director_cine": "", "anio_cine": "2026"}
+        self.assertTrue(entrada_vigente(e, {"director": "Aaron Sorkin", "anio": "2026"}))
+
+    def test_director_distinto_invalida(self):
+        from carteleras.tmdb import entrada_vigente
+        e = {"tmdb_id": "1", "director_cine": "Rob Savage", "anio_cine": "2026"}
+        self.assertFalse(entrada_vigente(e, {"director": "Otro Director", "anio": "2026"}))
