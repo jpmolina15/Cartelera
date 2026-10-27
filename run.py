@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Releva las salas del padron (data/salas.json) y genera la web.
 
-    python3 run.py [--salida salida/cartelera.html] [--sin-puntajes] [--json salida/datos.json]
+    python3 run.py [--salida salida/cartelera.html] [--sin-puntajes] [--json salida/datos.json] [--publicar public]
 
 Sólo usa la biblioteca estándar. Imprime al final un resumen en una línea por
 sala para que la rutina pueda contarlo en la notificación.
@@ -99,10 +99,31 @@ def ventana(hoy):
     return [(hoy + datetime.timedelta(days=i)).isoformat() for i in range(VENTANA)]
 
 
+ENVOLTURA_ANTES = ('<!doctype html><html lang="es"><head><meta charset="utf-8">'
+                   '<meta name="viewport" content="width=device-width,initial-scale=1">'
+                   '<meta name="robots" content="noindex"><title>Cartelera CABA</title></head><body>\n')
+ENVOLTURA_DESPUES = "\n</body></html>\n"
+
+
+def publicar(html, carpeta):
+    """Escribe carpeta/index.html: documento completo que envuelve el HTML de la corrida.
+    Devuelve los bytes escritos. Se escribe al final para no dejar un archivo a medias."""
+    destino = pathlib.Path(carpeta)
+    destino.mkdir(parents=True, exist_ok=True)
+    doc = ENVOLTURA_ANTES + html + ENVOLTURA_DESPUES
+    tmp = destino / "index.html.tmp"
+    tmp.write_text(doc, encoding="utf-8")
+    tmp.replace(destino / "index.html")
+    return len(doc.encode("utf-8"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--salida", default=str(RAIZ / "salida" / "cartelera.html"))
     ap.add_argument("--json", default=str(RAIZ / "salida" / "datos.json"))
+    ap.add_argument("--publicar", metavar="DIR", default=None,
+                    help="ademas escribe DIR/index.html (documento completo para Vercel); "
+                         "no escribe si no hubo salas con funciones")
     ap.add_argument("--sin-puntajes", action="store_true")
     ap.add_argument("--cache-tmdb", default=str(tmdb.CACHE_RUTA),
                     help="caché de ids de TMDb (se commitea; sin datos sensibles)")
@@ -193,7 +214,14 @@ def main():
                "sin_datos": vacias}
     pathlib.Path(args.json).write_text(
         json.dumps(dataset, ensure_ascii=False, indent=1), encoding="utf-8")
-    n = render(dataset, args.salida)
+    render_ok = True
+    try:
+        n = render(dataset, args.salida)
+    except Exception as e:
+        if not args.publicar:
+            raise
+        print(f"ERROR: render: {type(e).__name__}: {e}", file=sys.stderr)
+        render_ok, n = False, 0
 
     con_puntaje = sum(1 for f in films.values() if f.get("score"))
     con_rt = sum(1 for f in films.values() if f.get("rt") is not None)
@@ -213,6 +241,12 @@ def main():
     if cerradas:
         print("cerrado_hoy=" + ",".join(cerradas))
     print(f"html={args.salida} bytes={n}")
+    if args.publicar:
+        if render_ok and any(v > 0 for v in por_sala.values()):
+            nb = publicar(pathlib.Path(args.salida).read_text(encoding="utf-8"), args.publicar)
+            print(f"publicado={pathlib.Path(args.publicar) / 'index.html'} bytes={nb}")
+        else:
+            print("ATENCION no_publicado", file=sys.stderr)
     print(f"pedidos_http={http.PEDIDOS} duracion={time.time() - t0:.0f}s")
     # Una sala en cero casi siempre significa que cambio el sitio o el dominio
     # quedo fuera de la lista blanca, no que no haya funciones.
