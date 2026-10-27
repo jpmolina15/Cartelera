@@ -83,6 +83,15 @@ def funciones(slug):
     return out
 
 
+def sinopsis_valida(texto):
+    """Descarta lo que no es una sinopsis: a veces el payload trae un precio («$28»).
+
+    Menos de 40 caracteres o que empiece con «$» -> None.
+    """
+    t = (texto or "").replace("\\n", " ").strip()
+    return t if len(t) >= 40 and not t.startswith("$") else None
+
+
 def _ficha(slug_pelicula):
     buf = _payload(get(f"{BASE}/pelicula/{slug_pelicula}"))
     if not buf:
@@ -103,7 +112,7 @@ def _ficha(slug_pelicula):
         "generos": re.findall(r'"([^"]+)"', generos.group(1)) if generos else [],
         # 'languages' lista los idiomas de la película, no de cada función.
         "idiomas": re.findall(r'"value":"([^"]+)"', idiomas.group(1)) if idiomas else [],
-        "sinopsis": sinopsis.group(1).replace("\\n", " ").strip() if sinopsis else None,
+        "sinopsis": sinopsis_valida(sinopsis.group(1)) if sinopsis else None,
         "equipo": [{"nombre": n.lstrip("* ").strip(), "rol": r}
                    for n, r in re.findall(
                        r'\{"name":"([^"]+)","role":"([^"]+)"\}', equipo.group(1))]

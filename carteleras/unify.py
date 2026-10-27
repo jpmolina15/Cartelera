@@ -74,7 +74,7 @@ def _vacia(k, titulo):
             "origen": None, "anio": None, "original": None, "cines": {}}
 
 
-ORDEN_FUENTES = ("cinemark", "atlas", "gaumont")
+ORDEN_FUENTES = ("cinemark", "atlas", "unica", "multiplex", "showcase")
 
 
 def _cinemark(slot, sala, datos, fichas_ck, dias):
@@ -128,12 +128,23 @@ def _atlas(slot, sala, datos, dias):
                 for r in filas]
 
 
-def _gaumont(slot, sala, datos, dias):
-    # Programación semanal expandida a días.
-    from .sources.gaumont import expandir_semana
+def _unica_semanal(slot, sala, datos, dias, hoy):
+    """Programación semanal en prosa (Gaumont, Cosmos) expandida a días.
+
+    Solo reparte dentro de la semana que dice el encabezado («SEMANA DEL JUEVES 22 AL
+    MIÉRCOLES 28 DE OCTUBRE»). Sin encabezado legible, hasta el miércoles siguiente a
+    la fecha de corrida: nunca se repite una semana.
+    """
+    from .sources.unica import expandir_semana, rango_semana, semana_por_defecto
     cine = sala["id"]
-    dow = {d: datetime.date(*map(int, d.split("-"))).weekday() for d in dias}
-    for g in datos:
+    peliculas = datos["peliculas"] if isinstance(datos, dict) else datos
+    enc = datos.get("encabezado") if isinstance(datos, dict) else None
+    hoy_d = _fecha(hoy)
+    rango = rango_semana(enc, hoy_d) or semana_por_defecto(hoy_d)
+    ini, fin = (r.isoformat() for r in rango)
+    dias = [d for d in dias if ini <= d <= fin]
+    dow = {d: _fecha(d).weekday() for d in dias}
+    for g in peliculas:
         f = slot(clave(g["titulo"]), g["titulo"])
         f["duracion"] = f["duracion"] or (f"{g['duracion']} min" if g.get("duracion") else None)
         f["director"] = f["director"] or g.get("director")
@@ -150,30 +161,111 @@ def _gaumont(slot, sala, datos, dias):
                 {"h": h, "fmt": "", "lang": ""} for h in sorted(set(hs))]
 
 
-def construir(crudos, fichas_ck, dias):
+def _unica_diario(slot, sala, datos, dias, hoy):
+    """Una línea por película con los horarios del día de la corrida (con idioma)."""
+    if datos.get("cerrado_hoy") or hoy not in dias:
+        return
+    cine = sala["id"]
+    for g in datos["peliculas"]:
+        if not g["horarios"]:
+            continue
+        f = slot(clave(g["titulo"]), g["titulo"])
+        f["duracion"] = f["duracion"] or (f"{g['duracion']} min" if g.get("duracion") else None)
+        f["director"] = f["director"] or g.get("director")
+        f["sinopsis"] = f["sinopsis"] or g.get("sinopsis")
+        f["origen"] = f["origen"] or g.get("origen")
+        f["anio"] = f["anio"] or g.get("anio")
+        f["cines"].setdefault(cine, {})[hoy] = [
+            {"h": r["h"], "fmt": "", "lang": r["lang"]} for r in g["horarios"]]
+
+
+def _showcase(slot, sala, datos, dias, hoy):
+    """HTML del día de la consulta: formato e idioma por función."""
+    if hoy not in dias:
+        return
+    cine = sala["id"]
+    for g in datos:
+        f = slot(clave(g["titulo"]), g["titulo"])
+        if g.get("duracion"):
+            f["duracion"] = f["duracion"] or f"{g['duracion']} min"
+        f["clasificacion"] = f["clasificacion"] or g.get("clasificacion")
+        f["sinopsis"] = f["sinopsis"] or g.get("sinopsis")
+        f["cines"].setdefault(cine, {})[hoy] = [
+            {"h": r["h"], "fmt": r["fmt"], "lang": r["lang"]}
+            for r in sorted(g["funciones"], key=lambda r: horaComparable(r["h"]))]
+
+
+def _multiplex(slot, sala, datos, dias, hoy):
+    """Funciones por noche de cine (`dia`), ya deduplicadas por id; recorta a la ventana."""
+    cine = sala["id"]
+    for fn in datos:
+        if fn["dia"] not in dias:
+            continue
+        f = slot(clave(fn["titulo"]), fn["titulo"])
+        f["cines"].setdefault(cine, {}).setdefault(fn["dia"], []).append(
+            {"h": fn["h"], "fmt": fn["fmt"], "lang": fn["lang"]})
+    for f in list(slot.films.values()):
+        for dia, rows in f["cines"].get(cine, {}).items():
+            rows.sort(key=lambda r: (horaComparable(r["h"]), r["fmt"], r["lang"]))
+
+
+def horaComparable(h):
+    """Minutos del día; 00:00-04:59 cuentan como 24-28 h (trasnoche), igual que en la plantilla."""
+    hh, mm = (int(x) for x in h.split(":")[:2])
+    return (hh + 24 if hh < 5 else hh) * 60 + mm
+
+
+def _fecha(iso):
+    return datetime.date(*map(int, iso.split("-")))
+
+
+# (fuente, modo) -> funcion. Sin `else`: una fuente desconocida es un error, no un Gaumont.
+def _despachar(sala):
+    f, modo = sala["fuente"], (sala.get("cfg") or {}).get("modo")
+    tabla = {("cinemark", None): "cinemark", ("atlas", None): "atlas",
+             ("unica", "semanal"): "unica_semanal", ("unica", "diario"): "unica_diario",
+             ("multiplex", None): "multiplex", ("showcase", None): "showcase"}
+    try:
+        return tabla[(f, modo)]
+    except KeyError:
+        raise ValueError(f"sala {sala.get('id')}: no se como unificar fuente={f!r} modo={modo!r}")
+
+
+def construir(crudos, fichas_ck, dias, hoy=None):
     """crudos: [(sala_del_padron, datos_crudos)]. Devuelve {clave: pelicula}.
 
-    Se procesa por fuente (cinemark, atlas, gaumont) y dentro de cada una en
-    el orden de `crudos` (el del padron): "el primero que trae un dato gana",
-    igual que cuando las cuatro salas eran fijas.
+    `hoy` es la fecha de Buenos Aires de la corrida (ISO); por defecto, el primer dia de
+    la ventana. Las fuentes «solo hoy» (Showcase, unica diario) cuelgan sus horarios de
+    ahi, y las semanales (Gaumont, Cosmos) no pasan de su semana.
+    Se procesa por fuente (ORDEN_FUENTES) y dentro de cada una en el orden de `crudos`
+    (el del padron): "el primero que trae un dato gana".
     """
     films = {}
+    hoy = hoy or (dias[0] if dias else None)
 
     def slot(k, titulo):
         if k not in films:
             films[k] = _vacia(k, titulo)
         return films[k]
+    slot.films = films
 
+    por_tipo = [(_despachar(sala), sala, datos) for sala, datos in crudos]
     for fuente in ORDEN_FUENTES:
-        for sala, datos in crudos:
+        for tipo, sala, datos in por_tipo:
             if sala["fuente"] != fuente:
                 continue
-            if fuente == "cinemark":
+            if tipo == "cinemark":
                 _cinemark(slot, sala, datos, fichas_ck, dias)
-            elif fuente == "atlas":
+            elif tipo == "atlas":
                 _atlas(slot, sala, datos, dias)
-            else:
-                _gaumont(slot, sala, datos, dias)
+            elif tipo == "unica_semanal":
+                _unica_semanal(slot, sala, datos, dias, hoy)
+            elif tipo == "unica_diario":
+                _unica_diario(slot, sala, datos, dias, hoy)
+            elif tipo == "multiplex":
+                _multiplex(slot, sala, datos, dias, hoy)
+            elif tipo == "showcase":
+                _showcase(slot, sala, datos, dias, hoy)
 
     for f in films.values():
         for campo in ("sinopsis", "director", "elenco", "genero"):

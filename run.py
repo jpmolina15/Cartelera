@@ -17,24 +17,86 @@ from concurrent.futures import ThreadPoolExecutor
 from carteleras import http, tmdb, unify
 from carteleras import salas as salas_mod
 from carteleras.render import render
-from carteleras.sources import atlas, cinemark, gaumont, rt
+from carteleras.sources import atlas, cinemark, multiplex, rt, showcase, unica
 
 RAIZ = pathlib.Path(__file__).resolve().parent
+VENTANA = 5  # dias: la fecha de Buenos Aires de la corrida + 4
 
-# Despacho por fuente: cada sala del padron dice cual usa y con que parametros.
-RELEVAR = {"cinemark": lambda cfg: cinemark.funciones(cfg["slug"]),
-           "atlas": lambda cfg: atlas.cartelera(complejo=cfg["complejo"]),
-           "gaumont": lambda cfg: gaumont.cartelera(url=cfg["url"])}
+
+def _unica(cfg, hoy):
+    if cfg.get("modo") == "semanal":
+        return unica.semanal(cfg["url"])
+    return unica.diario(cfg["url"], hoy)
+
+
+# Despacho explicito por fuente: cada sala del padron dice cual usa y con que parametros.
+# (sala, hoy) -> datos crudos. Una fuente que no esta aca es un error, no un caso por defecto.
+RELEVAR = {"cinemark": lambda cfg, hoy: cinemark.funciones(cfg["slug"]),
+           "atlas": lambda cfg, hoy: atlas.cartelera(complejo=cfg["complejo"]),
+           "unica": _unica,
+           "multiplex": lambda cfg, hoy: multiplex.cartelera(cfg["complejo"], cfg.get("url", multiplex.URL)),
+           "showcase": lambda cfg, hoy: showcase.cartelera(cfg.get("url", showcase.URL))}
+
+
+def vacio(sala):
+    """Lo que devuelve una fuente caida, con la forma que espera unify."""
+    if sala["fuente"] == "cinemark":
+        return {}
+    if sala["fuente"] == "unica":
+        if (sala["cfg"] or {}).get("modo") == "semanal":
+            return {"encabezado": None, "peliculas": []}
+        return {"cerrado_hoy": False, "peliculas": []}
+    return []
+
+
+def hay_datos(sala, datos):
+    if isinstance(datos, dict) and "peliculas" in datos:
+        return bool(datos["peliculas"])
+    return bool(datos)
+
+
+def relevar(sala, hoy):
+    """(sala_efectiva, datos). Si la fuente principal viene vacia y el padron declara un
+    `respaldo` (Atlas Caballito: API -> unica), se usa y la sala pasa a su alcance y
+    cobertura (dia / parcial)."""
+    resp = (sala["cfg"] or {}).get("respaldo")
+    try:
+        datos = RELEVAR[sala["fuente"]](sala["cfg"], hoy)
+    except Exception as e:
+        if not resp:
+            raise
+        print(f"ERROR: {sala['id']}: {type(e).__name__}: {e}", file=sys.stderr)
+        datos = vacio(sala)
+    if resp and not hay_datos(sala, datos):
+        print(f"  {sala['id']}: {sala['fuente']} vacio, uso el respaldo {resp['fuente']}", flush=True)
+        sala = dict(sala, fuente=resp["fuente"], cfg=resp["cfg"],
+                    alcance=resp.get("alcance", sala["alcance"]),
+                    cobertura=resp.get("cobertura", sala["cobertura"]))
+        datos = RELEVAR[sala["fuente"]](sala["cfg"], hoy)
+    return sala, datos
+
+
+def tz_ba():
+    """Zona de Buenos Aires; respaldo UTC-3 fijo si no hay zoneinfo."""
+    try:
+        from zoneinfo import ZoneInfo
+        return ZoneInfo("America/Argentina/Buenos_Aires")
+    except Exception:
+        return datetime.timezone(datetime.timedelta(hours=-3))
 
 
 def ahora_ba():
-    """Hora de Buenos Aires; respaldo UTC-3 fijo si no hay zoneinfo."""
-    try:
-        from zoneinfo import ZoneInfo
-        tz = ZoneInfo("America/Argentina/Buenos_Aires")
-    except Exception:
-        tz = datetime.timezone(datetime.timedelta(hours=-3))
-    return datetime.datetime.now(tz).strftime("%d/%m/%Y %H:%M")
+    return datetime.datetime.now(tz_ba()).strftime("%d/%m/%Y %H:%M")
+
+
+def hoy_ba():
+    """Fecha de Buenos Aires: la que se le asigna a las fuentes «solo hoy»."""
+    return datetime.datetime.now(tz_ba()).date()
+
+
+def ventana(hoy):
+    """['YYYY-MM-DD'] desde la fecha de BA hasta +4 dias; no depende de ninguna fuente."""
+    return [(hoy + datetime.timedelta(days=i)).isoformat() for i in range(VENTANA)]
 
 
 def main():
@@ -56,29 +118,26 @@ def main():
         return 1
 
     t0 = time.time()
-    crudos = []
+    hoy = hoy_ba()
+    dias = ventana(hoy)
+    crudos, cerradas = [], []
     for sala in salas:
         print(f"relevando {sala['nombre']}...", flush=True)
         try:
-            datos = RELEVAR[sala["fuente"]](sala["cfg"])
+            efectiva, datos = relevar(sala, hoy)
         except Exception as e:  # una sala que falla no frena a las demas
             print(f"ERROR: {sala['id']}: {type(e).__name__}: {e}", file=sys.stderr)
-            datos = {} if sala["fuente"] == "cinemark" else []
-        crudos.append((sala, datos))
-
-    # La ventana de dias la define lo que publica Cinemark (suele ser 5).
-    dias = sorted({d for sala, datos in crudos if sala["fuente"] == "cinemark"
-                   for d in datos})[:5]
-    if not dias:
-        print("ERROR: sin dias para procesar, se aborta", file=sys.stderr)
-        return 1
+            efectiva, datos = sala, vacio(sala)
+        if isinstance(datos, dict) and datos.get("cerrado_hoy"):
+            cerradas.append(sala["id"])
+        crudos.append((efectiva, datos))
 
     slugs = {r.get("slug_pelicula")
              for sala, datos in crudos if sala["fuente"] == "cinemark"
              for pelis in datos.values() for r in pelis.values()}
     fichas = cinemark.fichas(slugs)
 
-    films = unify.construir(crudos, fichas, dias)
+    films = unify.construir(crudos, fichas, dias, hoy.isoformat())
 
     for f in films.values():
         f["score"] = f["tmdb"] = f["match"] = f["verif"] = None
@@ -115,17 +174,22 @@ def main():
                 if v:
                     films[k].update(rt=v["critica"], rt_pub=v["publico"], rt_url=v["url"])
 
+    efectivas = [sala for sala, _ in crudos]
     por_sala = {sala["id"]: sum(1 for f in films.values() if sala["id"] in f["cines"])
-                for sala in salas}
-    vacias = [c for c, v in por_sala.items() if v == 0]
-    dataset = {"days": dias, "films": films, "relevado": ahora_ba(),
+                for sala in efectivas}
+    dias_sala = {sala["id"]: sorted({d for f in films.values() for d in f["cines"].get(sala["id"], {})})
+                 for sala in efectivas}
+    vacias = [c for c, v in por_sala.items() if v == 0 and c not in cerradas]
+    dataset = {"days": dias, "films": films, "relevado": ahora_ba(), "hoy": hoy.isoformat(),
                "salas": {s["id"]: {"nombre": s["nombre"], "corto": s["corto"],
                                    "cadena": s["cadena"], "direccion": s["direccion"],
                                    "barrio": s["barrio"], "comuna": s["comuna"],
                                    "lat": s["lat"], "lon": s["lon"], "url": s["url"],
                                    "fuente": s["fuente"],
-                                   "con_datos": por_sala[s["id"]] > 0}
-                         for s in salas},
+                                   "alcance": s["alcance"], "cobertura": s["cobertura"],
+                                   "con_datos": por_sala[s["id"]] > 0,
+                                   "dias_con_datos": dias_sala[s["id"]]}
+                         for s in efectivas},
                "sin_datos": vacias}
     pathlib.Path(args.json).write_text(
         json.dumps(dataset, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -142,8 +206,12 @@ def main():
               f"pedidos_tmdb={tstats['pedidos']}")
         if token and tstats["sin_match"]:
             print("sin_tmdb_id=" + " | ".join(tstats["sin_match"]))
-    for c, v in por_sala.items():
-        print(f"{c}={v}")
+    for sala in efectivas:
+        c = sala["id"]
+        print(f"{c}={por_sala[c]} dias={len(dias_sala[c])} alcance={sala['alcance']} "
+              f"cobertura={sala['cobertura']} fuente={sala['fuente']}")
+    if cerradas:
+        print("cerrado_hoy=" + ",".join(cerradas))
     print(f"html={args.salida} bytes={n}")
     print(f"pedidos_http={http.PEDIDOS} duracion={time.time() - t0:.0f}s")
     # Una sala en cero casi siempre significa que cambio el sitio o el dominio

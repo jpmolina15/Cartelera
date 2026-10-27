@@ -4,6 +4,7 @@ Las respuestas de tests/fixtures/tmdb/ tienen la forma documentada de la API v3
 (search/movie y movie/{id}?append_to_response=credits,translations).
 """
 import contextlib
+import datetime
 import io
 import json
 import os
@@ -287,8 +288,12 @@ class TestCorridaCompleta(unittest.TestCase):
         env = {k: v for k, v in os.environ.items() if not k.startswith("TMDB_")}
         if token:
             env["TMDB_TOKEN"] = token
-        relevar = {"cinemark": lambda cfg: d["ck"] if cfg["slug"] == "caballito" else {},
-                   "atlas": lambda cfg: d["atlas"], "gaumont": lambda cfg: d["gaumont"]}
+        vacia_diaria = {"cerrado_hoy": False, "peliculas": []}
+        relevar = {"cinemark": lambda cfg, hoy: d["ck"] if cfg["slug"] == "caballito" else {},
+                   "atlas": lambda cfg, hoy: d["atlas"],
+                   "unica": lambda cfg, hoy: d["gaumont"] if cfg["modo"] == "semanal" and "562" in cfg["url"]
+                   else (vacia_diaria if cfg["modo"] == "diario" else {"encabezado": None, "peliculas": []}),
+                   "multiplex": lambda cfg, hoy: [], "showcase": lambda cfg, hoy: []}
         vistos = {}
 
         def get_falso(url, **kw):
@@ -303,6 +308,7 @@ class TestCorridaCompleta(unittest.TestCase):
         args = ["run.py", "--salida", str(tmp / "c.html"), "--json", str(tmp / "d.json"),
                 "--cache-tmdb", str(tmp / "cache.json")]
         with mock.patch.dict(os.environ, env, clear=True), mock.patch.object(run, "RELEVAR", relevar), \
+                mock.patch.object(run, "hoy_ba", return_value=datetime.date(2026, 10, 26)), \
                 mock.patch.object(run.cinemark, "fichas", return_value=d["fichas"]), \
                 mock.patch.object(run.rt, "puntaje", return_value=None), \
                 mock.patch.object(http, "get", get_falso), \
