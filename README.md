@@ -21,6 +21,7 @@ python3 run.py --salida salida/cartelera-caba.html --json salida/datos-caba.json
 python3 run.py --sin-puntajes       # más rápido, sin consultar TMDb
 python3 -m unittest discover -s tests -t .
 node --test tests/js/*.test.js     # funciones puras de filtros (bloque al principio de templates/app.js)
+node scripts/contar_watchlist.mjs <export.zip|watchlist.csv> salida/datos-caba.json   # conteo local de matches de una watchlist (no imprime títulos que no cruzan)
 ```
 
 **Ventana y fechas.** La ventana es la fecha de Buenos Aires de la corrida + 4 días (no depende de Cinemark). Las fuentes «solo hoy»
@@ -170,3 +171,9 @@ Actualizar la cartelera semanal de cuatro cines de Buenos Aires.
 
 El paso 3 no es opcional: si se publica sin pasar `url`, se crea una página
 nueva con otra dirección y el link anclado queda congelado en la versión vieja.
+
+## Watchlist de Letterboxd (SPEC-05)
+
+«Conectar Letterboxd» lee en el navegador el `.zip` del export (solo `watchlist.csv`, por partes con `Blob.slice`; nunca `profile.csv`) o el CSV suelto,
+y marca las películas en cartel cuyo `tmdb_id` coincide por título + año TMDb (±1). Sin red, sin logs; «Recordar» guarda solo `tmdb_id` en
+`cartelera-caba-watchlist-v1`. Lógica pura en el bloque `WL` de `templates/app.js`; tests en `tests/js/watchlist.test.js` con zips/CSV sintéticos.

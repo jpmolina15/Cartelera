@@ -41,7 +41,7 @@ var CF=(function(){
     return (hh<5?hh+24:hh)*60+mm;
   }
   function crearFiltros(){
-    return {q:'',desde:'',hasta:'',ahora:false,idioma:'todas',fmts:[],generos:[],clas:'todas',rt70:false,cadenas:[],
+    return {guardadas:null,q:'',desde:'',hasta:'',ahora:false,idioma:'todas',fmts:[],generos:[],clas:'todas',rt70:false,cadenas:[],
       zona:{modo:'todos',barrios:[],centro:null,radio:3}};
   }
   function centroBarrio(salas,barrio){
@@ -89,6 +89,7 @@ var CF=(function(){
     if(f.clas&&f.clas!=='todas') n++;
     if(f.rt70) n++;
     if(f.cadenas.length) n++;
+    if(f.guardadas) n++;
     return n;
   }
   // ¿La sala tiene datos ese día? Con `dias_con_datos` (padrón nuevo) se mira el día elegido;
@@ -133,6 +134,7 @@ var CF=(function(){
       if(r>+fl.clas) return false;
     }
     if(fl.rt70&&!(f.rt!=null&&f.rt>=70)) return false;
+    if(fl.guardadas&&!(f.tmdb_id!=null&&fl.guardadas[String(f.tmdb_id)])) return false;
     return true;
   }
   // Funciones de una película que cumplen todo. ids: salas permitidas (ya filtradas por zona/cadena).
@@ -195,6 +197,170 @@ var CF=(function(){
     crearFiltros:crearFiltros,sanearFiltros:sanearFiltros,contarFiltros:contarFiltros,centroBarrio:centroBarrio,
     filtrarSalas:filtrarSalas,tieneDia:tieneDia,filtrarFunciones:filtrarFunciones,ahoraBA:ahoraBA,diaInicial:diaInicial,parseUsig:parseUsig};
 })();
+
+// ===== Bloque puro de la watchlist de Letterboxd (sin DOM, sin red): lector de .zip/.csv y cruce con la cartelera. =====
+var WL=(function(){
+  var TOPE_ZIP=100*1024*1024, TOPE_CSV=5*1024*1024, TOPE_FILAS=20000, TOPE_CD=16*1024*1024;
+  var MSG={
+    grande:'El archivo es demasiado grande.',
+    filas:'La lista tiene más de 20.000 filas: no la procesamos.',
+    nozip:'No pudimos leer ese .zip. Probá con el archivo watchlist.csv de la carpeta.',
+    sinwl:'El .zip no trae un watchlist.csv en la raíz. Probá con el archivo watchlist.csv suelto.',
+    cifrado:'El .zip está cifrado: no lo podemos leer. Elegí el archivo watchlist.csv suelto.',
+    zip64:'El .zip usa un formato (zip64) que no leemos. Elegí el archivo watchlist.csv suelto.',
+    metodo:'El .zip usa una compresión que no leemos. Elegí el archivo watchlist.csv suelto.',
+    nodecomp:'Este navegador no puede abrir .zip: elegí el archivo watchlist.csv suelto.',
+    csv:'No parece un watchlist.csv de Letterboxd (faltan las columnas Name o Title).'
+  };
+  function err(cod){var e=new Error(MSG[cod]||MSG.nozip); e.codigo=cod; return e;}
+  // Parser CSV como máquina de estados: BOM, CRLF, comillas con comas y saltos de línea, comillas dobles escapadas.
+  function parseCSV(t){
+    t=String(t==null?'':t); if(t.charCodeAt(0)===0xFEFF) t=t.slice(1);
+    var rows=[],row=[],f='',q=false,i=0,n=t.length,c;
+    function finCampo(){row.push(f); f='';}
+    function finFila(){finCampo(); if(!(row.length===1&&row[0]==='')){rows.push(row); if(rows.length>TOPE_FILAS+1) throw err('filas');} row=[];}
+    while(i<n){
+      c=t.charAt(i);
+      if(q){
+        if(c==='"'){if(t.charAt(i+1)==='"'){f+='"'; i+=2; continue;} q=false; i++; continue;}
+        f+=c; i++; continue;}
+      if(c==='"'&&f===''){q=true; i++; continue;}
+      if(c===','){finCampo(); i++; continue;}
+      if(c==='\r'){finFila(); i+=(t.charAt(i+1)==='\n')?2:1; continue;}
+      if(c==='\n'){finFila(); i++; continue;}
+      f+=c; i++;
+    }
+    if(f!==''||row.length) finFila();
+    return rows;
+  }
+  // Texto del CSV -> [{name,year,tmdb}]. Acepta Name o Title; Year vacío; tmdbID opcional.
+  function filasDeCSV(texto){
+    var rows=parseCSV(texto); if(!rows.length) throw err('csv');
+    var h=rows[0].map(function(x){return String(x).trim().toLowerCase();});
+    var iN=h.indexOf('name'); if(iN<0) iN=h.indexOf('title');
+    if(iN<0) throw err('csv');
+    var iY=h.indexOf('year'), iT=-1;
+    ['tmdbid','tmdb id','tmdb_id'].forEach(function(k){if(iT<0) iT=h.indexOf(k);});
+    var out=[];
+    for(var r=1;r<rows.length;r++){
+      var x=rows[r], name=String(x[iN]==null?'':x[iN]).trim(); if(!name) continue;
+      var y=iY>=0?String(x[iY]==null?'':x[iY]).trim():'', tm=iT>=0?String(x[iT]==null?'':x[iT]).trim():'';
+      out.push({name:name,year:/^\d{4}$/.test(y)?+y:null,tmdb:/^\d+$/.test(tm)?tm:null});
+    }
+    return out;
+  }
+  // ---- ZIP por partes con Blob.slice: cola (EOCD) -> directorio central -> solo el rango de watchlist.csv ----
+  async function leer(blob,ini,fin){return new DataView(await blob.slice(ini,fin).arrayBuffer());}
+  async function inflar(buf,tope){
+    var ds; try{ds=new DecompressionStream('deflate-raw');}catch(e){throw err('nodecomp');}
+    var rd=new Blob([buf]).stream().pipeThrough(ds).getReader(), partes=[], tot=0;
+    try{
+      for(;;){var r=await rd.read(); if(r.done) break; tot+=r.value.length;
+        if(tot>tope){try{await rd.cancel();}catch(e){} throw err('grande');}
+        partes.push(r.value);}
+    }catch(e){if(e&&e.codigo) throw e; throw err('nozip');}
+    var out=new Uint8Array(tot), o=0; partes.forEach(function(p){out.set(p,o); o+=p.length;});
+    return out;
+  }
+  async function csvDeZip(blob){
+    var size=blob.size; if(size>TOPE_ZIP) throw err('grande');
+    if(size<22) throw err('nozip');
+    var tam=Math.min(size,65557), cola=await leer(blob,size-tam,size), e=-1;
+    for(var i=tam-22;i>=0;i--){if(cola.getUint32(i,true)===0x06054b50){e=i; break;}}
+    if(e<0) throw err('nozip');
+    var total=cola.getUint16(e+10,true), cdTam=cola.getUint32(e+12,true), cdOff=cola.getUint32(e+16,true);
+    if(total===0xFFFF||cdTam===0xFFFFFFFF||cdOff===0xFFFFFFFF||
+       (e>=20&&cola.getUint32(e-20,true)===0x07064b50)) throw err('zip64');
+    if(cdTam>TOPE_CD||cdOff+cdTam>size) throw err('nozip');
+    var cd=await leer(blob,cdOff,cdOff+cdTam), p=0, ent=null;
+    while(p+46<=cdTam){
+      if(cd.getUint32(p,true)!==0x02014b50) throw err('nozip');
+      var fl=cd.getUint16(p+8,true), met=cd.getUint16(p+10,true), cs=cd.getUint32(p+20,true), us=cd.getUint32(p+24,true);
+      var nl=cd.getUint16(p+28,true), el=cd.getUint16(p+30,true), cl=cd.getUint16(p+32,true), lo=cd.getUint32(p+42,true);
+      if(p+46+nl>cdTam) throw err('nozip');
+      var nom=new TextDecoder('utf-8').decode(new Uint8Array(cd.buffer,cd.byteOffset+p+46,nl));
+      if(nom==='watchlist.csv'){ent={fl:fl,met:met,cs:cs,us:us,lo:lo}; break;}
+      p+=46+nl+el+cl;
+    }
+    if(!ent) throw err('sinwl');
+    if(ent.fl&1) throw err('cifrado');
+    if(ent.cs===0xFFFFFFFF||ent.us===0xFFFFFFFF||ent.lo===0xFFFFFFFF) throw err('zip64');
+    if(ent.met!==0&&ent.met!==8) throw err('metodo');
+    if(ent.us>TOPE_CSV) throw err('grande');
+    if(ent.lo+30>size) throw err('nozip');
+    var lh=await leer(blob,ent.lo,ent.lo+30);
+    if(lh.getUint32(0,true)!==0x04034b50) throw err('nozip');
+    var ini=ent.lo+30+lh.getUint16(26,true)+lh.getUint16(28,true);
+    if(ini+ent.cs>size) throw err('nozip');
+    var crudo=await blob.slice(ini,ini+ent.cs).arrayBuffer();
+    if(ent.met===0){if(crudo.byteLength>TOPE_CSV) throw err('grande'); return new Uint8Array(crudo);}
+    return inflar(crudo,TOPE_CSV);
+  }
+  // Archivo (Blob/File) -> [{name,year,tmdb}]. Reconoce el zip por su firma, no por el nombre (que no se usa).
+  async function leerArchivo(blob){
+    if(!blob||typeof blob.size!=='number') throw err('nozip');
+    if(blob.size>TOPE_ZIP) throw err('grande');
+    var m=await leer(blob,0,Math.min(4,blob.size));
+    var zip=m.byteLength>=4&&m.getUint8(0)===0x50&&m.getUint8(1)===0x4B;
+    var bytes;
+    if(zip) bytes=await csvDeZip(blob);
+    else{if(blob.size>TOPE_CSV) throw err('grande'); bytes=new Uint8Array(await blob.arrayBuffer());}
+    return filasDeCSV(new TextDecoder('utf-8').decode(bytes));
+  }
+  // ---- Cruce ----
+  var ART={the:1,a:1,an:1,el:1,la:1,los:1,las:1};
+  function norm(s){
+    s=String(s==null?'':s).normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/&/g,' and ');
+    var t=s.replace(/[^\p{L}\p{N}\p{M}]+/gu,' ').trim().split(' ').filter(Boolean).map(function(w){return w==='y'?'and':w;});
+    if(t.length>1&&ART[t[0]]) t.shift();
+    return t.join(' ');
+  }
+  function sinFmt(k){var r=k; for(;;){var n=r.replace(/ (3d|4d|xd|dbox|subtitulada|doblada)$/,''); if(n===r) return r; r=n;}}
+  function valido(k){return k.length>=2;}
+  // filas: [{name,year,tmdb}]; films: array u objeto de películas del dataset.
+  // -> {filas:n, ids:[tmdb_id distintos], matches:[{tmdb_id,titulo,anio}], noCruzadas:[{name,year}]}
+  function cruzarWatchlist(filas,films){
+    var fl=Array.isArray(films)?films:Object.keys(films||{}).map(function(k){return films[k];});
+    var porId={}, idx={};
+    fl.forEach(function(f){
+      var id=f&&f.tmdb_id; if(id==null||!/^\d+$/.test(String(id))) return; id=String(id);
+      var a=parseInt(f.anio_tmdb,10); if(isNaN(a)) a=null;
+      var ficha=porId[id]||(porId[id]={id:id,titulo:f.titulo,anio:a});
+      if(ficha.anio==null&&a!=null) ficha.anio=a;
+      [f.titulo_en,f.titulo_original,f.titulo_local].forEach(function(t){
+        if(t==null) return; var k=norm(t), ks=[k,sinFmt(k)];
+        ks.forEach(function(x){if(valido(x)){(idx[x]=idx[x]||{})[id]=1;}});});
+    });
+    var ids={}, matches=[], no=[];
+    (filas||[]).forEach(function(r){
+      var id=null;
+      if(r.tmdb){id=porId[r.tmdb]?r.tmdb:null;}
+      else{
+        var k=norm(r.name), y=r.year;
+        if(valido(k)&&y!=null&&idx[k]){
+          var exa=[],cer=[];
+          Object.keys(idx[k]).forEach(function(c){var a=porId[c].anio; if(a==null) return;
+            if(a===y) exa.push(c); else if(Math.abs(a-y)===1) cer.push(c);});
+          var cand=exa.length?exa:cer;
+          if(cand.length===1) id=cand[0];
+        }
+      }
+      if(id){if(!ids[id]){ids[id]=1; matches.push({tmdb_id:id,titulo:porId[id].titulo,anio:porId[id].anio});}}
+      else no.push({name:r.name,year:r.year});
+    });
+    return {filas:(filas||[]).length,ids:Object.keys(ids),matches:matches,noCruzadas:no};
+  }
+  // «Recordar»: solo enteros, nada más.
+  function sanearGuardadas(o){
+    if(!o||typeof o!=='object'||!Array.isArray(o.ids)) return null;
+    var ids=o.ids.filter(function(x){return typeof x==='number'&&isFinite(x)&&Math.floor(x)===x&&x>0;}).slice(0,5000);
+    var fecha=typeof o.fecha==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(o.fecha)?o.fecha:'';
+    return {ids:ids,fecha:fecha};
+  }
+  return {parseCSV:parseCSV,filasDeCSV:filasDeCSV,leerArchivo:leerArchivo,csvDeZip:csvDeZip,norm:norm,
+    cruzarWatchlist:cruzarWatchlist,sanearGuardadas:sanearGuardadas,mensaje:function(e){return e&&e.codigo&&MSG[e.codigo]?e.message:MSG.nozip;}};
+})();
+CF.WL=WL;
 if(typeof module!=='undefined'&&module.exports) module.exports=CF;
 
 if(typeof window!=='undefined'&&window.__DATA__){(function(){
@@ -272,7 +438,7 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
     return CF.crearFiltros();
   }
   function guardar(){
-    try{var o=JSON.parse(JSON.stringify(S.f)); delete o.ahora; window.localStorage.setItem(LS,JSON.stringify(o));}catch(e){}
+    try{var o=JSON.parse(JSON.stringify(S.f)); delete o.ahora; delete o.guardadas; window.localStorage.setItem(LS,JSON.stringify(o));}catch(e){}
   }
   function ctxAhora(){return CF.ahoraBA(new Date());}
   var A0=ctxAhora(), INI=CF.diaInicial(DAYS,A0.hoy);
@@ -356,9 +522,76 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
     $('f-rt').checked=!!f.rt70;
     $('f-fmt').innerHTML=chipsHTML(optFmt.map(function(x){return {v:x,t:x};}),f.fmts);
     $('f-gen').innerHTML=chipsHTML(optGen.map(function(x){return {v:x,t:x};}),f.generos);
+    sincronizarWL();
     $('f-cad').innerHTML=chipsHTML(optCad.map(function(x){return {v:x,t:CADENAS[x]||x};}),f.cadenas);
   }
   function cambio(){guardar(); sincronizar(); render();}
+
+  // ---------- watchlist de Letterboxd (todo local: el archivo no se envía a ningún lado) ----------
+  var LSW='cartelera-caba-watchlist-v1';
+  S.wl=null;   // {ids:{tmdb_id:true}, nEnCartel, noCruzadas:[{name,year}]|null, fecha}
+  var IDS_CARTEL={};
+  list.forEach(function(f){if(f.tmdb_id!=null&&/^\d+$/.test(String(f.tmdb_id))) IDS_CARTEL[String(f.tmdb_id)]=1;});
+  function hoyISO(){return ctxAhora().hoy;}
+  function guardarWL(){
+    try{
+      if(!S.wl||!$('wl-recordar').checked){window.localStorage.removeItem(LSW); return;}
+      window.localStorage.setItem(LSW,JSON.stringify({ids:Object.keys(S.wl.ids).map(Number),fecha:S.wl.fecha}));
+    }catch(e){}
+  }
+  function activarWL(ids,noCruz,fecha){
+    var m={}, n=0; ids.forEach(function(i){i=String(i); if(IDS_CARTEL[i]&&!m[i]){m[i]=1; n++;}});
+    S.wl={ids:m,nEnCartel:n,noCruzadas:noCruz,fecha:fecha||''};
+    if(S.f.guardadas) S.f.guardadas=m;
+  }
+  function borrarWL(){
+    S.wl=null; S.f.guardadas=null; $('wl-recordar').checked=false;
+    try{window.localStorage.removeItem(LSW);}catch(e){}
+    $('wl-ver-lista').hidden=true; $('wl-msg').textContent='';
+    cambio();
+  }
+  function sincronizarWL(){
+    var w=S.wl, chip=$('wl-chip'); if(!chip) return;
+    chip.hidden=!w; chip.setAttribute('aria-pressed',String(!!S.f.guardadas)); chip.classList.toggle('on',!!S.f.guardadas);
+    $('wl-borrar').hidden=!w;
+    var r=$('wl-res');
+    if(!w){r.textContent=''; $('wl-ver').hidden=true; $('wl-ver-lista').hidden=true; return;}
+    var t=w.nEnCartel+(w.nEnCartel===1?' de tus guardadas está':' de tus guardadas están')+' en cartel';
+    if(w.noCruzadas){
+      t+='. '+w.noCruzadas.length+(w.noCruzadas.length===1?' de tu lista no se cruzó':' de tu lista no se cruzaron')+
+        ' con la cartelera (no están en cartel o no se pudieron identificar).';
+    }else t+=(w.fecha?' (lista recordada el '+w.fecha+').':'.');
+    r.textContent=t;
+    $('wl-ver').hidden=!(w.noCruzadas&&w.noCruzadas.length);
+  }
+  function mostrarNoCruzadas(){
+    var w=S.wl, box=$('wl-ver-lista'); if(!w||!w.noCruzadas) return;
+    if(!box.hidden){box.hidden=true; $('wl-ver').textContent='ver'; return;}
+    box.textContent=w.noCruzadas.map(function(x){return x.name+(x.year?' ('+x.year+')':'');}).join(' · ');
+    box.hidden=false; $('wl-ver').textContent='ocultar';
+  }
+  async function procesarArchivo(file){
+    var msg=$('wl-msg'); msg.textContent='Leyendo…';
+    try{
+      var filas=await CF.WL.leerArchivo(file);
+      var r=CF.WL.cruzarWatchlist(filas,list);
+      activarWL(r.ids,r.noCruzadas,hoyISO());
+      msg.textContent=''; $('wl-ver-lista').hidden=true; $('wl-ver').textContent='ver';
+      guardarWL(); cambio();
+    }catch(e){msg.textContent=CF.WL.mensaje(e);}
+    $('wl-file').value='';
+  }
+  $('wl-abrir').addEventListener('click',function(){var p=$('wl-panel'); p.hidden=!p.hidden; $('wl-abrir').setAttribute('aria-expanded',String(!p.hidden));});
+  $('wl-file').addEventListener('change',function(){var f=this.files&&this.files[0]; if(f) procesarArchivo(f);});
+  $('wl-recordar').addEventListener('change',guardarWL);
+  $('wl-borrar').addEventListener('click',borrarWL);
+  $('wl-ver').addEventListener('click',mostrarNoCruzadas);
+  $('wl-chip').addEventListener('click',function(){
+    if(!S.wl) return; S.f.guardadas=S.f.guardadas?null:S.wl.ids; cambio();});
+  try{ // lista recordada: solo enteros, validada
+    var rw=CF.WL.sanearGuardadas(JSON.parse(window.localStorage.getItem(LSW)||'null'));
+    if(rw&&rw.ids.length){activarWL(rw.ids,null,rw.fecha); $('wl-recordar').checked=true;}
+  }catch(e){}
 
   // ---------- eventos de la barra ----------
   Array.prototype.forEach.call(document.querySelectorAll('input[name=fz-modo]'),function(r){
@@ -456,6 +689,7 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
       if(f.clasificacion)meta.push('<span class="cls">'+esc(f.clasificacion)+'</span>');
       if(f.director)meta.push('Dir. '+esc(f.director));
       if(f.elenco)meta.push(esc(f.elenco));
+      if(S.wl&&f.tmdb_id!=null&&S.wl.ids[String(f.tmdb_id)])meta.unshift('<span class="wl-marca">En tu watchlist</span>');
       var ids=Object.keys(cines).sort(function(a,b){
         if(dist[a]!=null&&dist[b]!=null&&dist[a]!==dist[b]) return dist[a]-dist[b];
         return ORD.indexOf(a)-ORD.indexOf(b);});
@@ -468,7 +702,7 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
         (f.sinopsis?'<p class="sinopsis">'+esc(f.sinopsis)+'</p>':'')+
         '<div class="porcine">'+fil+'</div></article>';}).join('')
       ||'<p class="vacio-in">'+(CF.contarFiltros(S.f)||S.f.zona.modo!=='todos'
-        ?'Ninguna función cumple con estos filtros.':'Sin funciones para este día.')+'</p>';
+        ?(S.f.guardadas?'Ninguna de tus guardadas cumple estos filtros.':'Ninguna función cumple con estos filtros.'):'Sin funciones para este día.')+'</p>';
   }
   function renderSalas(RD,zs,hayF){
     var out=[], ocultas=0, sinDatos=[];
