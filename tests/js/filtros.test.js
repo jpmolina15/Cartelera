@@ -198,3 +198,65 @@ test('enlacesHTML: solo con tmdb_id entero, nunca por título', () => {
   assert.strictEqual(CF.enlacesHTML({titulo: 'Sin id'}), '');
   assert.ok(CF.enlacesHTML({tmdb_id: 42}).includes('/tmdb/42/'));
 });
+
+// ---- SPEC-02: vista por día, salas «día a día», formatos de Multiplex ----
+
+test('normFmt: variantes de Multiplex a su base', () => {
+  assert.deepStrictEqual(CF.normFmt('2D'), ['2D / común']);
+  assert.deepStrictEqual(CF.normFmt('2D XTREMO'), ['XTREMO']);
+  assert.deepStrictEqual(CF.normFmt('3D XTREMO'), ['3D', 'XTREMO']);
+  assert.deepStrictEqual(CF.normFmt('COMFORT PLUS 2D'), ['COMFORT PLUS']);
+  assert.deepStrictEqual(CF.normFmt('2D + COMFORT PLUS'), ['COMFORT PLUS']);
+  assert.deepStrictEqual(CF.normFmt('PLATINUM 2D'), ['PLATINUM']);
+  assert.deepStrictEqual(CF.normFmt('4D (2D)'), ['4D']);
+  assert.deepStrictEqual(CF.normFmt('4D + 2D'), ['4D']);
+  assert.deepStrictEqual(CF.normFmt('4D(3D) INFINITY VISION'), ['4D', '3D', 'INFINITY']);
+  assert.deepStrictEqual(CF.normFmt('4D + 2D INFINITY VISION'), ['4D', 'INFINITY']);
+  assert.deepStrictEqual(CF.normFmt('4D + 3D INFINITY VISION'), ['4D', '3D', 'INFINITY']);
+  // no rompe lo de Cinemark
+  assert.deepStrictEqual(CF.normFmt('4DX'), ['4DX']);
+});
+
+const HOY = '2026-10-26', MAR = '2026-10-27';
+const SALAS2 = {
+  semana: {nombre: 'Semanal', cadena: 'cinemark', barrio: 'A', alcance: 'semana', cobertura: 'completa',
+           con_datos: true, dias_con_datos: [HOY, MAR]},
+  dia: {nombre: 'Día a día', cadena: 'atlas', barrio: 'B', alcance: 'dia', cobertura: 'parcial',
+        con_datos: true, dias_con_datos: [HOY]},
+  vieja: {nombre: 'Sin campos nuevos', cadena: 'hoyts', barrio: 'C', con_datos: false},
+  caida: {nombre: 'Caída', cadena: 'hoyts', barrio: 'D', alcance: 'semana', con_datos: false, dias_con_datos: []},
+};
+
+test('filtrarSalas por día: usa dias_con_datos del día elegido', () => {
+  const hoy = CF.filtrarSalas(SALAS2, F0(), null, HOY, HOY);
+  assert.deepStrictEqual(hoy.map(x => [x.id, x.sinDatos]),
+    [['semana', false], ['dia', false], ['vieja', true], ['caida', true]]);
+  const man = CF.filtrarSalas(SALAS2, F0(), null, MAR, HOY);
+  assert.deepStrictEqual(man.map(x => [x.id, x.sinDatos, x.diaAdelante]),
+    [['semana', false, false], ['dia', true, true], ['vieja', true, false], ['caida', true, false]]);
+});
+
+test('filtrarSalas: la leyenda «día a día» solo es para días posteriores a la corrida y alcance dia', () => {
+  const pasado = CF.filtrarSalas(SALAS2, F0(), null, '2026-10-25', HOY);
+  assert.strictEqual(pasado.find(x => x.id === 'dia').diaAdelante, false);   // día anterior: sin datos a secas
+  assert.strictEqual(CF.filtrarSalas(SALAS2, F0(), null, MAR, HOY).find(x => x.id === 'caida').diaAdelante, false);
+  assert.strictEqual(CF.filtrarSalas(SALAS2, F0(), null, HOY, HOY).find(x => x.id === 'dia').diaAdelante, false);
+  // sin `hoy` no se afirma nada
+  assert.strictEqual(CF.filtrarSalas(SALAS2, F0(), null, MAR).find(x => x.id === 'dia').diaAdelante, false);
+});
+
+test('filtrarSalas sin día (calendario / dataset viejo): vale con_datos semanal', () => {
+  const r = CF.filtrarSalas(SALAS2, F0());
+  assert.deepStrictEqual(r.map(x => [x.id, x.sinDatos]),
+    [['semana', false], ['dia', false], ['vieja', true], ['caida', true]]);
+  assert.strictEqual(CF.tieneDia({con_datos: true}, MAR), true);        // sin dias_con_datos: se confía en con_datos
+  assert.strictEqual(CF.tieneDia({con_datos: false}, MAR), false);
+});
+
+test('filtrarSalas por día + cadena + zona: el filtro no rompe el aviso de día a día', () => {
+  const f = F0(); f.cadenas = ['atlas'];
+  const r = CF.filtrarSalas(SALAS2, f, null, MAR, HOY);
+  assert.deepStrictEqual(r.map(x => [x.id, x.sinDatos, x.diaAdelante]), [['dia', true, true]]);
+  const g = F0(); g.zona.modo = 'barrios'; g.zona.barrios = ['A'];
+  assert.deepStrictEqual(CF.filtrarSalas(SALAS2, g, null, MAR, HOY).map(x => x.id), ['semana']);
+});

@@ -12,6 +12,7 @@
     --rule:#DCDFE5; --rule-soft:#E8EAEF;
     --accent:#A8660C;
     --c-ck:#2F6FB5; --c-ho:#6E4BA8; --c-at:#A8660C; --c-ga:#A93A32; --c-ot:#6B7280;
+    --c-mu:#1F7A5C; --c-sh:#B03060; --c-ci:#0E7490; --c-co:#6B5B2A;
     --shadow:0 1px 2px rgba(21,24,30,.06), 0 8px 24px -12px rgba(21,24,30,.14);
     --display:'Archivo','Helvetica Neue',Arial,sans-serif;
     --prose:'Literata',Georgia,'Times New Roman',serif;
@@ -64,6 +65,8 @@
   .dot { width:9px; height:9px; border-radius:2px; display:inline-block; }
   .dot.c-cinemark{background:var(--c-ck);} .dot.c-hoyts{background:var(--c-ho);}
   .dot.c-atlas{background:var(--c-at);} .dot.c-incaa{background:var(--c-ga);}
+  .dot.c-multiplex{background:var(--c-mu);} .dot.c-showcase{background:var(--c-sh);}
+  .dot.c-cinepolis{background:var(--c-ci);} .dot.c-cosmos{background:var(--c-co);}
   .dot.c-otro{background:var(--c-ot);}
 
   /* ---- tab 1: películas ---- */
@@ -77,6 +80,9 @@
     text-transform:uppercase; padding:.22em .5em; border-radius:2px; color:#fff; }
   .chip.c-cinemark{background:var(--c-ck);} .chip.c-hoyts{background:var(--c-ho);}
   .chip.c-atlas{background:var(--c-at);} .chip.c-incaa{background:var(--c-ga);}
+  .chip.c-multiplex{background:var(--c-mu);} .chip.c-showcase{background:var(--c-sh);}
+  .chip.c-cinepolis{background:var(--c-ci);} .chip.c-cosmos{background:var(--c-co);}
+  .chip .parcial { font-size:.85em; opacity:.85; font-weight:400; letter-spacing:0; text-transform:none; }
   .chip.c-otro{background:var(--c-ot);}
   .meta { display:flex; flex-wrap:wrap; gap:2px 8px; font-family:var(--data);
     font-size:.74rem; color:var(--ink-3); margin-bottom:9px; align-items:center; }
@@ -120,6 +126,9 @@
     padding:16px 22px; border-bottom:1px solid var(--rule-soft); border-left:4px solid var(--ink-3); }
   .sala-head.c-cinemark{border-left-color:var(--c-ck);} .sala-head.c-hoyts{border-left-color:var(--c-ho);}
   .sala-head.c-atlas{border-left-color:var(--c-at);} .sala-head.c-incaa{border-left-color:var(--c-ga);}
+  .sala-head.c-multiplex{border-left-color:var(--c-mu);} .sala-head.c-showcase{border-left-color:var(--c-sh);}
+  .sala-head.c-cinepolis{border-left-color:var(--c-ci);} .sala-head.c-cosmos{border-left-color:var(--c-co);}
+  .parcial-sala { display:block; margin-top:2px; font-family:var(--data); font-size:.72rem; color:var(--ink-3); font-style:italic; }
   .sala-head.c-otro{border-left-color:var(--c-ot);}
   .sala-head h2 { font-family:var(--display); font-weight:700; font-size:1.2rem;
     letter-spacing:-.018em; margin:0; flex:1 1 auto; }
@@ -158,6 +167,8 @@
     padding:.2em .45em; margin:2px 3px 2px 0; color:#fff; white-space:nowrap; }
   .slot.c-cinemark{background:var(--c-ck);} .slot.c-hoyts{background:var(--c-ho);}
   .slot.c-atlas{background:var(--c-at);} .slot.c-incaa{background:var(--c-ga);}
+  .slot.c-multiplex{background:var(--c-mu);} .slot.c-showcase{background:var(--c-sh);}
+  .slot.c-cinepolis{background:var(--c-ci);} .slot.c-cosmos{background:var(--c-co);}
   .slot.c-otro{background:var(--c-ot);}
   .slot em { font-style:normal; font-family:var(--display); font-size:.62rem; font-weight:600;
     letter-spacing:.04em; text-transform:uppercase; opacity:.85; }

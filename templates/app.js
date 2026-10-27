@@ -18,13 +18,18 @@ var CF=(function(){
     var h=Math.pow(Math.sin(dl/2),2)+Math.cos(lat1*r)*Math.cos(lat2*r)*Math.pow(Math.sin(dn/2),2);
     return Math.round(2*R*Math.asin(Math.sqrt(h))*10)/10;
   }
-  // 'DBOX + 2D' -> ['DBOX']; '4D + 2D, XD + 2D' -> ['4D','XD']; '' -> ['2D / común'].
+  // Lleva el formato crudo de la sala a su base: 'DBOX + 2D' -> ['DBOX']; '4D + 2D, XD + 2D' -> ['4D','XD'];
+  // '2D XTREMO' -> ['XTREMO']; 'COMFORT PLUS 2D' -> ['COMFORT PLUS']; '4D(3D) INFINITY VISION' -> ['4D','3D','INFINITY'];
+  // '' o '2D' -> ['2D / común']. Las marcas comerciales quedan como etiqueta corta; 3D y 4D se conservan.
   function normFmt(fmt){
     var out=[];
     String(fmt==null?'':fmt).split(',').forEach(function(p){
-      var t=p.replace(/\s*\+\s*2D\s*$/i,'').trim().toUpperCase();
-      if(!t||t==='2D') t=COMUN;
-      if(out.indexOf(t)<0) out.push(t);});
+      p.toUpperCase().replace(/INFINITY VISION/g,'INFINITY').split(/[+()]/).forEach(function(parte){
+        parte=parte.trim(); if(!parte) return;
+        var bases=parte.match(/\b[234]D\b/g)||[];
+        var marca=parte.replace(/\b[234]D\b/g,' ').replace(/\s+/g,' ').trim();
+        bases.forEach(function(x){if(x!=='2D'&&out.indexOf(x)<0) out.push(x);});
+        if(marca&&out.indexOf(marca)<0) out.push(marca);});});
     if(!out.length) out.push(COMUN);
     return out;
   }
@@ -86,9 +91,16 @@ var CF=(function(){
     if(f.cadenas.length) n++;
     return n;
   }
-  // Salas que entran por zona (barrios o punto+radio) y cadena. Devuelve [{id,dist,sinDatos}];
-  // con modo «cerca» y punto elegido se ordena por distancia.
-  function filtrarSalas(salas,f,orden){
+  // ¿La sala tiene datos ese día? Con `dias_con_datos` (padrón nuevo) se mira el día elegido;
+  // sin él, el dato semanal `con_datos`.
+  function tieneDia(s,dia){
+    if(Array.isArray(s.dias_con_datos)) return dia?s.dias_con_datos.indexOf(dia)>=0:s.dias_con_datos.length>0;
+    return s.con_datos!==false;
+  }
+  // Salas que entran por zona (barrios o punto+radio) y cadena. Devuelve [{id,dist,sinDatos,diaAdelante}];
+  // con modo «cerca» y punto elegido se ordena por distancia. `dia` (ISO) es el día elegido: sinDatos sale de
+  // `dias_con_datos`; `diaAdelante` marca las salas «día a día» (alcance 'dia') en un día posterior a la corrida `hoy`.
+  function filtrarSalas(salas,f,orden,dia,hoy){
     var ids=orden||Object.keys(salas), z=f.zona||{modo:'todos'}, out=[];
     var cerca=z.modo==='cerca'&&z.centro&&typeof z.centro.lat==='number';
     ids.forEach(function(id){
@@ -101,7 +113,8 @@ var CF=(function(){
         dist=distanciaKm(z.centro.lat,z.centro.lon,s.lat,s.lon);
         if(dist>z.radio) return;
       }
-      out.push({id:id,dist:dist,sinDatos:s.con_datos===false});});
+      var sd=!tieneDia(s,dia);
+      out.push({id:id,dist:dist,sinDatos:sd,diaAdelante:sd&&s.alcance==='dia'&&!!dia&&!!hoy&&dia>hoy});});
     if(cerca) out.sort(function(a,b){return a.dist-b.dist;});
     return out;
   }
@@ -180,16 +193,24 @@ var CF=(function(){
   }
   return {enlacesHTML:enlacesHTML,COMUN:COMUN,sinAcentos:sinAcentos,rank:rank,distanciaKm:distanciaKm,normFmt:normFmt,horaComparable:horaComparable,
     crearFiltros:crearFiltros,sanearFiltros:sanearFiltros,contarFiltros:contarFiltros,centroBarrio:centroBarrio,
-    filtrarSalas:filtrarSalas,filtrarFunciones:filtrarFunciones,ahoraBA:ahoraBA,diaInicial:diaInicial,parseUsig:parseUsig};
+    filtrarSalas:filtrarSalas,tieneDia:tieneDia,filtrarFunciones:filtrarFunciones,ahoraBA:ahoraBA,diaInicial:diaInicial,parseUsig:parseUsig};
 })();
 if(typeof module!=='undefined'&&module.exports) module.exports=CF;
 
 if(typeof window!=='undefined'&&window.__DATA__){(function(){
   var D=window.__DATA__, DAYS=D.days, F=D.films;
   var SALAS=D.salas||{};
-  var CADENAS={cinemark:'Cinemark',hoyts:'Hoyts',atlas:'Atlas',incaa:'INCAA'};
-  var CLS={cinemark:'c-cinemark',hoyts:'c-hoyts',atlas:'c-atlas',incaa:'c-incaa'};
-  var DOMINIOS={cinemark:'cinemark.com.ar',atlas:'atlascines.com',gaumont:'unica-cartelera.com.ar'};
+  var CADENAS={cinemark:'Cinemark',hoyts:'Hoyts',atlas:'Atlas',incaa:'INCAA',multiplex:'Multiplex',showcase:'Showcase',
+    cinepolis:'Cinépolis',cosmos:'Cosmos UBA'};
+  var CLS={cinemark:'c-cinemark',hoyts:'c-hoyts',atlas:'c-atlas',incaa:'c-incaa',multiplex:'c-multiplex',
+    showcase:'c-showcase',cinepolis:'c-cinepolis',cosmos:'c-cosmos'};
+  // Dominio de cada fuente (para el pie) y nombre legible (para «Programación parcial (fuente: ...)»).
+  var DOMINIOS={cinemark:'cinemark.com.ar',atlas:'atlascines.com',unica:'unica-cartelera.com.ar',
+    multiplex:'multiplex.com.ar',showcase:'todoshowcase.com'};
+  var FUENTES={cinemark:'Cinemark',atlas:'Atlas',unica:'Única Cartelera',multiplex:'Multiplex',showcase:'Showcase'};
+  var LEYENDA_DIA='Esta sala publica su programación día a día';
+  function parcial(c){return SALAS[c].cobertura==='parcial';}
+  function textoParcial(c){return 'Programación parcial (fuente: '+(FUENTES[SALAS[c].fuente]||SALAS[c].fuente)+')';}
   function cc(c){return CLS[SALAS[c].cadena]||'c-otro';}
   // Orden: por cadena y nombre.
   var ORD=Object.keys(SALAS).sort(function(a,b){
@@ -427,7 +448,8 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
     $('cards').innerHTML=rows.map(function(f){
       var cines=RD[f.key].cines;
       var chips=ORD.filter(function(c){return RW[f.key].cines[c];}).map(function(c){
-        return '<span class="chip '+cc(c)+'">'+esc(SALAS[c].corto)+'</span>';}).join('');
+        return '<span class="chip '+cc(c)+'"'+(parcial(c)?' title="'+esc(textoParcial(c))+'"':'')+'>'+esc(SALAS[c].corto)+
+          (parcial(c)?' <small class="parcial">parcial</small>':'')+'</span>';}).join('');
       var meta=[];
       if(f.duracion)meta.push(esc(f.duracion));
       if(f.genero)meta.push(esc(f.genero));
@@ -452,6 +474,11 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
     var out=[], ocultas=0, sinDatos=[];
     zs.forEach(function(z){
       var c=z.id;
+      if(z.sinDatos&&z.diaAdelante){
+        out.push('<article class="sala"><div class="sala-head '+cc(c)+'"><h2>'+esc(SALAS[c].nombre)+
+          '</h2><span class="dir">'+esc(SALAS[c].direccion)+' · '+esc(SALAS[c].barrio)+'</span></div>'+
+          '<p class="vacio-in">'+LEYENDA_DIA+'.</p></article>');
+        return;}
       if(z.sinDatos){sinDatos.push(SALAS[c].nombre); return;}
       var fs=list.filter(function(f){return RD[f.key].cines[c]&&RD[f.key].cines[c][S.dia];});
       fs.sort(orden);
@@ -469,11 +496,12 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
         :'<p class="vacio-in">Sin funciones publicadas para este día.</p>';
       var dd=z.dist!=null?' · a '+km(z.dist)+' en línea recta':'';
       out.push('<article class="sala"><div class="sala-head '+cc(c)+'"><h2>'+esc(SALAS[c].nombre)+
-        '</h2><span class="dir">'+esc(SALAS[c].direccion)+' · '+esc(SALAS[c].barrio)+dd+'</span></div>'+body+'</article>');});
+        '</h2><span class="dir">'+esc(SALAS[c].direccion)+' · '+esc(SALAS[c].barrio)+dd+'</span>'+
+        (parcial(c)?'<span class="parcial-sala">'+esc(textoParcial(c))+'</span>':'')+'</div>'+body+'</article>');});
     var h=out.join('');
     if(!h&&!ocultas) h='<p class="vacio-in">No hay salas en la zona elegida.</p>';
     if(ocultas) h+='<p class="nota">'+ocultas+(ocultas===1?' sala sin funciones':' salas sin funciones')+' con estos filtros.</p>';
-    if(sinDatos.length) h+='<p class="nota">Sin datos esta semana: '+esc(sinDatos.join(', '))+'.</p>';
+    if(sinDatos.length) h+='<p class="nota">Sin datos este día: '+esc(sinDatos.join(', '))+'.</p>';
     $('salas').innerHTML=h;
   }
   var sel=$('sel');
@@ -523,7 +551,7 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
   function siguienteRadio(r){var o=[1,2,3,5,10]; for(var i=0;i<o.length;i++) if(o[i]>r) return o[i]; return null;}
   function render(){
     var a=ctxAhora(), z=S.f.zona;
-    var zs=CF.filtrarSalas(SALAS,S.f,ORD);
+    var zs=CF.filtrarSalas(SALAS,S.f,ORD,S.dia,D.hoy||DAYS[0]);
     var ids=zs.map(function(x){return x.id;}), dist={};
     zs.forEach(function(x){if(x.dist!=null) dist[x.id]=x.dist;});
     var RD={}, RW={};
@@ -539,7 +567,9 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
       var nx=siguienteRadio(z.radio);
       info+=nx?'. <button type="button" class="flink" id="fz-ampliar">Ampliar radio a '+nx+' km</button>':'. Es el radio máximo';
     }
-    if(sd.length) info+='. Sin datos esta semana: '+esc(sd.map(function(x){return SALAS[x.id].nombre;}).join(', '));
+    var adel=sd.filter(function(x){return x.diaAdelante;}), sin=sd.filter(function(x){return !x.diaAdelante;});
+    if(adel.length) info+='. Publican su programación día a día: '+esc(adel.map(function(x){return SALAS[x.id].nombre;}).join(', '));
+    if(sin.length) info+='. Sin datos este día: '+esc(sin.map(function(x){return SALAS[x.id].nombre;}).join(', '));
     $('fz-info').innerHTML=info+'.';
     var am=$('fz-ampliar'); if(am) am.addEventListener('click',function(){S.f.zona.radio=siguienteRadio(S.f.zona.radio); cambio();});
     setTxt('fz-res',resumenZona(z)+' · '+conDatos.length+(conDatos.length===1?' sala':' salas'));
@@ -561,7 +591,13 @@ if(typeof window!=='undefined'&&window.__DATA__){(function(){
   var nota=[];
   if(fu.indexOf('atlas')>=0)nota.push('Atlas informa el idioma función por función');
   if(fu.indexOf('cinemark')>=0)nota.push('Cinemark y Hoyts sólo publican los idiomas disponibles por película, así que la letra aparece únicamente cuando la película se da en un solo idioma');
-  if(fu.indexOf('gaumont')>=0)nota.push('El Gaumont no publica idioma');
+  var sinIdioma=ORD.filter(function(c){return SALAS[c].fuente==='unica'&&SALAS[c].alcance==='semana';});
+  if(sinIdioma.length)nota.push(sinIdioma.map(function(c){return SALAS[c].corto;}).join(' y ')+(sinIdioma.length>1?' no publican':' no publica')+' idioma');
+  var dia=ORD.filter(function(c){return SALAS[c].alcance==='dia';});
+  if(dia.length){var H=lbl(D.hoy||DAYS[0]);
+    nota.push('Las salas que publican día a día ('+dia.map(function(c){return SALAS[c].corto;}).join(', ')+') solo muestran el '+
+      H[0]+' '+H[1]+' (el día de este relevamiento): no hay datos de los días siguientes');}
+  if(ORD.some(parcial))nota.push('Las salas con programación parcial listan solo parte de su cartelera');
   $('nota-cal').innerHTML='<b>D</b> doblada · <b>S</b> subtitulada. '+
     nota.join('. ')+'.';
   if(INI.vencida&&DAYS.length){var U2=lbl(DAYS[DAYS.length-1]);
