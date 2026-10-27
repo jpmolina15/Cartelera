@@ -25,7 +25,21 @@ def _espera_429(e, intento):
         return 1.5 * (intento + 1)
 
 
-def get(url, timeout=30, retries=2, lang="es-AR,es;q=0.9", headers=None, con_status=False):
+_ultimo = {}  # dominio -> instante del ultimo pedido (para espaciar)
+
+
+def _espaciar(url, seg):
+    """Espera lo que falte para que pasen `seg` segundos desde el ultimo pedido al mismo dominio."""
+    dom = urllib.parse.urlsplit(url).netloc
+    with _lock:
+        falta = seg - (time.time() - _ultimo.get(dom, 0.0))
+        _ultimo[dom] = time.time() + max(0.0, falta)
+    if falta > 0:
+        time.sleep(falta)
+
+
+def get(url, timeout=30, retries=2, lang="es-AR,es;q=0.9", headers=None, con_status=False,
+        espaciar=0):
     """Devuelve el cuerpo como texto, o '' si falla. Nunca levanta.
 
     `headers` se suma a los de siempre (para Authorization). Con
@@ -33,7 +47,8 @@ def get(url, timeout=30, retries=2, lang="es-AR,es;q=0.9", headers=None, con_sta
     el codigo HTTP si hubo (4xx/5xx incluidos, con su cuerpo). En ese modo un
     429 espera `Retry-After` y reintenta (maximo 2 veces); el resto de los
     codigos de error se devuelve tal cual. Nunca se registra la URL ni los
-    headers: pueden llevar credenciales.
+    headers: pueden llevar credenciales. `espaciar=N` deja N segundos entre
+    pedidos al mismo dominio (ritmo bajo con las fuentes chicas).
     """
     hdrs = {"User-Agent": UA, "Accept-Language": lang}
     hdrs.update(headers or {})
@@ -42,6 +57,8 @@ def get(url, timeout=30, retries=2, lang="es-AR,es;q=0.9", headers=None, con_sta
         global PEDIDOS
         with _lock:
             PEDIDOS += 1
+        if espaciar:
+            _espaciar(url, espaciar)
         try:
             req = urllib.request.Request(url, headers=hdrs)
             with urllib.request.urlopen(req, timeout=timeout) as r:
