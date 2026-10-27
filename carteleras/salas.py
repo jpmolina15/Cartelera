@@ -5,7 +5,9 @@ import pathlib
 RUTA = pathlib.Path(__file__).resolve().parent.parent / "data" / "salas.json"
 
 OBLIGATORIOS = ("id", "nombre", "corto", "cadena", "direccion", "barrio", "comuna",
-                "lat", "lon", "fuente", "cfg", "url")
+                "lat", "lon", "fuente", "cfg", "url", "alcance", "cobertura")
+ALCANCES = ("semana", "dia")        # cuantos dias publica la fuente de la sala
+COBERTURAS = ("completa", "parcial")  # si la fuente lista toda la cartelera o solo parte
 LAT = (-34.71, -34.53)
 LON = (-58.54, -58.33)
 
@@ -27,6 +29,10 @@ def validar(lista):
         if s["id"] in ids:
             raise PadronInvalido(f"id repetido: {s['id']}")
         ids.add(s["id"])
+        if s["alcance"] not in ALCANCES:
+            raise PadronInvalido(f"sala {s['id']}: alcance tiene que ser uno de {ALCANCES}")
+        if s["cobertura"] not in COBERTURAS:
+            raise PadronInvalido(f"sala {s['id']}: cobertura tiene que ser una de {COBERTURAS}")
         if not isinstance(s["comuna"], int) or isinstance(s["comuna"], bool):
             raise PadronInvalido(f"sala {s['id']}: comuna tiene que ser un entero")
         try:

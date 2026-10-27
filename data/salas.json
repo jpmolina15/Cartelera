@@ -14,7 +14,9 @@
    "slug": "caballito"
   },
   "url": "https://www.cinemark.com.ar/cartelera/caballito",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "hoyts-abasto",
@@ -31,7 +33,9 @@
    "slug": "abasto"
   },
   "url": "https://www.cinemark.com.ar/cartelera/abasto",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "hoyts-dot",
@@ -48,7 +52,9 @@
    "slug": "dot"
   },
   "url": "https://www.cinemark.com.ar/cartelera/dot",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "cinemark-palermo",
@@ -65,7 +71,9 @@
    "slug": "palermo"
   },
   "url": "https://www.cinemark.com.ar/cartelera/palermo",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "cinemark-puerto-madero",
@@ -82,7 +90,9 @@
    "slug": "puertomadero"
   },
   "url": "https://www.cinemark.com.ar/cartelera/puertomadero",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "cinemark-parque-brown",
@@ -99,7 +109,9 @@
    "slug": "parquebrown"
   },
   "url": "https://www.cinemark.com.ar/cartelera/parquebrown",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "atlas-caballito",
@@ -113,10 +125,21 @@
   "lon": -58.43731,
   "fuente": "atlas",
   "cfg": {
-   "complejo": 191
+   "complejo": 191,
+   "respaldo": {
+    "fuente": "unica",
+    "cfg": {
+     "url": "https://www.unica-cartelera.com.ar/cines/caballito/419-atlas-caballito",
+     "modo": "diario"
+    },
+    "alcance": "dia",
+    "cobertura": "parcial"
+   }
   },
   "url": "https://www.atlascines.com",
-  "activa": true
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
  },
  {
   "id": "gaumont",
@@ -128,11 +151,195 @@
   "comuna": 1,
   "lat": -34.60904,
   "lon": -58.38959,
-  "fuente": "gaumont",
+  "fuente": "unica",
   "cfg": {
-   "url": "https://www.unica-cartelera.com.ar/cines/microcentro/562-complejo-cine-gaumont"
+   "url": "https://www.unica-cartelera.com.ar/cines/microcentro/562-complejo-cine-gaumont",
+   "modo": "semanal"
   },
   "url": "https://www.unica-cartelera.com.ar/cines/microcentro/562-complejo-cine-gaumont",
+  "activa": true,
+  "alcance": "semana",
+  "cobertura": "completa"
+ },
+ {
+  "id": "multiplex-belgrano",
+  "nombre": "Multiplex Belgrano",
+  "corto": "Multiplex Belgrano",
+  "cadena": "multiplex",
+  "direccion": "Vuelta de Obligado 2199",
+  "barrio": "Belgrano",
+  "comuna": 13,
+  "lat": -34.560507,
+  "lon": -58.456499,
+  "fuente": "multiplex",
+  "cfg": {
+   "url": "https://multiplex.com.ar/",
+   "complejo": "Multiplex Belgrano"
+  },
+  "url": "https://multiplex.com.ar/",
+  "alcance": "semana",
+  "cobertura": "completa",
+  "activa": true
+ },
+ {
+  "id": "multiplex-lavalle",
+  "nombre": "Multiplex Lavalle",
+  "corto": "Multiplex Lavalle",
+  "cadena": "multiplex",
+  "direccion": "Lavalle 780",
+  "barrio": "San Nicolás",
+  "comuna": 1,
+  "lat": -34.602406,
+  "lon": -58.377785,
+  "fuente": "multiplex",
+  "cfg": {
+   "url": "https://multiplex.com.ar/",
+   "complejo": "Multiplex Lavalle"
+  },
+  "url": "https://multiplex.com.ar/",
+  "alcance": "semana",
+  "cobertura": "completa",
+  "nota": "Misma dirección que «Monumental Lavalle» (Lavalle 780): una sola sala en el padrón.",
+  "activa": true
+ },
+ {
+  "id": "showcase-belgrano",
+  "nombre": "Showcase Belgrano",
+  "corto": "Showcase Belgrano",
+  "cadena": "showcase",
+  "direccion": "Monroe 1655",
+  "barrio": "Belgrano",
+  "comuna": 13,
+  "lat": -34.554053,
+  "lon": -58.452905,
+  "fuente": "showcase",
+  "cfg": {
+   "url": "https://www.todoshowcase.com/cartelera/belgrano"
+  },
+  "url": "https://www.todoshowcase.com/cartelera/belgrano",
+  "alcance": "dia",
+  "cobertura": "completa",
+  "activa": true
+ },
+ {
+  "id": "cosmos-uba",
+  "nombre": "Cine Cosmos UBA",
+  "corto": "Cosmos UBA",
+  "cadena": "cosmos",
+  "direccion": "Av. Corrientes 2046",
+  "barrio": "Balvanera",
+  "comuna": 3,
+  "lat": -34.604597,
+  "lon": -58.396104,
+  "fuente": "unica",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/microcentro/493-cosmos-uba-",
+   "modo": "semanal"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/microcentro/493-cosmos-uba-",
+  "alcance": "semana",
+  "cobertura": "completa",
+  "activa": true
+ },
+ {
+  "id": "atlas-flores",
+  "nombre": "Atlas Flores",
+  "corto": "Atlas Flores",
+  "cadena": "atlas",
+  "direccion": "Rivera Indarte 44",
+  "barrio": "Flores",
+  "comuna": 7,
+  "lat": -34.629368,
+  "lon": -58.462469,
+  "fuente": "unica",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/flores/661-atlas-flores",
+   "modo": "diario"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/flores/661-atlas-flores",
+  "alcance": "dia",
+  "cobertura": "parcial",
+  "activa": true
+ },
+ {
+  "id": "atlas-liniers",
+  "nombre": "Atlas Liniers",
+  "corto": "Atlas Liniers",
+  "cadena": "atlas",
+  "direccion": "Av. Ramón L. Falcón 7115",
+  "barrio": "Liniers",
+  "comuna": 9,
+  "lat": -34.640259,
+  "lon": -58.526853,
+  "fuente": "unica",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/liniers/181-atlas-liniers",
+   "modo": "diario"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/liniers/181-atlas-liniers",
+  "alcance": "dia",
+  "cobertura": "parcial",
+  "nota": "Dirección a confirmar: Única Cartelera y La Nación dicen Ramón L. Falcón 7115; otras fuentes dicen Av. Rivadavia 11526 (Liniers Shopping).",
+  "activa": true
+ },
+ {
+  "id": "atlas-alcorta",
+  "nombre": "Atlas Alcorta",
+  "corto": "Atlas Alcorta",
+  "cadena": "atlas",
+  "direccion": "Jerónimo Salguero 3172 (Alcorta Shopping)",
+  "barrio": "Palermo",
+  "comuna": 14,
+  "lat": -34.575644,
+  "lon": -58.404121,
+  "fuente": "unica",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/palermo/719-atlas-alcorta",
+   "modo": "diario"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/palermo/719-atlas-alcorta",
+  "alcance": "dia",
+  "cobertura": "parcial",
+  "activa": true
+ },
+ {
+  "id": "atlas-patio-bullrich",
+  "nombre": "Atlas Patio Bullrich",
+  "corto": "Atlas Patio Bullrich",
+  "cadena": "atlas",
+  "direccion": "Av. del Libertador 750 (Patio Bullrich)",
+  "barrio": "Retiro",
+  "comuna": 1,
+  "lat": -34.58914,
+  "lon": -58.38426,
+  "fuente": "unica",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/recoleta/720-atlas-patio-bullrich",
+   "modo": "diario"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/recoleta/720-atlas-patio-bullrich",
+  "alcance": "dia",
+  "cobertura": "parcial",
+  "activa": true
+ },
+ {
+  "id": "cinepolis-recoleta",
+  "nombre": "Cinépolis Recoleta",
+  "corto": "Cinépolis Recoleta",
+  "cadena": "cinepolis",
+  "direccion": "Vicente López 2050 (Village Recoleta)",
+  "barrio": "Recoleta",
+  "comuna": 2,
+  "lat": -34.588922,
+  "lon": -58.393629,
+  "fuente": "unica",
+  "cfg": {
+   "url": "https://www.unica-cartelera.com.ar/cines/recoleta/659-cinepolis-",
+   "modo": "diario"
+  },
+  "url": "https://www.unica-cartelera.com.ar/cines/recoleta/659-cinepolis-",
+  "alcance": "dia",
+  "cobertura": "parcial",
   "activa": true
  }
 ]
