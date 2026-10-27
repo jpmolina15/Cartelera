@@ -3,13 +3,15 @@
 Releva la cartelera semanal de las salas de CABA del padrón `data/salas.json` y
 publica una web con tres vistas: **Películas**, **Por cine** y **Calendario**.
 
-Salas hoy (8): Cinemark Caballito, Hoyts Abasto, Hoyts DOT, Cinemark Palermo,
-Cinemark Puerto Madero, Cinemark Parque Brown, Atlas Caballito y Cine Gaumont
-(Espacio INCAA Km 0). Cada sala tiene id, barrio, comuna, coordenadas, cadena
-(define el color), `fuente` (módulo de `carteleras/sources/`) y `cfg` (parámetros
-para ese módulo). `activa: false` saca una sala de la corrida sin borrarla.
-`carteleras/salas.py` valida el padrón y `run.py` aborta si es inválido.
-Para agregar una sala de una fuente existente alcanza con una entrada nueva en el JSON.
+Salas hoy (17): Cinemark Caballito, Hoyts Abasto, Hoyts DOT, Cinemark Palermo, Cinemark Puerto Madero,
+Cinemark Parque Brown, Atlas Caballito, Cine Gaumont (Espacio INCAA Km 0), Multiplex Belgrano, Multiplex Lavalle,
+Showcase Belgrano, Cine Cosmos UBA, Atlas Flores, Atlas Liniers, Atlas Alcorta, Atlas Patio Bullrich y
+Cinépolis Recoleta. Cada sala tiene id, barrio, comuna, coordenadas, cadena
+(define el color), `fuente` (módulo de `carteleras/sources/`), `cfg` (parámetros
+para ese módulo), `alcance` (`semana`: la fuente publica varios días; `dia`: solo el día de la corrida) y
+`cobertura` (`completa` o `parcial`: la fuente lista solo parte de la cartelera). `activa: false` saca una sala de la
+corrida sin borrarla. `carteleras/salas.py` valida el padrón (incluye `alcance` y `cobertura`) y `run.py` aborta si es
+inválido. Para agregar una sala de una fuente existente alcanza con una entrada nueva en el JSON.
 
 Sólo biblioteca estándar de Python 3. Sin dependencias. Una credencial opcional: `TMDB_TOKEN` (ver «TMDb por API»).
 
@@ -21,7 +23,12 @@ python3 -m unittest discover -s tests -t .
 node --test tests/js/*.test.js     # funciones puras de filtros (bloque al principio de templates/app.js)
 ```
 
-Tests (ninguno sale a la red): `test_tmdb.py` (matching, caché, 401/429, corrida completa y anti-fuga del token, con respuestas guardadas en `tests/fixtures/tmdb/`), `test_parsers.py` (parsers frágiles),
+**Ventana y fechas.** La ventana es la fecha de Buenos Aires de la corrida + 4 días (no depende de Cinemark). Las fuentes «solo hoy»
+(unica diario, Showcase) se asignan siempre a esa fecha; los días siguientes de esas salas se muestran con la leyenda «Esta sala publica
+su programación día a día» (nunca se copian horarios a otros días). El dataset trae por sala `alcance`, `cobertura` y `dias_con_datos`.
+La rutina diaria tiene que correr a las 11:00 ART (no antes de las 10).
+
+Tests (ninguno sale a la red): `test_fuentes_nuevas.py` (unica semanal/diario, Multiplex, Showcase y su cruce, con muestras reales en `tests/fixtures/fuentes/`), `test_run_fuentes.py` (corrida completa con fuentes falsas), `test_tmdb.py` (matching, caché, 401/429, corrida completa y anti-fuga del token, con respuestas guardadas en `tests/fixtures/tmdb/`), `test_parsers.py` (parsers frágiles),
 `test_salas.py` (padrón), `test_unify_salas.py` (cruce por sala y no regresión
 contra `tests/legacy_unify.py`, el `construir` de `main` con 4 salas fijas),
 `test_cinemark_fixture.py` (JSON-LD real recortado en `tests/fixtures/`).
@@ -35,9 +42,12 @@ puntajes no devolvió ninguno.
 
 | Sala | Fuente | Cómo |
 |---|---|---|
-| Cinemark y Hoyts (6 salas) | `cinemark.com.ar` | JSON-LD renderizado del lado del servidor en `/cartelera/<slug>` (una página por sala, en serie); la ficha en el payload de Next.js de `/pelicula/<slug>` (máx. 4 en paralelo) |
-| Atlas | `atlascines.com` | API interna sin auth (`GetFechasDisponibles`, `GetCacheFuncionesComplejoPeliculaFecha`), complejo 191 (`cfg.complejo` en el padrón) |
-| Gaumont | `www.unica-cartelera.com.ar` | Programación semanal en prosa, parseada por `expandir_semana` |
+| Cinemark y Hoyts (6 salas) | `cinemark.com.ar` | JSON-LD renderizado del lado del servidor en `/cartelera/<slug>` (una página por sala, en serie); la ficha en el payload de Next.js de `/pelicula/<slug>` (máx. 4 en paralelo). La sinopsis se descarta si tiene menos de 40 caracteres o empieza con `$` (a veces el payload trae un precio) |
+| Atlas Caballito | `atlascines.com` | API interna sin auth (`GetFechasDisponibles`, `GetCacheFuncionesComplejoPeliculaFecha`), complejo 191 (`cfg.complejo`). Si la API viene vacía (503 de Cloudflare) cae a unica diario: la sala pasa a `dia`/`parcial` en esa corrida (`cfg.respaldo` en el padrón) |
+| Gaumont y Cosmos UBA | `www.unica-cartelera.com.ar` | Programación semanal en prosa (`unica.semanal`, `expandir_semana`). Se reparte solo dentro de la semana del encabezado «SEMANA DEL JUEVES dd AL MIÉRCOLES dd DE <mes>»; sin encabezado legible, hasta el miércoles siguiente a la fecha de corrida |
+| Atlas Flores, Liniers, Alcorta, Patio Bullrich y Cinépolis Recoleta | `www.unica-cartelera.com.ar` | Una tarjeta por película con los horarios **del día de la consulta** e idioma (Cast. = D, Subt. = S) (`unica.diario`). Cobertura **parcial** (observado: lista 2 películas donde la web oficial de Cinépolis lista más de 25). «(Martes y miércoles cerrado)»: si la corrida cae en ese día, la sala queda sin datos |
+| Multiplex Belgrano y Lavalle | `multiplex.com.ar` | Un solo pedido a la home: JSON en `data-funciones` (~55 días). Complejo por la etiqueta de `<input name="complejo">`, título del `<h4>`, noche de cine (`dia`, no `dia_real`), deduplicado por id de función; se recorta a la ventana |
+| Showcase Belgrano | `todoshowcase.com/cartelera/belgrano` | HTML del lado del servidor, solo el día actual, formato e idioma por función (un `<p>` puede traer una línea por idioma) |
 | TMDb (id, títulos, puntaje) | `api.themoviedb.org` | API oficial v3 con `TMDB_TOKEN`: 1 búsqueda + 1 ficha por película nueva, **verificando el director**. Caché en `data/tmdb-cache.json` |
 | Puntajes | `rottentomatoes.com` | Tomatómetro y público; requiere headers de navegador completos |
 
@@ -73,6 +83,8 @@ tarjeta muestra «Ver en Letterboxd» (`letterboxd.com/tmdb/<id>/`) y «TMDb»; 
 ```
 *.cinemark.com.ar
 *.atlascines.com
+*.multiplex.com.ar
+*.todoshowcase.com
 *.unica-cartelera.com.ar     <- con www; el dominio pelado devuelve 403
 *.themoviedb.org              <- hoy alcanza con api.themoviedb.org (themoviedb.org web da 403)
 api.themoviedb.org
@@ -115,7 +127,7 @@ sitio cambió o empezó a servir un desafío de bots. `run.py` avisa con
 los parsers: si `urllib` ya recibe un 403 o un cuerpo de "Just a moment...",
 el problema no está en las expresiones regulares.
 
-**Los horarios del Gaumont salen mal.** Es la fuente más frágil porque viene en
+**Los horarios del Gaumont o Cosmos salen mal.** Es la fuente más frágil porque viene en
 prosa. Los tests de `tests/test_parsers.py` cubren los tres casos que ya
 fallaron una vez; agregar el nuevo caso ahí antes de tocar el parser.
 

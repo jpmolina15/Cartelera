@@ -99,6 +99,13 @@ class TestClaves(unittest.TestCase):
         self.assertEqual(clave("OASIS,DON’T LOOK BACK IN ANGER"),
                          clave("OASIS: DON´T LOOK BACK IN ANGER"))
 
+    def test_alias_de_showcase_y_multiplex(self):
+        self.assertEqual(clave("Cars: 20 años"), clave("CARS 20° ANIVERSARIO"))
+        self.assertEqual(clave("Cars (re Estreno)"), clave("CARS 20° ANIVERSARIO"))
+        self.assertEqual(clave("Los otros"), clave("LOS OTROS 25° ANIVERSARIO"))
+        self.assertEqual(clave("Los Otros (re)"), clave("LOS OTROS 25° ANIVERSARIO"))
+        self.assertNotEqual(clave("Cars 3"), clave("CARS 20° ANIVERSARIO"))
+
     def test_alias_sin_cadenas_ni_ciclos(self):
         from carteleras.unify import ALIAS
         self.assertEqual(set(ALIAS) & set(ALIAS.values()), set())

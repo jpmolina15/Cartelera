@@ -29,7 +29,10 @@ def parsear(pagina):
         cal = re.search(r"Calificaci[oó]n:\s*([^<\n]+)", b)
         menus = re.findall(r'<ul class="dropdown-menu[^"]*"[^>]*>(.*?)</ul>', b, re.S)
         funciones = []
-        for linea in re.findall(r"<p>(.*?)</p>", menus[0] if menus else "", re.S):
+        # Un <p> puede traer varias líneas (una por formato/idioma) separadas por saltos o <br>.
+        lineas = [x for p_ in re.findall(r"<p>(.*?)</p>", menus[0] if menus else "", re.S)
+                  for x in re.split(r"\n|<br\s*/?>", p_)]
+        for linea in lineas:
             m = re.match(r"\s*(.+?)-\s*([A-Za-záéíóú]+)\s+((?:\d{1,2}:\d{2}\s*)+)$", _texto(linea))
             if not m:
                 continue

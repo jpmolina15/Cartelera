@@ -171,13 +171,21 @@ class TestMultiplex(unittest.TestCase):
 class TestShowcase(unittest.TestCase):
     def test_parseo(self):
         r = showcase.parsear(leer("showcase-belgrano-recorte.html"))
-        self.assertEqual(len(r), 5)
+        self.assertEqual(len(r), 8)
         poder = next(p for p in r if p["titulo"] == "El poder de la red")
         self.assertEqual((poder["duracion"], poder["clasificacion"]), (112, "G"))
-        self.assertEqual(poder["funciones"], [{"h": "19:15", "fmt": "", "lang": "S"},
-                                              {"h": "21:50", "fmt": "", "lang": "S"}])
+        self.assertEqual([f["h"] for f in poder["funciones"]], ["16:40", "19:15", "21:50"])
         mi_hijo = next(p for p in r if p["titulo"] == "¿Querés ser mi hijo?")
         self.assertEqual([(f["h"], f["lang"]) for f in mi_hijo["funciones"]], [("19:55", "D"), ("22:10", "D")])
+
+    def test_dos_idiomas_en_el_mismo_menu(self):
+        # Observado en la web real: un solo <p> con una linea por idioma («2D-Doblada 17:10» / «2D-Subtitulado ...»)
+        r = showcase.parsear(leer("showcase-belgrano-recorte.html"))
+        clay = next(p for p in r if p["titulo"] == "Clayface")
+        self.assertEqual(sorted((f["h"], f["lang"]) for f in clay["funciones"]),
+                         [("15:05", "S"), ("17:10", "D"), ("17:40", "S"), ("20:10", "S"), ("22:35", "S")])
+        sf = next(p for p in r if p["titulo"] == "Street Fighter")
+        self.assertEqual([(f["h"], f["lang"]) for f in sf["funciones"]], [("17:15", "D"), ("19:40", "S")])
 
     def test_idioma_castellano_es_doblada(self):
         r = showcase.parsear(leer("showcase-belgrano-recorte.html"))
@@ -195,9 +203,11 @@ class TestShowcase(unittest.TestCase):
         r = showcase.parsear(leer("showcase-belgrano-recorte.html"))
         dias = ["2026-10-27", "2026-10-28", "2026-10-29"]
         films = unify.construir([(padron("showcase-belgrano"), r)], {}, dias, "2026-10-27")
-        self.assertEqual(len(films), 5)
+        self.assertEqual(len(films), 8)
         for f in films.values():
             self.assertEqual(list(f["cines"]["showcase-belgrano"]), ["2026-10-27"])
+        clay = films["CLAYFACE"]["cines"]["showcase-belgrano"]["2026-10-27"]
+        self.assertEqual([r["h"] for r in clay], ["15:05", "17:10", "17:40", "20:10", "22:35"])
         # si la fecha de la corrida no está en la ventana, no inventa un día
         self.assertEqual(unify.construir([(padron("showcase-belgrano"), r)], {}, dias, "2026-11-30"), {})
 
