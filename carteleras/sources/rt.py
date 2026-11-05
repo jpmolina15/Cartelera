@@ -63,7 +63,8 @@ def _ficha(url):
         m = re.search(rf'"{bloque}":\{{(.{{0,400}})', s)
         if not m:
             return None
-        sc = re.search(r'"score":"(\d+)"', m.group(1))
+        # RT dejo de publicar "score":"92" y ahora usa "scorePercent":"92%"
+        sc = re.search(r'"score(?:Percent)?":"(\d+)', m.group(1))
         return int(sc.group(1)) if sc else None
 
     directores, anio, titulo = [], "", ""
